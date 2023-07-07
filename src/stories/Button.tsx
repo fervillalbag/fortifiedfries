@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "../ui";
+import { Button } from "../ui";
 import "../index.css";
 
 interface ButtonProps {
