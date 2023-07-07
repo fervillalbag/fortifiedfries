@@ -2,7 +2,16 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    fontFamily: {
+      sans: ["Roboto", "sans-serif"],
+    },
+    
+    extend: {
+
+      colors: {
+        "@sura-primary": "#333333",
+      },
+    },
   },
   plugins: [],
 };
