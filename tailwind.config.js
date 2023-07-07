@@ -10,6 +10,7 @@ export default {
 
       colors: {
         "@sura-primary": "#333333",
+        "@sura-border": "#999999"
       },
     },
   },

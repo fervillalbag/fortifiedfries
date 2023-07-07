@@ -8,6 +8,7 @@ interface IButton
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   to?: string;
+  icon?: string;
 }
 
 export const buttonVariants = cva(
@@ -18,6 +19,8 @@ export const buttonVariants = cva(
         default: "text-white",
         outline:
           "bg-white text-@sura-primary border-2 border-@sura-primary",
+        icon:
+          "bg-white text-@sura-primary border-2 border-@sura-border flex items-center justify-center",
       },
       size: {
         default: "",
@@ -32,7 +35,7 @@ export const buttonVariants = cva(
 );
 
 const Button = forwardRef<HTMLButtonElement, IButton>(
-  ({ className, children, to, variant, size, ...props }, ref) => {
+  ({ className, children, to, variant, size, icon, ...props }, ref) => {
     if (to) {
       return (
         <Link
@@ -42,6 +45,19 @@ const Button = forwardRef<HTMLButtonElement, IButton>(
           {children}
         </Link>
       );
+    }
+
+    if (icon) {
+      return (
+        <button
+          className={cn(buttonVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        >
+          <img src={`/icons/${icon}.svg`} alt="" className="w-9 h-9 object-contain mr-2" />
+          {children}
+        </button>
+      )
     }
 
     return (
