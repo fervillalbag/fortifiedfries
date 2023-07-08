@@ -5,12 +5,12 @@ export default {
     fontFamily: {
       sans: ["Roboto", "sans-serif"],
     },
-    
-    extend: {
 
+    extend: {
       colors: {
         "@sura-primary": "#333333",
-        "@sura-border": "#999999"
+        "@sura-border": "#999999",
+        "@sura-text": "#999999",
       },
     },
   },
