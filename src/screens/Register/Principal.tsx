@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Button, Text, buttonVariants, textVariants } from "../ui";
+import { Button, Text, buttonVariants, textVariants } from "../../ui";
+import { Link, useNavigate } from "react-router-dom";
 
 function getWindowSize() {
   const { innerWidth, innerHeight } = window;
   return { innerWidth, innerHeight };
 }
 
-export default function Auth() {
+const RegisterPrincipal = () => {
+  const navigate = useNavigate();
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
   useEffect(() => {
@@ -21,16 +23,16 @@ export default function Auth() {
     };
   }, []);
 
-  console.log({ windowSize });
-
   return (
-    <div>
+    <div className={`h-[${windowSize.innerHeight}] overflow-hidden`}>
       <div className="relative h-[60vh]">
         <img
           src="/images/bg-auth.png"
           alt=""
-          className="w-full h-[65vh]"
+          className="w-full h-[70vh] object-cover object-bottom"
         />
+
+        <div className="w-full absolute top-0 left-0 h-full bg-gradient-to-b from-transparent to-white" />
       </div>
 
       <div className="p-5 pb-8 absolute w-full bottom-0">
@@ -48,13 +50,14 @@ export default function Auth() {
         </div>
 
         <Button
+          onClick={() => navigate("/register-email")}
           icon="icon-mail"
           className={buttonVariants({
             className: "mb-4",
             variant: "icon",
           })}
         >
-          Registrarte con email
+          Registrarse con email
         </Button>
         <Button variant="icon" icon="icon-google">
           Registrarte con email
@@ -65,9 +68,11 @@ export default function Auth() {
             className: "mt-4 text-center",
           })}
         >
-          Ya tienes una cuenta? Inicia sesion
+          Ya tienes una cuenta? <Link to="/login">Inicia sesion</Link>
         </Text>
       </div>
     </div>
   );
-}
+};
+
+export default RegisterPrincipal;

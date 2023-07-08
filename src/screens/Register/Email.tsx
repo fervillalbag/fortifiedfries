@@ -1,7 +1,16 @@
-import React from 'react'
+import React from "react";
+import { Header as HeaderAuth } from "../../components/Auth";
 
-export const Email: React.FC = () => {
+const Email: React.FC = () => {
   return (
-    <div>Email</div>
-  )
-}
+    <div>
+      <HeaderAuth
+        image="/images/bg-register-email.jpg"
+        title="Bienvenido!"
+        subtitle={`Si aun no tienes<br/>una cuenta debes registrarte`}
+      />
+    </div>
+  );
+};
+
+export default Email;
