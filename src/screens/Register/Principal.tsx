@@ -1,30 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Button, Text, buttonVariants, textVariants } from "../../ui";
 import { Link, useNavigate } from "react-router-dom";
-
-function getWindowSize() {
-  const { innerWidth, innerHeight } = window;
-  return { innerWidth, innerHeight };
-}
+import { WindowSizeContext } from "../../components/context";
 
 const RegisterPrincipal = () => {
   const navigate = useNavigate();
-  const [windowSize, setWindowSize] = useState(getWindowSize());
-
-  useEffect(() => {
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-    }
-
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
+  const { windowSize } = useContext(WindowSizeContext);
 
   return (
-    <div className={`h-[${windowSize.innerHeight}] overflow-hidden`}>
+    <div className={`h-[${windowSize.innerHeight}px]`}>
       <div className="relative h-[60vh]">
         <img
           src="/images/bg-auth.png"
@@ -32,7 +16,7 @@ const RegisterPrincipal = () => {
           className="w-full h-[70vh] object-cover object-bottom"
         />
 
-        <div className="w-full absolute top-0 left-0 h-full bg-gradient-to-b from-transparent to-white" />
+        <div className="w-full absolute top-0 left-0 h-[70vh] bg-gradient-to-b from-transparent to-white" />
       </div>
 
       <div className="p-5 pb-8 absolute w-full bottom-0">
