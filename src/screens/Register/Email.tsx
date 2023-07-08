@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
-export const Email: React.FC = () => {
-  return (
-    <div>Email</div>
-  )
-}
+const Email: React.FC = () => {
+  return <div>Email</div>;
+};
+
+export default Email;
