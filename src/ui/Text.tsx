@@ -4,15 +4,16 @@ import { cn } from "../utils";
 
 interface IText
   extends DetailedHTMLProps<
-    HTMLAttributes<HTMLParagraphElement>,
-    HTMLParagraphElement
-  >, VariantProps<typeof textVariants> {}
+      HTMLAttributes<HTMLParagraphElement>,
+      HTMLParagraphElement
+    >,
+    VariantProps<typeof textVariants> {}
 
 export const textVariants = cva("font-sans text-@sura-primary", {
   variants: {
     variant: {
       body: "text-base leading-5",
-      subtitle: "text-lg",
+      subtitle: "text-lg font-medium",
       heading: "font-bold text-3xl",
     },
   },
@@ -21,7 +22,12 @@ export const textVariants = cva("font-sans text-@sura-primary", {
   },
 });
 
-const Text: React.FC<IText> = ({ children, variant, className, ...props }) => {
+const Text: React.FC<IText> = ({
+  children,
+  variant,
+  className,
+  ...props
+}) => {
   return (
     <p
       className={cn(textVariants({ variant, className }))}
