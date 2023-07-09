@@ -1,16 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
   Footer as FooterAuth,
   Header as HeaderAuth,
 } from "../../components/Auth";
-import { Button, Input } from "../../ui";
+import { Button, Select } from "../../ui";
 import { WindowSizeContext } from "../../components/context";
 
-const Email: React.FC = () => {
+const options = [
+  {
+    id: "1",
+    value: "man",
+    text: "Hombre",
+  },
+  {
+    id: "2",
+    value: "woman",
+    text: "Mujer",
+  },
+  {
+    id: "3",
+    value: "n/a",
+    text: "Prefiero no decirlo",
+  },
+];
+
+const Gender: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
+  const [genderSelected, setGenderSelected] = useState<string | null>(
+    null
+  );
 
   return (
     <div className={`h-[${windowSize}]px`}>
@@ -21,7 +42,11 @@ const Email: React.FC = () => {
       />
 
       <div className="p-5">
-        <Input label="email" />
+        <Select
+          options={options}
+          value={genderSelected}
+          setValue={setGenderSelected}
+        />
 
         <FooterAuth
           footerText="Ya tienes una cuenta?"
@@ -31,13 +56,11 @@ const Email: React.FC = () => {
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver
           </Button>
-          <Button onClick={() => navigate("/register-gender")}>
-            Siguiente
-          </Button>
+          <Button>Siguiente</Button>
         </FooterAuth>
       </div>
     </div>
   );
 };
 
-export default Email;
+export default Gender;

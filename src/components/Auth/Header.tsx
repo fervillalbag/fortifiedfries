@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           {title}
         </Text>
-        <Text>
+        <Text className="text-@sura-primary">
           <span dangerouslySetInnerHTML={{ __html: subtitle }} />
         </Text>
       </div>

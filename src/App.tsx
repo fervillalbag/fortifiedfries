@@ -4,6 +4,7 @@ import { Text, buttonVariants, textVariants } from "./ui";
 import { Principal, Email } from "./screens/Register";
 import Root from "./screens/Root";
 import { WindowSizeProvider } from "./components/context";
+import Gender from "./screens/Register/Gender";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Root />} />
           <Route path="/register" element={<Principal />} />
           <Route path="/register-email" element={<Email />} />
+          <Route path="/register-gender" element={<Gender />} />
           <Route
             path="*"
             element={
