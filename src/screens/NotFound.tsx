@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Text, buttonVariants, textVariants } from "../ui";
+import { WindowSizeContext } from "../context";
 
 const NotFound: React.FC = () => {
+  const { windowSize } = useContext(WindowSizeContext);
+
   return (
-    <div className="p-5 grid place-items-center h-screen content-center">
+    <div
+      className={`h-[${windowSize.innerHeight}px] overflow-hidden p-5 grid place-items-center h-screen content-center`}
+    >
       <Text
         className={textVariants({
           variant: "heading",
