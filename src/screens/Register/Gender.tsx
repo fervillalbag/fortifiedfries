@@ -36,9 +36,9 @@ const Gender: React.FC = () => {
   return (
     <div className={`h-[${windowSize}]px`}>
       <HeaderAuth
-        image="/images/bg-register-email.jpg"
-        title="Bienvenido!"
-        subtitle={`Si aun no tienes<br/>una cuenta debes registrarte`}
+        image="/images/bg-register-gender.jpg"
+        title="Datos personales"
+        subtitle={`Seleccione su genero`}
       />
 
       <div className="p-5">
@@ -52,6 +52,7 @@ const Gender: React.FC = () => {
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
           routeLink="/login"
+          currentStep={2}
         >
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver

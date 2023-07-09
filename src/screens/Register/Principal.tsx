@@ -49,7 +49,7 @@ const RegisterPrincipal = () => {
 
         <Text
           className={textVariants({
-            className: "mt-4 text-center",
+            className: "mt-5 text-center",
           })}
         >
           Ya tienes una cuenta? <Link to="/login">Inicia sesion</Link>

@@ -16,17 +16,18 @@ const Email: React.FC = () => {
     <div className={`h-[${windowSize}]px`}>
       <HeaderAuth
         image="/images/bg-register-email.jpg"
-        title="Bienvenido!"
-        subtitle={`Si aun no tienes<br/>una cuenta debes registrarte`}
+        title="Datos personales"
+        subtitle={`Introduce tu correo electronico aqui`}
       />
 
       <div className="p-5">
-        <Input label="email" />
+        <Input label="email" placeholder="Ej: fer@gmail.com  " />
 
         <FooterAuth
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
           routeLink="/login"
+          currentStep={1}
         >
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver

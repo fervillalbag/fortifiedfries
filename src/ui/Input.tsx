@@ -1,5 +1,4 @@
 import React, { InputHTMLAttributes } from "react";
-import { textVariants } from "./";
 import { cva } from "class-variance-authority";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -23,21 +22,10 @@ export const buttonVariants = cva(
 const Input: React.FC<InputProps> = ({ label, ...props }) => {
   return (
     <div>
-      <label
-        htmlFor={label}
-        className={textVariants({
-          className: "text-sm block mb-2",
-        })}
-      >
-        <span className="underline underline-offset-2">
-          {label.charAt(0)}
-        </span>
-        {label.slice(1, label.length)}
-      </label>
       <input
         type="text"
         id={label}
-        className="px-4 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-@sura-border focus-visible:outline-transparent w-full border-2 border-@sura-border-light rounded-md h-[54px]"
+        className="px-4 focus-visible:border-@sura-primary border-b-4 focus-visible:outline-transparent w-full border-2 border-@sura-border rounded-md h-16"
         {...props}
       />
     </div>
