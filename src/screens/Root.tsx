@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button, Text, textVariants } from "../ui";
-import { WindowSizeContext } from "../components/context";
+import { WindowSizeContext } from "../context";
 
 const Root: React.FC = () => {
   const navigate = useNavigate();

@@ -2,13 +2,14 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Footer as FooterAuth,
   Header as HeaderAuth,
+  Footer as FooterAuth,
 } from "../../components/Auth";
-import { Button, Input } from "../../ui";
 import { WindowSizeContext } from "../../context";
+import { Button, Input } from "../../ui";
+import { inputVariants } from "../../ui/Input";
 
-const Email: React.FC = () => {
+const Password: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
 
@@ -17,22 +18,29 @@ const Email: React.FC = () => {
       <HeaderAuth
         image="/images/bg-register-email.jpg"
         title="Datos personales"
-        subtitle={`Introduce tu correo electronico aqui`}
+        subtitle={`Introduce una nueva contrasena`}
       />
 
       <div className="p-5">
-        <Input label="email" placeholder="Ej: fer@gmail.com" />
+        <Input type="password" placeholder="nueva contrasena" />
+        <Input
+          type="password"
+          className={inputVariants({
+            className: "mt-4",
+          })}
+          placeholder="confirme su contrasena"
+        />
 
         <FooterAuth
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
           routeLink="/login"
-          currentStep={1}
+          currentStep={3}
         >
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver
           </Button>
-          <Button onClick={() => navigate("/register-gender")}>
+          <Button onClick={() => navigate("/register-password")}>
             Siguiente
           </Button>
         </FooterAuth>
@@ -41,4 +49,4 @@ const Email: React.FC = () => {
   );
 };
 
-export default Email;
+export default Password;

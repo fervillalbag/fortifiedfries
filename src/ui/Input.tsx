@@ -1,16 +1,17 @@
 import React, { InputHTMLAttributes } from "react";
-import { cva } from "class-variance-authority";
+import { VariantProps, cva } from "class-variance-authority";
+import { cn } from "../utils";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-}
+interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof inputVariants> {}
 
-export const buttonVariants = cva(
-  "font-sans font-medium w-full h-[58px] rounded-md bg-@sura-primary flex items-center justify-center text-lg focus:ring-2 focus:border-@sura-primary focus:ring-transparent",
+export const inputVariants = cva(
+  "px-4 focus-visible:border-@sura-primary focus-visible:outline-transparent w-full border-2 border-@sura-border rounded-md h-16",
   {
     variants: {
       variant: {
-        default: "text-white",
+        default: "border-b-4 ",
       },
     },
     defaultVariants: {
@@ -19,16 +20,13 @@ export const buttonVariants = cva(
   }
 );
 
-const Input: React.FC<InputProps> = ({ label, ...props }) => {
+const Input: React.FC<InputProps> = ({ variant, ...props }) => {
   return (
-    <div>
-      <input
-        type="text"
-        id={label}
-        className="px-4 focus-visible:border-@sura-primary border-b-4 focus-visible:outline-transparent w-full border-2 border-@sura-border rounded-md h-16"
-        {...props}
-      />
-    </div>
+    <input
+      type="text"
+      className={cn(inputVariants({ variant }))}
+      {...props}
+    />
   );
 };
 

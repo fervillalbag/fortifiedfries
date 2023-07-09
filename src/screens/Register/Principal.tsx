@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, Text, buttonVariants, textVariants } from "../../ui";
 import { Link, useNavigate } from "react-router-dom";
-import { WindowSizeContext } from "../../components/context";
+import { WindowSizeContext } from "../../context";
 
 const RegisterPrincipal = () => {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import {
   Header as HeaderAuth,
 } from "../../components/Auth";
 import { Button, Select } from "../../ui";
-import { WindowSizeContext } from "../../components/context";
+import { WindowSizeContext } from "../../context";
 
 const options = [
   {
@@ -57,7 +57,9 @@ const Gender: React.FC = () => {
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver
           </Button>
-          <Button>Siguiente</Button>
+          <Button onClick={() => navigate("/register-password")}>
+            Siguiente
+          </Button>
         </FooterAuth>
       </div>
     </div>
