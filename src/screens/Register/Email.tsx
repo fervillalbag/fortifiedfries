@@ -21,7 +21,7 @@ const Email: React.FC = () => {
       />
 
       <div className="p-5">
-        <Input label="email" placeholder="Ej: fer@gmail.com" />
+        <Input placeholder="Ej: fer@gmail.com" />
 
         <FooterAuth
           footerText="Ya tienes una cuenta?"
