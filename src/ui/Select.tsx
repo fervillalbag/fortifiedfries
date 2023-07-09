@@ -5,12 +5,14 @@ interface SelectProps {
   options: any[];
   value: string | null;
   setValue: (value: string) => void;
+  setTextError: (value: string | null) => void;
 }
 
 const Select: React.FC<SelectProps> = ({
   options,
   value,
   setValue,
+  setTextError,
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
 
@@ -30,11 +32,14 @@ const Select: React.FC<SelectProps> = ({
       <Button
         className={buttonVariants({
           variant: "outline",
-          className: `font-normal text-base flex justify-between px-4 ${
+          className: `font-normal text-base flex justify-between px-5 ${
             value ? "text@sura-primary" : "text-@sura-text"
           }`,
         })}
-        onClick={() => setShowOptions(!showOptions)}
+        onClick={() => {
+          setTextError(null);
+          setShowOptions(!showOptions);
+        }}
       >
         {value ? itemSelected : "Selecciona una opcion"}
         <img

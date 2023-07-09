@@ -5,7 +5,7 @@ import {
   Footer as FooterAuth,
   Header as HeaderAuth,
 } from "../../components/Auth";
-import { Button, Select } from "../../ui";
+import { Button, Select, Text } from "../../ui";
 import { WindowSizeContext } from "../../context";
 
 const options = [
@@ -32,6 +32,16 @@ const Gender: React.FC = () => {
   const [genderSelected, setGenderSelected] = useState<string | null>(
     null
   );
+  const [textError, setTextError] = useState<string | null>(null);
+
+  const handleNext = async () => {
+    if (!genderSelected) {
+      setTextError("Este campo es obligatorio");
+      return;
+    }
+
+    navigate("/register-password");
+  };
 
   return (
     <div className={`h-[${windowSize}]px`}>
@@ -46,7 +56,11 @@ const Gender: React.FC = () => {
           options={options}
           value={genderSelected}
           setValue={setGenderSelected}
+          setTextError={setTextError}
         />
+        {textError && !genderSelected && (
+          <Text className="text-red-500 mt-2">{textError}</Text>
+        )}
 
         <FooterAuth
           footerText="Ya tienes una cuenta?"
@@ -57,9 +71,7 @@ const Gender: React.FC = () => {
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver
           </Button>
-          <Button onClick={() => navigate("/register-password")}>
-            Siguiente
-          </Button>
+          <Button onClick={handleNext}>Siguiente</Button>
         </FooterAuth>
       </div>
     </div>
