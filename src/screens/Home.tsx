@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { HeaderGallery } from "../components/Home";
 import { Button, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
+import CardProduct from "../components/Home/CardProduct";
 
 const headerImages = [
   {
@@ -42,6 +43,33 @@ const categories = [
   },
 ];
 
+const products = [
+  {
+    id: "1",
+    image: "https://shorturl.at/bot19",
+  },
+  {
+    id: "2",
+    image: "https://shorturl.at/dtzT8",
+  },
+  {
+    id: "3",
+    image: "https://shorturl.at/hlQZ0",
+  },
+  {
+    id: "4",
+    image: "https://shorturl.at/arDQS",
+  },
+  {
+    id: "5",
+    image: "https://shorturl.at/dtzT8",
+  },
+  {
+    id: "6",
+    image: "https://shorturl.at/hlQZ0",
+  },
+];
+
 const Home: React.FC = () => {
   const [categorySelected, setCategorySelected] =
     useState<string>("1");
@@ -75,6 +103,12 @@ const Home: React.FC = () => {
           >
             {category.text}
           </Button>
+        ))}
+      </div>
+
+      <div className="p-5 grid grid-cols-2 gap-x-5 gap-y-6">
+        {products.map((product) => (
+          <CardProduct product={product} />
         ))}
       </div>
     </div>
