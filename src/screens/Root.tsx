@@ -7,7 +7,6 @@ import { WindowSizeContext } from "../context";
 const Root: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
-  console.log(windowSize);
 
   return (
     <div className={`h-[${windowSize}px]`}>
