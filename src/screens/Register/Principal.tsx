@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, Text, buttonVariants, textVariants } from "../../ui";
 import { Link, useNavigate } from "react-router-dom";
-import { WindowSizeContext } from "../../components/context";
+import { WindowSizeContext } from "../../context";
 
 const RegisterPrincipal = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const RegisterPrincipal = () => {
 
         <Text
           className={textVariants({
-            className: "mt-4 text-center",
+            className: "mt-5 text-center",
           })}
         >
           Ya tienes una cuenta? <Link to="/login">Inicia sesion</Link>

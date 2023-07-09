@@ -1,17 +1,17 @@
 import React, { InputHTMLAttributes } from "react";
-import { textVariants } from "./";
-import { cva } from "class-variance-authority";
+import { VariantProps, cva } from "class-variance-authority";
+import { cn } from "../utils";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-}
+interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof inputVariants> {}
 
-export const buttonVariants = cva(
-  "font-sans font-medium w-full h-[58px] rounded-md bg-@sura-primary flex items-center justify-center text-lg focus:ring-2 focus:border-@sura-primary focus:ring-transparent",
+export const inputVariants = cva(
+  "px-4 focus-visible:border-@sura-primary focus-visible:outline-transparent w-full border-2 border-@sura-border rounded-md h-16",
   {
     variants: {
       variant: {
-        default: "text-white",
+        default: "border-b-4 ",
       },
     },
     defaultVariants: {
@@ -20,27 +20,13 @@ export const buttonVariants = cva(
   }
 );
 
-const Input: React.FC<InputProps> = ({ label, ...props }) => {
+const Input: React.FC<InputProps> = ({ variant, ...props }) => {
   return (
-    <div>
-      <label
-        htmlFor={label}
-        className={textVariants({
-          className: "text-sm block mb-2",
-        })}
-      >
-        <span className="underline underline-offset-2">
-          {label.charAt(0)}
-        </span>
-        {label.slice(1, label.length)}
-      </label>
-      <input
-        type="text"
-        id={label}
-        className="px-4 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-@sura-border focus-visible:outline-transparent w-full border-2 border-@sura-border-light rounded-md h-[54px]"
-        {...props}
-      />
-    </div>
+    <input
+      type="text"
+      className={cn(inputVariants({ variant }))}
+      {...props}
+    />
   );
 };
 

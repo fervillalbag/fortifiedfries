@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, buttonVariants, textVariants } from "../ui";
+import { Button, buttonVariants } from "../ui";
 
 interface SelectProps {
   options: any[];
@@ -13,6 +13,7 @@ const Select: React.FC<SelectProps> = ({
   setValue,
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
+
   const itemSelected = options.find(
     (item) => item.id === value
   )?.text;
@@ -26,20 +27,10 @@ const Select: React.FC<SelectProps> = ({
         />
       )}
 
-      <label
-        htmlFor="Genero"
-        className={textVariants({
-          className: "text-sm block mb-2",
-        })}
-      >
-        <span className="underline underline-offset-2">g</span>
-        enero
-      </label>
-
       <Button
         className={buttonVariants({
           variant: "outline",
-          className: `flex justify-between px-5 ${
+          className: `font-normal text-base flex justify-between px-4 ${
             value ? "text@sura-primary" : "text-@sura-text"
           }`,
         })}
@@ -67,7 +58,7 @@ const Select: React.FC<SelectProps> = ({
             key={option.id}
             className={buttonVariants({
               className:
-                "border-0 bg-white text-@sura-primary justify-start px-5",
+                "h-14 text-lg border-0 bg-white text-@sura-primary justify-start px-5",
             })}
             onClick={() => {
               setValue(option.id);
