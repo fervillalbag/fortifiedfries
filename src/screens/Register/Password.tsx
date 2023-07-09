@@ -1,17 +1,29 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { Formik } from "formik";
 
 import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { WindowSizeContext } from "../../context";
-import { Button, Input } from "../../ui";
+import { Button, Input, Text } from "../../ui";
 import { inputVariants } from "../../ui/Input";
+
+const registerValidationSchema = yup.object().shape({
+  password: yup.string().required("La contrasena es obligatorio"),
+  confirmPassword: yup.string().required("Confirme la contrasena"),
+});
 
 const Password: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
+
+  const handleNext = async (values: any) => {
+    console.log({ values });
+    navigate("/home");
+  };
 
   return (
     <div className={`h-[${windowSize}]px`}>
@@ -21,30 +33,67 @@ const Password: React.FC = () => {
         subtitle={`Introduce una nueva contrasena`}
       />
 
-      <div className="p-5">
-        <Input type="password" placeholder="nueva contrasena" />
-        <Input
-          type="password"
-          className={inputVariants({
-            className: "mt-4",
-          })}
-          placeholder="confirme su contrasena"
-        />
+      <Formik
+        validationSchema={registerValidationSchema}
+        validator={() => ({})}
+        initialValues={{
+          password: "",
+          confirmPassword: "",
+        }}
+        onSubmit={(values: any) => handleNext(values)}
+      >
+        {({
+          handleBlur,
+          handleChange,
+          values,
+          handleSubmit,
+          errors,
+        }) => (
+          <form className="p-5" onSubmit={handleSubmit}>
+            <Input
+              type="password"
+              value={values.password}
+              onChange={handleChange("password")}
+              onBlur={handleBlur("password")}
+              placeholder="nueva contrasena"
+            />
+            {errors.password && (
+              <Text className="text-red-500 my-2">
+                {errors.password as string}
+              </Text>
+            )}
 
-        <FooterAuth
-          footerText="Ya tienes una cuenta?"
-          routeText="Inicia sesion"
-          routeLink="/login"
-          currentStep={3}
-        >
-          <Button onClick={() => navigate(-1)} variant="outline">
-            Volver
-          </Button>
-          <Button onClick={() => navigate("/register-password")}>
-            Siguiente
-          </Button>
-        </FooterAuth>
-      </div>
+            <Input
+              type="password"
+              className={inputVariants({
+                className: "mt-4",
+              })}
+              value={values.confirmPassword}
+              onChange={handleChange("confirmPassword")}
+              placeholder="confirme su contrasena"
+            />
+            {errors.confirmPassword && (
+              <Text className="text-red-500 my-2">
+                {errors.confirmPassword as string}
+              </Text>
+            )}
+
+            <FooterAuth
+              footerText="Ya tienes una cuenta?"
+              routeText="Inicia sesion"
+              routeLink="/login"
+              currentStep={3}
+            >
+              <Button onClick={() => navigate(-1)} variant="outline">
+                Volver
+              </Button>
+              <Button onClick={() => navigate("/register-password")}>
+                Siguiente
+              </Button>
+            </FooterAuth>
+          </form>
+        )}
+      </Formik>
     </div>
   );
 };
