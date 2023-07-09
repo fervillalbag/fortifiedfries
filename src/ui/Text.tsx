@@ -12,7 +12,7 @@ interface IText
 export const textVariants = cva("font-sans text-@sura-primary", {
   variants: {
     variant: {
-      body: "text-base leading-5",
+      body: "text-base leading-5 text-@sura-text",
       subtitle: "text-lg font-medium",
       heading: "font-bold text-3xl",
     },
