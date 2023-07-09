@@ -12,12 +12,12 @@ interface IButton
 }
 
 export const buttonVariants = cva(
-  "font-sans font-medium w-full h-16 rounded-md bg-[#7A7A7A] flex items-center justify-center text-xl focus:ring-2 focus:border-@sura-primary focus:ring-transparent",
+  "font-sans font-medium w-full h-16 rounded-md bg-[#d4d4d4] flex items-center justify-center text-xl focus:ring-2 focus:border-@sura-primary focus:ring-transparent",
   {
     variants: {
       variant: {
         default:
-          "text-white border-2 border-b-4 border-@sura-primary",
+          "text-@sura-primary border-2 border-b-4 border-@sura-primary",
         outline:
           "bg-white text-@sura-primary border-2 border-b-4 border-@sura-border",
         icon: "bg-white text-@sura-primary border-2 border-b-4 border-@sura-border flex items-center justify-center",
