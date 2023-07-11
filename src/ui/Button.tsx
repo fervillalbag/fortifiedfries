@@ -17,10 +17,10 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "text-@sura-primary border-2 border-b-4 border-@sura-primary",
+          "text-white bg-@sura-primary border-2 border-@sura-primary",
         outline:
-          "bg-white text-@sura-primary border-2 border-b-4 border-@sura-border",
-        icon: "bg-white text-@sura-primary border-2 border-b-4 border-@sura-border flex items-center justify-center",
+          "bg-white text-@sura-primary border-2 border-@sura-border",
+        icon: "bg-white text-@sura-primary border-2 border-@sura-border flex items-center justify-center",
       },
       size: {
         default: "",

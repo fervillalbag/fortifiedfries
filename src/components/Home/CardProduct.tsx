@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "../../ui";
+import { Text, textVariants } from "../../ui";
 
 interface CardProductProps {
   product: any;
@@ -25,10 +25,16 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
       </div>
 
       <div>
-        <Text className="text-@sura-primary font-bold mt-1">
+        <Text className="text-@sura-primary mt-1">
           Brown Blazer Coat..
         </Text>
-        <Text className="font-bold mt-[2px]">Gs. 200.000</Text>
+        <Text
+          className={textVariants({
+            className: "font-extrabold mt-[2px] text-@sura-primary",
+          })}
+        >
+          Gs. 200.000
+        </Text>
       </div>
     </div>
   );

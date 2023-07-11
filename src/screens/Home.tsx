@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 
-import { HeaderGallery } from "../components/Home";
+import { HeaderGallery, CardProduct } from "../components/Home";
 import { Button, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
-import CardProduct from "../components/Home/CardProduct";
 
 const headerImages = [
   {
@@ -84,7 +83,7 @@ const Home: React.FC = () => {
       <div
         className={`flex w-[${
           windowSize - 20
-        }px] overflow-x-auto pl-5 gap-4 hide-scrollbar`}
+        }px] overflow-x-auto pl-5 gap-3 hide-scrollbar`}
       >
         {categories.map((category, index: number) => (
           <Button
@@ -96,7 +95,7 @@ const Home: React.FC = () => {
                   ? "default"
                   : "outline"
               }`,
-              className: `h-14 flex-1 px-7 ${
+              className: `h-12 flex-1 px-7 rounded-full ${
                 index === categories.length - 1 ? "mr-5" : "mr-0"
               }`,
             })}
