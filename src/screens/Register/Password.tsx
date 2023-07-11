@@ -28,7 +28,7 @@ const Password: React.FC = () => {
   return (
     <div className={`h-[${windowSize}]px`}>
       <HeaderAuth
-        image="/images/bg-register-email.jpg"
+        image="/images/bg-register-password.jpg"
         title="Datos personales"
         subtitle={`Introduce una nueva contrasena`}
       />
@@ -72,6 +72,7 @@ const Password: React.FC = () => {
               })}
               value={values.confirmPassword}
               onChange={handleChange("confirmPassword")}
+              onBlur={handleBlur("confirmPassword")}
               placeholder="confirme su contrasena"
             />
             {errors.confirmPassword && (
@@ -86,10 +87,15 @@ const Password: React.FC = () => {
               routeLink="/login"
               currentStep={3}
             >
-              <Button onClick={() => navigate(-1)} variant="outline">
+              <Button
+                type="button"
+                onClick={() => navigate(-1)}
+                variant="outline"
+              >
                 Volver
               </Button>
               <Button
+                type="submit"
                 data-test="register-button-submit"
                 onClick={() => navigate("/register-password")}
               >
