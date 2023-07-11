@@ -8,8 +8,8 @@ export default {
 
     extend: {
       colors: {
-        "@sura-primary": "#111827",
-        "@sura-border": "#d1d5db",
+        "@sura-primary": "#1C2331",
+        "@sura-border": "#BEC7DA",
         "@sura-light": "#bebebe",
         "@sura-text": "#999999",
       },
