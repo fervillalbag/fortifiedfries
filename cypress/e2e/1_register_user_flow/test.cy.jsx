@@ -12,35 +12,33 @@ const emailValidation = () => {
   cy.get("button").contains("Siguiente").click();
   cy.get("p").contains("El correo es obligatorio");
 
-  cy.get("input").type("fer@correo");
+  cy.get("[data-test='register-input-email']").type("fer@correo");
   // email validation
-  cy.get("button").contains("Siguiente").click();
-  cy.get("p").contains("Debe ser un correo válido");
+  cy.get("[data-test='register-button-submit']").click();
+  cy.get("[data-test='register-feedback-error']").contains("Debe ser un correo válido");
 
   // email success
-  cy.get("input").clear();
-  cy.get("input").type("fer@correo.com");
-  cy.get("button").contains("Siguiente").click();
+  cy.get("[data-test='register-input-email']").clear();
+  cy.get("[data-test='register-input-email']").type("fer@correo.com");
+  cy.get("[data-test='register-button-submit']").click();
 };
 
 const genderValidation = () => {
-  cy.get("button").contains("Siguiente").click();
+  cy.get("[data-test='register-button-submit']").click();
   cy.get("p").contains("Este campo es obligatorio");
 
-  cy.get("button").contains("Selecciona una opcion").click();
-  cy.get("button").contains("Hombre").click();
-  cy.get("button").contains("Siguiente").click();
+  cy.get("[data-test='register-button-select-gender']").click();
+  cy.get("[data-test='register-button-gender-option']").contains('Hombre').click();
+  cy.get("[data-test='register-button-submit']").click();
 };
 
 const passwordValidation = () => {
   cy.get("button").contains("Siguiente").click();
   cy.get("p").contains("La contrasena es obligatorio");
   cy.get("p").contains("Confirme la contrasena");
-  cy.get("input[placeholder='nueva contrasena']").type("fernando");
-  cy.get("input[placeholder='confirme su contrasena']").type(
-    "fernando"
-  );
-  cy.get("button").contains("Siguiente").click();
+  cy.get("[data-test='register-input-password']").type("fernando");
+  cy.get("[data-test='register-input-confirm-password']").type("fernando");
+  cy.get("[data-test='register-button-submit']").click();
 };
 
 describe("All validations register", () => {
