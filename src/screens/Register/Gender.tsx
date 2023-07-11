@@ -71,7 +71,12 @@ const Gender: React.FC = () => {
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver
           </Button>
-          <Button onClick={handleNext}>Siguiente</Button>
+          <Button
+            data-test="register-button-submit"
+            onClick={handleNext}
+          >
+            Siguiente
+          </Button>
         </FooterAuth>
       </div>
     </div>

@@ -53,6 +53,7 @@ const Email: React.FC = () => {
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
             <Input
+              data-test="register-input-email"
               placeholder="Ej: fer@gmail.com"
               value={values.email}
               onChange={handleChange("email")}
@@ -60,7 +61,10 @@ const Email: React.FC = () => {
             />
 
             {errors.email && (
-              <Text className="text-red-500 mt-2">
+              <Text
+                data-test="register-feedback-error"
+                className="text-red-500 mt-2"
+              >
                 {errors.email as string}
               </Text>
             )}
@@ -78,7 +82,12 @@ const Email: React.FC = () => {
               >
                 Volver
               </Button>
-              <Button type="submit">Siguiente</Button>
+              <Button
+                data-test="register-button-submit"
+                type="submit"
+              >
+                Siguiente
+              </Button>
             </FooterAuth>
           </form>
         )}

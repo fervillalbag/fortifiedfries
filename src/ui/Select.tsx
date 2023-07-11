@@ -30,6 +30,7 @@ const Select: React.FC<SelectProps> = ({
       )}
 
       <Button
+        data-test="register-button-select-gender"
         className={buttonVariants({
           variant: "outline",
           className: `font-normal text-base flex justify-between px-5 ${
@@ -60,6 +61,7 @@ const Select: React.FC<SelectProps> = ({
       >
         {options.map((option) => (
           <Button
+            data-test="register-button-gender-option"
             key={option.id}
             className={buttonVariants({
               className:

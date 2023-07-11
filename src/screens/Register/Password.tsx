@@ -51,6 +51,7 @@ const Password: React.FC = () => {
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
             <Input
+              data-test="register-input-password"
               type="password"
               value={values.password}
               onChange={handleChange("password")}
@@ -64,6 +65,7 @@ const Password: React.FC = () => {
             )}
 
             <Input
+              data-test="register-input-confirm-password"
               type="password"
               className={inputVariants({
                 className: "mt-4",
@@ -87,7 +89,10 @@ const Password: React.FC = () => {
               <Button onClick={() => navigate(-1)} variant="outline">
                 Volver
               </Button>
-              <Button onClick={() => navigate("/register-password")}>
+              <Button
+                data-test="register-button-submit"
+                onClick={() => navigate("/register-password")}
+              >
                 Siguiente
               </Button>
             </FooterAuth>
