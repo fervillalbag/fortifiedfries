@@ -1,9 +1,10 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 interface HeaderGalleryProps {
   data: any[];
@@ -14,8 +15,12 @@ const HeaderGallery: React.FC<HeaderGalleryProps> = ({ data }) => {
     <Swiper
       slidesPerView={2}
       spaceBetween={10}
-      modules={[Pagination]}
-      className="mySwiper"
+      autoplay={{
+        delay: 3000,
+        disableOnInteraction: false,
+      }}
+      modules={[Pagination, Autoplay]}
+      className="mySwiper rounded-2xl"
     >
       {data.map((item) => (
         <SwiperSlide key={item.id}>

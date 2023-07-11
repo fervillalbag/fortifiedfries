@@ -34,7 +34,7 @@ const Select: React.FC<SelectProps> = ({
           variant: "outline",
           className: `font-normal text-base flex justify-between px-5 ${
             value ? "text@sura-primary" : "text-@sura-text"
-          }`,
+          } border-b-4`,
         })}
         onClick={() => {
           setTextError(null);
