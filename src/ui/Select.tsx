@@ -42,7 +42,7 @@ const Select: React.FC<SelectProps> = ({
           setShowOptions(!showOptions);
         }}
       >
-        {value ? itemSelected : "Selecciona una opcion"}
+        {value ? itemSelected : "Selecciona su genero"}
         <img
           src="/icons/arrow-down.svg"
           alt=""
@@ -65,7 +65,7 @@ const Select: React.FC<SelectProps> = ({
             key={option.id}
             className={buttonVariants({
               className:
-                "h-14 text-lg border-0 bg-white text-@sura-primary justify-start px-5",
+                "h-14 text-lg border-0 bg-white text-@sura-primary-900 justify-start px-5",
             })}
             onClick={() => {
               setValue(option.id);
