@@ -29,8 +29,8 @@ const Password: React.FC = () => {
     <div className={`h-[${windowSize}]px`}>
       <HeaderAuth
         image="/images/bg-register-password.jpg"
-        title="Datos personales"
-        subtitle={`Introduce una nueva contrasena`}
+        title=""
+        subtitle={``}
       />
 
       <Formik

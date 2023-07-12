@@ -29,7 +29,7 @@ const Root: React.FC = () => {
         >
           Empieza a comprar y vender de forma segura
         </Text>
-        <Text className="text-@sura-text">
+        <Text className="text-@sura-primary-400">
           Se prima la experiencia del usuario y la seguridad usando
           nuestro sitio
         </Text>
