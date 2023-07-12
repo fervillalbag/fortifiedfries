@@ -20,7 +20,7 @@ const HeaderGallery: React.FC<HeaderGalleryProps> = ({ data }) => {
         disableOnInteraction: false,
       }}
       modules={[Pagination, Autoplay]}
-      className="mySwiper rounded-2xl"
+      className="mySwiper rounded-md"
     >
       {data.map((item) => (
         <SwiperSlide key={item.id}>
@@ -28,7 +28,7 @@ const HeaderGallery: React.FC<HeaderGalleryProps> = ({ data }) => {
             <img
               src={item.image}
               alt=""
-              className={`rounded-2xl w-full h-full object-cover`}
+              className={`rounded-md w-full h-full object-cover`}
             />
           </div>
         </SwiperSlide>

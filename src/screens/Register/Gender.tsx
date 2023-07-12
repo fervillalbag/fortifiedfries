@@ -47,8 +47,8 @@ const Gender: React.FC = () => {
     <div className={`h-[${windowSize}]px`}>
       <HeaderAuth
         image="/images/bg-register-gender.jpg"
-        title="Datos personales"
-        subtitle={`Seleccione su genero`}
+        title=""
+        subtitle={``}
       />
 
       <div className="p-5">

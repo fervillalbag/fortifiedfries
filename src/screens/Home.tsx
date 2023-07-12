@@ -95,7 +95,7 @@ const Home: React.FC = () => {
                   ? "default"
                   : "outline"
               }`,
-              className: `h-12 flex-1 px-7 rounded-full ${
+              className: `h-12 flex-1 px-7 ${
                 index === categories.length - 1 ? "mr-5" : "mr-0"
               }`,
             })}

@@ -32,8 +32,8 @@ const Email: React.FC = () => {
     <div className={`h-[${windowSize}]px`}>
       <HeaderAuth
         image="/images/bg-register-email.jpg"
-        title="Datos personales"
-        subtitle={`Introduce tu correo electronico aqui`}
+        title=""
+        subtitle={``}
       />
 
       <Formik

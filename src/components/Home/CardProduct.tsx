@@ -25,12 +25,12 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
       </div>
 
       <div>
-        <Text className="text-@sura-primary mt-1">
+        <Text className="text-@sura-primary-900 mt-1">
           Brown Blazer Coat..
         </Text>
         <Text
           className={textVariants({
-            className: "font-extrabold mt-[2px] text-@sura-primary",
+            className: "font-extrabold mt-[2px] text-@sura-primary-700",
           })}
         >
           Gs. 200.000

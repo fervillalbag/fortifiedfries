@@ -12,15 +12,15 @@ interface IButton
 }
 
 export const buttonVariants = cva(
-  "font-sans font-medium w-full h-16 rounded-lg bg-@sura-primary flex items-center justify-center text-xl focus:ring-2 focus:border-@sura-primary focus:ring-transparent",
+  "font-sans font-medium w-full h-16 rounded-md bg-@sura-primary-900 flex items-center justify-center text-xl focus:ring-2 focus:border-@sura-primary-900 focus:ring-transparent",
   {
     variants: {
       variant: {
         default:
-          "text-white bg-@sura-primary border-2 border-@sura-primary",
+          "text-white bg-@sura-primary-900 border-2 border-@sura-primary-900",
         outline:
-          "bg-white text-@sura-primary border-2 border-@sura-border",
-        icon: "bg-white text-@sura-primary border-2 border-@sura-border flex items-center justify-center",
+          "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200",
+        icon: "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 flex items-center justify-center",
       },
       size: {
         default: "",

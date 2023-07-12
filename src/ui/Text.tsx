@@ -9,12 +9,12 @@ interface IText
     >,
     VariantProps<typeof textVariants> {}
 
-export const textVariants = cva("font-sans text-@sura-primary", {
+export const textVariants = cva("font-sans text-@sura-primary-900", {
   variants: {
     variant: {
-      body: "text-base leading-5 text-@sura-text",
+      body: "text-base leading-5 text-@sura-primary-400",
       subtitle: "text-lg font-medium",
-      heading: "font-bold text-3xl",
+      heading: "font-semibold text-4xl",
     },
   },
   defaultVariants: {
