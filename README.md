@@ -143,7 +143,11 @@ This is an example of how to list things you need to use the software and how to
    # this command starts with vite frontend tool
    npm run dev
    ```
-2. Run components tests
+2. Go to project folder
+   ```sh
+   cd smw
+   ```
+3. Run components tests
    ```sh
    npx cypress open
    ```
