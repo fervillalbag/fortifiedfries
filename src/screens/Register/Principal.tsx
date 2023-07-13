@@ -34,6 +34,7 @@ const RegisterPrincipal = () => {
         </div>
 
         <Button
+          data-test="auth-register-email-button"
           onClick={() => navigate("/register-email")}
           icon="icon-mail"
           className={buttonVariants({

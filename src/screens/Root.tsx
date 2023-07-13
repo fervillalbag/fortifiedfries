@@ -35,7 +35,10 @@ const Root: React.FC = () => {
         </Text>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <Button onClick={() => navigate("/register")}>
+          <Button
+            data-test="root-create-account-button"
+            onClick={() => navigate("/register")}
+          >
             Crear cuenta
           </Button>
           <Button variant="outline">Iniciar sesion</Button>
