@@ -129,7 +129,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   https://github.com/fervillalbag/smw.git
+   git clone https://github.com/fervillalbag/smw.git
    ```
 3. Install NPM packages
    ```sh
