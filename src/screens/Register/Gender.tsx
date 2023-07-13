@@ -59,7 +59,12 @@ const Gender: React.FC = () => {
           setTextError={setTextError}
         />
         {textError && !genderSelected && (
-          <Text className="text-red-500 mt-2">{textError}</Text>
+          <Text
+            data-test="register-feedback-error"
+            className="text-red-500 mt-2"
+          >
+            {textError}
+          </Text>
         )}
 
         <FooterAuth

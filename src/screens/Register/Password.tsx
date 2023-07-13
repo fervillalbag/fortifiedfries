@@ -59,7 +59,10 @@ const Password: React.FC = () => {
               placeholder="nueva contrasena"
             />
             {errors.password && (
-              <Text className="text-red-500 my-2">
+              <Text
+                data-test="register-feedback-error"
+                className="text-red-500 my-2"
+              >
                 {errors.password as string}
               </Text>
             )}
@@ -76,7 +79,10 @@ const Password: React.FC = () => {
               placeholder="confirme su contrasena"
             />
             {errors.confirmPassword && (
-              <Text className="text-red-500 my-2">
+              <Text
+                data-test="register-feedback-error-confirmPassword"
+                className="text-red-500 my-2"
+              >
                 {errors.confirmPassword as string}
               </Text>
             )}
