@@ -46,26 +46,34 @@ const products = [
   {
     id: "1",
     image: "https://shorturl.at/bot19",
+    title: "Lorem ipsum dolor sit amet consectetur. Lorem, ipsum.",
   },
   {
     id: "2",
     image: "https://shorturl.at/dtzT8",
+    title: "Lorem ipsum dolor.",
   },
   {
     id: "3",
     image: "https://shorturl.at/hlQZ0",
+    title:
+      "Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet.",
   },
   {
     id: "4",
     image: "https://shorturl.at/arDQS",
+    title: "Lorem ipsum dolor sit amet consectetur. Lorem.",
   },
   {
     id: "5",
     image: "https://shorturl.at/dtzT8",
+    title:
+      "Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     id: "6",
     image: "https://shorturl.at/hlQZ0",
+    title: "Lorem ipsum dolor sit amet consectetur.",
   },
 ];
 

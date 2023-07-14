@@ -30,7 +30,8 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
         </Text>
         <Text
           className={textVariants({
-            className: "font-extrabold mt-[2px] text-@sura-primary-700",
+            className:
+              "font-extrabold mt-[2px] text-@sura-primary-700",
           })}
         >
           Gs. 200.000
