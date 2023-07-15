@@ -1,31 +1,28 @@
-import React, { useContext } from "react";
+import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { Formik } from "formik";
+import { useContext } from "react";
 
+import { WindowSizeContext } from "../../context";
 import {
-  Footer as FooterAuth,
   Header as HeaderAuth,
+  Footer as FooterAuth,
 } from "../../components/Auth";
 import { Button, Input, Text } from "../../ui";
-import { WindowSizeContext } from "../../context";
-import { mailformat } from "../../utils/regex";
 
 const registerValidationSchema = yup.object().shape({
-  email: yup
+  fullname: yup
     .string()
-    .email("Debe ser un correo válido")
-    .matches(new RegExp(mailformat), "Debe ser un correo válido")
-    .required("El correo es obligatorio"),
+    .required("El nombre completo es obligatorio"),
 });
 
-const Email: React.FC = () => {
+export default function Name() {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
 
   const handleNext = async (values: any) => {
     console.log({ values });
-    navigate("/register-gender");
+    navigate("/register-email");
   };
 
   return (
@@ -40,7 +37,7 @@ const Email: React.FC = () => {
         validationSchema={registerValidationSchema}
         validator={() => ({})}
         initialValues={{
-          email: "",
+          fullname: "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >
@@ -53,19 +50,19 @@ const Email: React.FC = () => {
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
             <Input
-              data-test="register-input-email"
-              placeholder="Ej: lucas@gmail.com"
-              value={values.email}
-              onChange={handleChange("email")}
-              onBlur={handleBlur("email")}
+              data-test="register-input-name"
+              placeholder="Ej: Lucas Lamas"
+              value={values.fullname}
+              onChange={handleChange("fullname")}
+              onBlur={handleBlur("fullname")}
             />
 
-            {errors.email && (
+            {errors.fullname && (
               <Text
                 data-test="register-feedback-error"
                 className="text-red-500 mt-2"
               >
-                {errors.email as string}
+                {errors.fullname as string}
               </Text>
             )}
 
@@ -73,7 +70,7 @@ const Email: React.FC = () => {
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
               routeLink="/login"
-              currentStep={2}
+              currentStep={1}
             >
               <Button
                 type="button"
@@ -94,6 +91,4 @@ const Email: React.FC = () => {
       </Formik>
     </div>
   );
-};
-
-export default Email;
+}

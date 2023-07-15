@@ -71,7 +71,7 @@ const Gender: React.FC = () => {
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
           routeLink="/login"
-          currentStep={2}
+          currentStep={3}
         >
           <Button onClick={() => navigate(-1)} variant="outline">
             Volver
