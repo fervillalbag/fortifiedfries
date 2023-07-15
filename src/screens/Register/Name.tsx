@@ -1,7 +1,7 @@
-import { Formik } from "formik";
+import { useContext, useState } from "react";
 import * as yup from "yup";
+import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 
 import { WindowSizeContext } from "../../context";
 import {
@@ -9,6 +9,8 @@ import {
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { Button, Input, Text } from "../../ui";
+import { useLocalStorageState } from "../../hooks/useAuth";
+import { authInitialValue } from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -19,9 +21,15 @@ const registerValidationSchema = yup.object().shape({
 export default function Name() {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
+  const [userInfoValue] = useState<any>(authInitialValue);
+
+  const [initialValues, handleUpdateForm] = useLocalStorageState({
+    key: "@NURA-AUTH-REGISTER-INFO",
+    value: userInfoValue,
+  });
 
   const handleNext = async (values: any) => {
-    console.log({ values });
+    handleUpdateForm(values);
     navigate("/register-email");
   };
 
@@ -30,14 +38,14 @@ export default function Name() {
       <HeaderAuth
         image="/images/bg-register-email.jpg"
         title=""
-        subtitle={``}
+        subtitle={`Ingrese su nombre completo`}
       />
 
       <Formik
         validationSchema={registerValidationSchema}
         validator={() => ({})}
         initialValues={{
-          fullname: "",
+          fullname: initialValues?.fullname || "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >
