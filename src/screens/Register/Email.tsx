@@ -10,7 +10,6 @@ import {
 import { Button, Input, Text } from "../../ui";
 import { WindowSizeContext } from "../../context";
 import { mailformat } from "../../utils/regex";
-import { getCurrentLocalStorage } from "../../utils/auth/getCurrentLocalStorage";
 import { authInitialValue } from "../../utils/constants/auth";
 import { useLocalStorageState } from "../../hooks/useAuth";
 
