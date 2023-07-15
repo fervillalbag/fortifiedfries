@@ -20,6 +20,7 @@ const Password: React.FC = () => {
   const { windowSize } = useContext(WindowSizeContext);
 
   const handleNext = async (values: any) => {
+    console.log({ values });
     navigate("/home");
   };
 
