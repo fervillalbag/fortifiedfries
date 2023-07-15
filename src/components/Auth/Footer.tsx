@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { Text } from "../../ui";
-import { DotStep } from ".";
+import { Button, Text } from "../../ui";
+import { DotStep } from "./";
 
 interface FooterProps {
   children: React.ReactNode;
@@ -19,13 +19,21 @@ const Footer: React.FC<FooterProps> = ({
   children,
   currentStep,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="fixed bottom-8 left-5 w-[calc(100%_-_40px)]">
       <DotStep value={currentStep} />
       <div className="grid grid-cols-2 gap-5">{children}</div>
-      <Text className="text-center mt-4">
-        {footerText} <Link to={routeLink}>{routeText}</Link>
-      </Text>
+      <div className="items-center justify-center mt-4 flex w-full gap-2">
+        <Text>{footerText}</Text>
+        <Button
+          variant="link"
+          onClick={() => navigate(routeLink, { replace: true })}
+        >
+          {routeText}
+        </Button>
+      </div>
     </div>
   );
 };

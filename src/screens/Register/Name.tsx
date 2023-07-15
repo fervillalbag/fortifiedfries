@@ -9,8 +9,11 @@ import {
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { Button, Input, Text } from "../../ui";
-import { useLocalStorageState } from "../../hooks/useAuth";
-import { authInitialValue } from "../../utils/constants/auth";
+import { useLocalStorageState } from "../../hooks";
+import {
+  NURA_AUTH_REGISTER_INFO,
+  authInitialValue,
+} from "../../utils/constants";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -24,7 +27,7 @@ export default function Name() {
   const [userInfoValue] = useState<any>(authInitialValue);
 
   const [initialValues, handleUpdateForm] = useLocalStorageState({
-    key: "@NURA-AUTH-REGISTER-INFO",
+    key: NURA_AUTH_REGISTER_INFO,
     value: userInfoValue,
   });
 
@@ -77,7 +80,7 @@ export default function Name() {
             <FooterAuth
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
-              routeLink="/login"
+              routeLink="/login-email"
               currentStep={1}
             >
               <Button

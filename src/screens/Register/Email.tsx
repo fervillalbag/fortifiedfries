@@ -10,7 +10,10 @@ import {
 import { Button, Input, Text } from "../../ui";
 import { WindowSizeContext } from "../../context";
 import { mailformat } from "../../utils/regex";
-import { authInitialValue } from "../../utils/constants/auth";
+import {
+  NURA_AUTH_REGISTER_INFO,
+  authInitialValue,
+} from "../../utils/constants";
 import { useLocalStorageState } from "../../hooks/useAuth";
 
 const registerValidationSchema = yup.object().shape({
@@ -28,7 +31,7 @@ const Email: React.FC = () => {
   const [userInfoValue] = useState<any>(authInitialValue);
 
   const [initialValues, handleUpdateForm] = useLocalStorageState({
-    key: "@NURA-AUTH-REGISTER-INFO",
+    key: NURA_AUTH_REGISTER_INFO,
     value: userInfoValue,
   });
 
@@ -81,7 +84,7 @@ const Email: React.FC = () => {
             <FooterAuth
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
-              routeLink="/login"
+              routeLink="/login-email"
               currentStep={2}
             >
               <Button
