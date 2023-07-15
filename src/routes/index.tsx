@@ -7,6 +7,7 @@ import {
   Password,
   Principal,
   Email,
+  Name,
 } from "../screens/Register";
 import { Home, NotFound } from "../screens";
 
@@ -18,6 +19,7 @@ const AppRoute: React.FC = () => {
         <Route path="/home" element={<Home />} />
 
         <Route path="/register" element={<Principal />} />
+        <Route path="/register-name" element={<Name />} />
         <Route path="/register-email" element={<Email />} />
         <Route path="/register-gender" element={<Gender />} />
         <Route path="/register-password" element={<Password />} />

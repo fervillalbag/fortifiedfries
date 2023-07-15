@@ -91,7 +91,7 @@ const Password: React.FC = () => {
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
               routeLink="/login"
-              currentStep={3}
+              currentStep={4}
             >
               <Button
                 type="button"
