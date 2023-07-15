@@ -21,6 +21,7 @@ export const buttonVariants = cva(
         outline:
           "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200",
         icon: "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 flex items-center justify-center",
+        link: "appearance-none bg-white ring-0 font-normal inline text-base w-max h-max",
       },
       size: {
         default: "",

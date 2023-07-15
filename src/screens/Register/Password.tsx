@@ -90,7 +90,7 @@ const Password: React.FC = () => {
             <FooterAuth
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
-              routeLink="/login"
+              routeLink="/login-email"
               currentStep={4}
             >
               <Button

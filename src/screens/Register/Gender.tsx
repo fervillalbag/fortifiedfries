@@ -70,7 +70,7 @@ const Gender: React.FC = () => {
         <FooterAuth
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
-          routeLink="/login"
+          routeLink="/login-email"
           currentStep={3}
         >
           <Button onClick={() => navigate(-1)} variant="outline">

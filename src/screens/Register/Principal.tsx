@@ -1,11 +1,24 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Button, Text, buttonVariants, textVariants } from "../../ui";
 import { Link, useNavigate } from "react-router-dom";
 import { WindowSizeContext } from "../../context";
+import {
+  NURA_AUTH_REGISTER_INFO,
+  authInitialValue,
+} from "../../utils/constants";
+import { useLocalStorageState } from "../../hooks";
 
 const RegisterPrincipal = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
+
+  const [_, handleUpdateForm] = useLocalStorageState({
+    key: NURA_AUTH_REGISTER_INFO,
+  });
+
+  useEffect(() => {
+    handleUpdateForm(authInitialValue);
+  }, []);
 
   return (
     <div className={`h-[${windowSize.innerHeight}px]`}>
