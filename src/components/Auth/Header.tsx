@@ -20,7 +20,6 @@ const Header: React.FC<HeaderProps> = ({
           alt=""
           className="w-full h-full object-cover"
         />
-        <div className="bg-white absolute top-0 left-0 w-full h-full opacity-40" />
       </div>
 
       <div className="relative z-20 p-5 grid items-end h-full content-end">
@@ -32,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           {title}
         </Text>
-        <Text className="text-@sura-primary-400">
+        <Text className="text-white text-lg">
           <span dangerouslySetInnerHTML={{ __html: subtitle }} />
         </Text>
       </div>

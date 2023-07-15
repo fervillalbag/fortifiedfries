@@ -7,6 +7,11 @@ import {
 } from "../../components/Auth";
 import { Button, Select, Text } from "../../ui";
 import { WindowSizeContext } from "../../context";
+import { useLocalStorageState } from "../../hooks";
+import {
+  NURA_AUTH_REGISTER_INFO,
+  authInitialValue,
+} from "../../utils/constants";
 
 const options = [
   {
@@ -29,8 +34,15 @@ const options = [
 const Gender: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
+  const [userInfoValue] = useState<any>(authInitialValue);
+
+  const [initialValues, handleUpdateForm] = useLocalStorageState({
+    key: NURA_AUTH_REGISTER_INFO,
+    value: userInfoValue,
+  });
+
   const [genderSelected, setGenderSelected] = useState<string | null>(
-    null
+    initialValues.gender
   );
   const [textError, setTextError] = useState<string | null>(null);
 
@@ -40,15 +52,16 @@ const Gender: React.FC = () => {
       return;
     }
 
+    handleUpdateForm({ gender: genderSelected });
     navigate("/register-password");
   };
 
   return (
-    <div className={`h-[${windowSize}]px`}>
+    <div className={`h-[${windowSize.innerHeight}]px`}>
       <HeaderAuth
         image="/images/bg-register-gender.jpg"
         title=""
-        subtitle={``}
+        subtitle={`Seleccione su genero`}
       />
 
       <div className="p-5">
@@ -57,6 +70,7 @@ const Gender: React.FC = () => {
           value={genderSelected}
           setValue={setGenderSelected}
           setTextError={setTextError}
+          placeholder="Seleccione una opcion"
         />
         {textError && !genderSelected && (
           <Text

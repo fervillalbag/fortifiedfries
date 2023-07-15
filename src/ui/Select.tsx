@@ -6,6 +6,7 @@ interface SelectProps {
   value: string | null;
   setValue: (value: string) => void;
   setTextError: (value: string | null) => void;
+  placeholder?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -13,6 +14,7 @@ const Select: React.FC<SelectProps> = ({
   value,
   setValue,
   setTextError,
+  placeholder,
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
 
@@ -42,7 +44,7 @@ const Select: React.FC<SelectProps> = ({
           setShowOptions(!showOptions);
         }}
       >
-        {value ? itemSelected : "Selecciona su genero"}
+        {value ? itemSelected : placeholder ? placeholder : ""}
         <img
           src="/icons/arrow-down.svg"
           alt=""

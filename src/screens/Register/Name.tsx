@@ -37,9 +37,9 @@ export default function Name() {
   };
 
   return (
-    <div className={`h-[${windowSize}]px`}>
+    <div className={`h-[${windowSize.innerHeight}]px`}>
       <HeaderAuth
-        image="/images/bg-register-email.jpg"
+        image="/images/bg-register-fullname.jpg"
         title=""
         subtitle={`Ingrese su nombre completo`}
       />

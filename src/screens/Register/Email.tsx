@@ -41,7 +41,7 @@ const Email: React.FC = () => {
   };
 
   return (
-    <div className={`h-[${windowSize}]px`}>
+    <div className={`h-[${windowSize.innerHeight}]px`}>
       <HeaderAuth
         image="/images/bg-register-email.jpg"
         title=""
