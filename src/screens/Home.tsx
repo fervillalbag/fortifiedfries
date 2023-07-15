@@ -115,7 +115,7 @@ const Home: React.FC = () => {
 
       <div className="p-5 grid grid-cols-2 gap-x-5 gap-y-6">
         {products.map((product) => (
-          <CardProduct product={product} />
+          <CardProduct key={product.id} product={product} />
         ))}
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 
 import {
@@ -8,8 +8,7 @@ import {
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { WindowSizeContext } from "../../context";
-import { Button, Input, Text } from "../../ui";
-import { inputVariants } from "../../ui/Input";
+import { Button, Input, Text, inputVariants } from "../../ui";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -21,12 +20,11 @@ const Password: React.FC = () => {
   const { windowSize } = useContext(WindowSizeContext);
 
   const handleNext = async (values: any) => {
-    console.log({ values });
     navigate("/home");
   };
 
   return (
-    <div className={`h-[${windowSize}]px`}>
+    <div className={`h-[${windowSize.innerHeight}]px`}>
       <HeaderAuth
         image="/images/bg-register-password.jpg"
         title=""
