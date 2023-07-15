@@ -5,6 +5,18 @@ const startRootAppTesting = () => {
   cy.visit("http://localhost:5173");
 };
 
+const registerFullnameValidation = () => {
+  cy.get("[data-test='register-button-submit']").click();
+  cy.get("[data-test='register-feedback-error']").contains(
+    "El nombre completo es obligatorio"
+  );
+
+  cy.get("[data-test='register-input-name']").type(
+    "Fernando Villalba"
+  );
+  cy.get("[data-test='register-button-submit']").click();
+};
+
 const registerEmailValidation = () => {
   // email required
   cy.get("[data-test='register-button-submit']").click();
@@ -69,16 +81,23 @@ describe("All validations register", () => {
       .click();
   });
 
+  it("Fullname validations", () => {
+    registerFullnameValidation();
+  });
+
   it("Email validations", () => {
+    registerFullnameValidation();
     registerEmailValidation();
   });
 
   it("Gender validations", () => {
+    registerFullnameValidation();
     registerEmailValidation();
     registerGenderValidation();
   });
 
   it("Password validations", () => {
+    registerFullnameValidation();
     registerEmailValidation();
     registerGenderValidation();
     registerPasswordValidation();
