@@ -127,30 +127,34 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/fervillalbag/smw.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
+- Clone the repo
+
+  ```sh
+  git clone https://github.com/fervillalbag/smw.git
+  ```
+
+- Go to project folder
+
+  ```sh
+  cd smw
+  ```
+
+- Install NPM packages
+  ```sh
+  npm install
+  ```
 
 ## Usage
 
-1. First run the frontend project
-   ```sh
-   # this command starts with vite frontend tool
-   npm run dev
-   ```
-2. Go to project folder
-   ```sh
-   cd smw
-   ```
-3. Run components tests
-   ```sh
-   npx cypress open
-   ```
+- First run the frontend project
+  ```sh
+  # this command starts with vite frontend tool
+  npm run dev
+  ```
+- Run components tests
+  ```sh
+  npx cypress open
+  ```
 
 <!-- ROADMAP -->
 
