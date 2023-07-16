@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
@@ -27,6 +27,7 @@ const registerValidationSchema = yup.object().shape({
 const Password: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [initialValues] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -43,6 +44,7 @@ const Password: React.FC = () => {
 
   const handleNext = async (values: any) => {
     const shortIdCustom = nanoid(5);
+    setLoading(true);
 
     const dataToRegisterUser = {
       ...initialValues,
@@ -69,10 +71,12 @@ const Password: React.FC = () => {
             username: dataToRegisterUser.username,
           },
         });
+        setLoading(false);
         return;
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -152,6 +156,7 @@ const Password: React.FC = () => {
                 Volver
               </Button>
               <Button
+                isLoading={loading}
                 type="submit"
                 data-test="register-button-submit"
                 onClick={() => navigate("/register-password")}

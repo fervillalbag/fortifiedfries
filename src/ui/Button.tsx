@@ -3,12 +3,14 @@ import { VariantProps, cva } from "class-variance-authority";
 
 import { cn } from "../utils";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 interface IButton
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   to?: string;
   icon?: string;
+  isLoading?: boolean;
 }
 
 export const buttonVariants = cva(
@@ -37,7 +39,16 @@ export const buttonVariants = cva(
 
 const Button = forwardRef<HTMLButtonElement, IButton>(
   (
-    { className, children, to, variant, size, icon, ...props },
+    {
+      className,
+      children,
+      to,
+      variant,
+      size,
+      icon,
+      isLoading,
+      ...props
+    },
     ref
   ) => {
     if (to) {
@@ -74,7 +85,7 @@ const Button = forwardRef<HTMLButtonElement, IButton>(
         ref={ref}
         {...props}
       >
-        {children}
+        {isLoading ? <Spinner /> : children}
       </button>
     );
   }
