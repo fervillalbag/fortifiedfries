@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
+import { useQuery } from "@tanstack/react-query";
+import { nanoid } from "nanoid";
 
 import {
   Header as HeaderAuth,
@@ -9,19 +11,57 @@ import {
 } from "../../components/Auth";
 import { WindowSizeContext } from "../../context";
 import { Button, Input, Text, inputVariants } from "../../ui";
+import { useLocalStorageState } from "../../hooks";
+import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { getAllTypesOfUsers, registerUser } from "../../services";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
-  confirmPassword: yup.string().required("Confirme la contrasena"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "No coinciden las contrasenas")
+    .required("Confirme la contrasena"),
 });
 
 const Password: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
 
+  const [initialValues] = useLocalStorageState({
+    key: NURA_AUTH_REGISTER_INFO,
+  });
+
+  const { data: typeOfUser } = useQuery(
+    ["getAllTypeOfUsers"],
+    getAllTypesOfUsers
+  );
+
+  const basicUserRole = typeOfUser?.data.find(
+    (item: any) => item.name === "basic"
+  );
+
   const handleNext = async (values: any) => {
-    console.log({ values });
-    navigate("/home");
+    const shortIdCustom = nanoid(5);
+
+    const dataToRegisterUser = {
+      ...initialValues,
+      password: values.password,
+      typeUserId: basicUserRole.id,
+      username: `${
+        initialValues.email.split("@")[0]
+      }${shortIdCustom}`,
+    };
+
+    try {
+      const response = await registerUser(dataToRegisterUser);
+      if (response?.status === 201) {
+        console.log("Cuenta creada exitosamente");
+        navigate("/home");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

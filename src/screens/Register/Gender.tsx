@@ -12,24 +12,8 @@ import {
   NURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../../utils/constants";
-
-const options = [
-  {
-    id: "1",
-    value: "man",
-    text: "Hombre",
-  },
-  {
-    id: "2",
-    value: "woman",
-    text: "Mujer",
-  },
-  {
-    id: "3",
-    value: "n/a",
-    text: "Prefiero no decirlo",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getAllGendersUser } from "../../services";
 
 const Gender: React.FC = () => {
   const navigate = useNavigate();
@@ -46,13 +30,18 @@ const Gender: React.FC = () => {
   );
   const [textError, setTextError] = useState<string | null>(null);
 
+  const { data: genderOfUser } = useQuery(
+    ["getAllGendersUser"],
+    getAllGendersUser
+  );
+
   const handleNext = async () => {
     if (!genderSelected) {
       setTextError("Este campo es obligatorio");
       return;
     }
 
-    handleUpdateForm({ gender: genderSelected });
+    handleUpdateForm({ genderId: genderSelected });
     navigate("/register-password");
   };
 
@@ -66,7 +55,7 @@ const Gender: React.FC = () => {
 
       <div className="p-5">
         <Select
-          options={options}
+          options={genderOfUser?.data}
           value={genderSelected}
           setValue={setGenderSelected}
           setTextError={setTextError}
