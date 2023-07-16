@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
+import { toast } from "react-hot-toast";
 
 import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { WindowSizeContext } from "../../context";
-import { Button, Input, Text, inputVariants } from "../../ui";
+import { Alert, Button, Input, Text, inputVariants } from "../../ui";
 import { useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { getAllTypesOfUsers, registerUser } from "../../services";
@@ -54,10 +55,15 @@ const Password: React.FC = () => {
 
     try {
       const response = await registerUser(dataToRegisterUser);
-      console.log({ response });
 
       if (response?.status === 201) {
-        console.log("Cuenta creada exitosamente");
+        toast.custom((t) => (
+          <Alert
+            title="Excelente!"
+            description="Cuenta creada exitosamente."
+            t={t}
+          />
+        ));
         navigate("/register-username", {
           state: {
             username: dataToRegisterUser.username,
