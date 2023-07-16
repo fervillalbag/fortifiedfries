@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import {
   Footer as FooterAuth,
@@ -8,25 +9,21 @@ import {
 import { Button, Select, Text } from "../../ui";
 import { WindowSizeContext } from "../../context";
 import { useLocalStorageState } from "../../hooks";
-import {
-  NURA_AUTH_REGISTER_INFO,
-  authInitialValue,
-} from "../../utils/constants";
-import { useQuery } from "@tanstack/react-query";
+import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { getAllGendersUser } from "../../services";
 
 const Gender: React.FC = () => {
   const navigate = useNavigate();
   const { windowSize } = useContext(WindowSizeContext);
-  const [userInfoValue] = useState<any>(authInitialValue);
 
   const [initialValues, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
-    value: userInfoValue,
   });
 
+  const [userInfoValue] = useState<any>(initialValues.genderId);
+
   const [genderSelected, setGenderSelected] = useState<string | null>(
-    initialValues.gender
+    userInfoValue
   );
   const [textError, setTextError] = useState<string | null>(null);
 
