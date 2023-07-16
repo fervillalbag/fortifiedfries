@@ -54,9 +54,15 @@ const Password: React.FC = () => {
 
     try {
       const response = await registerUser(dataToRegisterUser);
+      console.log({ response });
+
       if (response?.status === 201) {
         console.log("Cuenta creada exitosamente");
-        navigate("/home");
+        navigate("/register-username", {
+          state: {
+            username: dataToRegisterUser.username,
+          },
+        });
         return;
       }
     } catch (error) {
