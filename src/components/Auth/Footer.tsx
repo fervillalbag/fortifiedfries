@@ -1,8 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Text } from "../../ui";
-import { DotStep } from "./";
+import { DotLastStep, DotStep } from "./";
 
 interface FooterProps {
   children: React.ReactNode;
@@ -20,10 +20,15 @@ const Footer: React.FC<FooterProps> = ({
   currentStep,
 }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <div className="fixed bottom-8 left-5 w-[calc(100%_-_40px)]">
-      <DotStep value={currentStep} />
+      {pathname === "/register-username" ? (
+        <DotLastStep value={currentStep} />
+      ) : (
+        <DotStep value={currentStep} />
+      )}
       <div className="grid grid-cols-2 gap-5">{children}</div>
       <div className="items-center justify-center mt-4 flex w-full gap-2">
         <Text>{footerText}</Text>
