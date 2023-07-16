@@ -9,6 +9,7 @@ import {
   Email,
   Name,
   Username,
+  Photos,
 } from "../screens/Register";
 import { Email as EmailLogin } from "../screens/Login";
 import { Home, NotFound } from "../screens";
@@ -28,6 +29,7 @@ const AppRoute: React.FC = () => {
 
         <Route path="/login-email" element={<EmailLogin />} />
         <Route path="/register-username" element={<Username />} />
+        <Route path="/register-photos" element={<Photos />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -21,7 +21,7 @@ export default function Username() {
   const handleNext = async (values: any) => {
     // update user endpoint
     console.log({ values });
-    // navigate("/register-email");
+    navigate("/register-photos");
   };
 
   return (
@@ -70,14 +70,9 @@ export default function Username() {
               routeText="Inicia sesion"
               routeLink="/login-email"
               currentStep={1}
+              disableFooterText={false}
             >
-              <Button
-                type="button"
-                onClick={() => navigate(-1)}
-                variant="outline"
-              >
-                Volver
-              </Button>
+              <div />
               <Button
                 data-test="register-button-submit"
                 type="submit"
