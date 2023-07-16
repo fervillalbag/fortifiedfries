@@ -18,9 +18,9 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
 
-  const itemSelected = options.find(
+  const itemSelected = options?.find(
     (item) => item.id === value
-  )?.text;
+  )?.name;
 
   return (
     <div className="relative">
@@ -44,7 +44,7 @@ const Select: React.FC<SelectProps> = ({
           setShowOptions(!showOptions);
         }}
       >
-        {value ? itemSelected : placeholder ? placeholder : ""}
+        {itemSelected ? itemSelected : placeholder ? placeholder : ""}
         <img
           src="/icons/arrow-down.svg"
           alt=""
@@ -61,7 +61,7 @@ const Select: React.FC<SelectProps> = ({
             : "h-max overflow-visible opacity-100"
         } rounded-md absolute top-full mt-4 w-full`}
       >
-        {options.map((option) => (
+        {options?.map((option) => (
           <Button
             data-test="register-button-gender-option"
             key={option.id}
@@ -74,7 +74,7 @@ const Select: React.FC<SelectProps> = ({
               setShowOptions(false);
             }}
           >
-            {option.text}
+            {option.name}
           </Button>
         ))}
       </div>

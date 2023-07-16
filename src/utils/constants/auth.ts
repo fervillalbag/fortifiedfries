@@ -1,8 +1,7 @@
 export const authInitialValue = {
   fullname: "",
   email: "",
-  gender: "",
-  password: "",
+  genderId: "",
 };
 
 export const NURA_AUTH_REGISTER_INFO = "@NURA-AUTH-REGISTER-INFO";
