@@ -14,16 +14,16 @@ interface IButton
 }
 
 export const buttonVariants = cva(
-  "font-sans font-medium w-full h-16 rounded-md bg-@sura-primary-900 flex items-center justify-center text-lg focus:ring-2 focus:border-@sura-primary-900 focus:ring-transparent",
+  "font-sans font-medium w-full h-16 rounded-md bg-@sura-primary-900 flex items-center justify-center text-lg focus:ring-2 focus:border-@sura-primary-900 focus:ring-@sura-primary-900 focus:ring-offset-2",
   {
     variants: {
       variant: {
         default:
           "text-white bg-@sura-primary-900 border-2 border-@sura-primary-900",
         outline:
-          "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200",
-        icon: "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 flex items-center justify-center",
-        link: "appearance-none bg-white ring-0 font-normal inline text-base w-max h-max",
+          "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 focus:ring-@sura-primary-200 focus:border-@sura-primary-200",
+        icon: "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 flex items-center justify-center focus:ring-@sura-primary-200 focus:border-@sura-primary-200",
+        link: "appearance-none bg-white ring-0 font-normal inline text-base w-max h-max focus:ring-transparent focus:border-transparent",
       },
       size: {
         default: "",

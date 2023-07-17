@@ -1,4 +1,11 @@
+import { AxiosResponse } from "axios";
+
 import { axios } from "../config";
+import { UserProps } from "../interface";
+
+interface ErrorResponse {
+  message: string;
+}
 
 export const getAllTypesOfUsers = async () => {
   try {
@@ -26,7 +33,9 @@ export const getAllGendersUser = async () => {
   }
 };
 
-export const register = async (data: any) => {
+export const register = async (
+  data: any
+): Promise<AxiosResponse<UserProps>> => {
   try {
     const response = await axios({
       method: "POST",
@@ -35,8 +44,11 @@ export const register = async (data: any) => {
     });
 
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    throw {
+      message:
+        error.response?.data?.message || "Error al registrar usuario",
+    } as ErrorResponse;
   }
 };
 

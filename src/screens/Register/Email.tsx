@@ -89,7 +89,7 @@ const Email: React.FC = () => {
             >
               <Button
                 type="button"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/register-name")}
                 variant="outline"
               >
                 Volver

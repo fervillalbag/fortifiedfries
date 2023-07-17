@@ -61,6 +61,7 @@ const Password: React.FC = () => {
       if (response?.status === 201) {
         toast.custom((t) => (
           <Alert
+            type="success"
             title="Excelente!"
             description="Cuenta creada exitosamente."
             t={t}
@@ -72,10 +73,17 @@ const Password: React.FC = () => {
           },
         });
         setLoading(false);
-        return;
       }
-    } catch (error) {
-      console.log(error);
+      setLoading(false);
+    } catch (error: any) {
+      toast.custom((t) => (
+        <Alert
+          type="error"
+          title="Hubo un problema"
+          description={error.message}
+          t={t}
+        />
+      ));
       setLoading(false);
     }
   };
@@ -150,7 +158,7 @@ const Password: React.FC = () => {
             >
               <Button
                 type="button"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/register-gender")}
                 variant="outline"
               >
                 Volver
@@ -159,7 +167,6 @@ const Password: React.FC = () => {
                 isLoading={loading}
                 type="submit"
                 data-test="register-button-submit"
-                onClick={() => navigate("/register-password")}
               >
                 Siguiente
               </Button>
