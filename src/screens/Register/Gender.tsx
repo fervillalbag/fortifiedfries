@@ -73,7 +73,10 @@ const Gender: React.FC = () => {
           routeLink="/login-email"
           currentStep={3}
         >
-          <Button onClick={() => navigate(-1)} variant="outline">
+          <Button
+            onClick={() => navigate("/register-email")}
+            variant="outline"
+          >
             Volver
           </Button>
           <Button
