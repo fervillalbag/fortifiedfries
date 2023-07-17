@@ -36,7 +36,12 @@ export default function Alert({
             <p className="text-base font-medium text-gray-900">
               {title}
             </p>
-            <p className="text-sm text-gray-500">{description}</p>
+            <p
+              data-test="register-alert-feedback"
+              className="text-sm text-gray-500"
+            >
+              {description}
+            </p>
           </div>
         </div>
       </div>

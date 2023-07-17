@@ -1,5 +1,15 @@
 /// <reference types="cypress" />
 
+const { customAlphabet } = require("nanoid");
+
+const customValuesEntry = "123456789abcdefghijkl";
+const nanoCustom = customAlphabet(customValuesEntry, 6);
+
+const testWithEmailAlready = !true;
+
+const emailAlready = "fer@correo.com";
+const newEmail = `${nanoCustom()}@correo.com`;
+
 const startRootAppTesting = () => {
   cy.viewport(390, 844);
   cy.visit("http://localhost:5173");
@@ -33,7 +43,9 @@ const registerEmailValidation = () => {
 
   // email success
   cy.get("[data-test='register-input-email']").clear();
-  cy.get("[data-test='register-input-email']").type("fer@correo.com");
+  cy.get("[data-test='register-input-email']").type(
+    testWithEmailAlready ? emailAlready : newEmail
+  );
   cy.get("[data-test='register-button-submit']").click();
 };
 
@@ -62,6 +74,15 @@ const registerPasswordValidation = () => {
   cy.get("[data-test='register-input-confirm-password']").type(
     "fernando"
   );
+
+  if (testWithEmailAlready) {
+    cy.get("[data-test='register-button-submit']").click();
+    cy.get("[data-test='register-alert-feedback']").contains(
+      "El email ya existe"
+    );
+    return;
+  }
+
   cy.get("[data-test='register-button-submit']").click();
 };
 
