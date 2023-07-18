@@ -31,12 +31,8 @@ export default function Username() {
     key: NURA_AUTH_REGISTER_INFO,
   });
 
-  const { data: dataUser } = useQuery(
-    ["getUser"],
-    () => getUser("email", value.email),
-    {
-      cacheTime: 0,
-    }
+  const { data: dataUser } = useQuery(["getUser"], () =>
+    getUser("email", value.email)
   );
   const user = dataUser?.data;
 

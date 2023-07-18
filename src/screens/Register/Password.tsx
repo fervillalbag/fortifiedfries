@@ -34,7 +34,7 @@ const Password: React.FC = () => {
   const { windowSize } = useContext(WindowSizeContext);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [initialValues] = useLocalStorageState({
+  const [initialValues, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
 
@@ -72,11 +72,8 @@ const Password: React.FC = () => {
             t={t}
           />
         ));
-        navigate("/register-username", {
-          state: {
-            username: dataToRegisterUser.username,
-          },
-        });
+        handleUpdateForm({ username: dataToRegisterUser.username });
+        navigate("/register-username");
         setLoading(false);
       }
       setLoading(false);
