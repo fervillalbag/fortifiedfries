@@ -9,6 +9,14 @@ export default function Photos() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
+  const handleComplete = async () => {
+    try {
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <motion.div
@@ -17,6 +25,10 @@ export default function Photos() {
         exit="exit"
         variants={authStepAnimation}
       >
+        <Text className="p-5">
+          Agrega una portada y una foto de perfil
+        </Text>
+
         <div>
           <button className="w-full h-32 bg-@sura-primary-200 grid place-items-center">
             <img src="/icons/camera-icons.svg" alt="" />
@@ -71,9 +83,9 @@ export default function Photos() {
             Volver
           </Button>
           <Button
-            type="submit"
+            type="button"
+            onClick={handleComplete}
             data-test="register-button-submit"
-            onClick={() => navigate("/register-password")}
           >
             Siguiente
           </Button>
