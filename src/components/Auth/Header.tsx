@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, textVariants } from "../../ui";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface HeaderProps {
   image: string;
@@ -15,10 +16,13 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className="h-40 relative">
       <div className="w-full h-full absolute top-0 left-0 overflow-hidden">
-        <img
+        <LazyLoadImage
           src={image}
           alt=""
+          width="100%"
+          height="100%"
           className="w-full h-full object-cover"
+          visibleByDefault={image === "/images/layer-loading.png"}
         />
       </div>
 
