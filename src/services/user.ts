@@ -77,3 +77,21 @@ export const getUser = async (param: string, value: string) => {
     console.log(error);
   }
 };
+
+export const updateUser = async (id: string, data: any) => {
+  try {
+    const response = await axios({
+      method: "PATCH",
+      url: `/user/${id}`,
+      data: JSON.stringify(data),
+    });
+
+    return response;
+  } catch (error: any) {
+    throw {
+      message:
+        error.response?.data?.message ||
+        "Error al actualizar usuario",
+    } as ErrorResponse;
+  }
+};

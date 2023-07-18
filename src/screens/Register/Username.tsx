@@ -1,16 +1,20 @@
+import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
-import { Button, Input, Text } from "../../ui";
+import { Alert, Button, Input, Text } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
 import { useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { getUser, updateUser } from "../../services/user";
 
 const registerValidationSchema = yup.object().shape({
   username: yup
@@ -20,21 +24,61 @@ const registerValidationSchema = yup.object().shape({
 
 export default function Username() {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const [value] = useLocalStorageState({
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [value, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
 
+  const { data: dataUser } = useQuery(
+    ["getUser"],
+    () => getUser("email", value.email),
+    {
+      cacheTime: 0,
+    }
+  );
+  const user = dataUser?.data;
+
   const handleNext = async (values: any) => {
-    // update user endpoint
-    console.log({ values });
-    navigate("/register-photos", {
-      state: {
-        fullname: value.fullname,
-        username: values.username,
-      },
-    });
+    const usernameUpdated = {
+      username: values.username,
+    };
+    setLoading(true);
+
+    try {
+      const response = await updateUser(user?.id, usernameUpdated);
+
+      if (response?.status === 200) {
+        toast.custom((t) => (
+          <Alert
+            type="success"
+            title="Excelente!"
+            description="Datos actualizados."
+            t={t}
+          />
+        ));
+        handleUpdateForm(values);
+        navigate("/register-photos", {
+          state: {
+            fullname: value.fullname,
+            username: values.username,
+          },
+        });
+        setLoading(false);
+      }
+      setLoading(false);
+    } catch (error: any) {
+      toast.custom((t) => (
+        <Alert
+          type="error"
+          title="Hubo un problema"
+          description={error.message}
+          t={t}
+        />
+      ));
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +93,7 @@ export default function Username() {
         validationSchema={registerValidationSchema}
         validator={() => ({})}
         initialValues={{
-          username: location.state.username || "",
+          username: value.username || "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >
@@ -94,6 +138,7 @@ export default function Username() {
             >
               <div />
               <Button
+                isLoading={loading}
                 data-test="register-button-submit"
                 type="submit"
               >
