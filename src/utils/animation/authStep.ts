@@ -3,7 +3,7 @@ import { Variants } from "framer-motion";
 export const authStepAnimation: Variants = {
   hidden: {
     opacity: 0,
-    y: -12,
+    y: -6,
   },
   visible: {
     opacity: 1,

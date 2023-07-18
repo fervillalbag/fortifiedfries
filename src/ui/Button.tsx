@@ -65,6 +65,7 @@ const Button = forwardRef<HTMLButtonElement, IButton>(
     if (icon) {
       return (
         <button
+          disabled={isLoading}
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
           {...props}
