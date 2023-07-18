@@ -1,13 +1,22 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import { Button, Text } from "../../ui";
 import { Footer as FooterAuth } from "../../components/Auth";
-import { useNavigate } from "react-router-dom";
+import { authStepAnimation } from "../../utils/animation";
 
 export default function Photos() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      <div>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={authStepAnimation}
+      >
         <div>
           <button className="w-full h-32 bg-@sura-primary-200 grid place-items-center">
             <img src="/icons/camera-icons.svg" alt="" />
@@ -20,9 +29,9 @@ export default function Photos() {
 
         <div className="px-5 py-2">
           <Text className="text-xl font-medium text-@sura-primary-900">
-            Lucas Lamas
+            {state.fullname}
           </Text>
-          <Text className="">@lucas_lamas</Text>
+          <Text className="">@{state.username}</Text>
         </div>
 
         <div className="px-5 py-3">
@@ -44,7 +53,7 @@ export default function Photos() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <div className="grid items-end h-full">
         <FooterAuth

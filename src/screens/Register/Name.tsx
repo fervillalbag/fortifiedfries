@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import { WindowSizeContext } from "../../context";
 import {
@@ -14,6 +15,7 @@ import {
   NURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../../utils/constants";
+import { authStepAnimation } from "../../utils/animation";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -60,22 +62,29 @@ export default function Name() {
           errors,
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
-            <Input
-              data-test="register-input-name"
-              placeholder="Ej: Lucas Lamas"
-              value={values.fullname}
-              onChange={handleChange("fullname")}
-              onBlur={handleBlur("fullname")}
-            />
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={authStepAnimation}
+            >
+              <Input
+                data-test="register-input-name"
+                placeholder="Ej: Lucas Lamas"
+                value={values.fullname}
+                onChange={handleChange("fullname")}
+                onBlur={handleBlur("fullname")}
+              />
 
-            {errors.fullname && (
-              <Text
-                data-test="register-feedback-error"
-                className="text-red-500 mt-2"
-              >
-                {errors.fullname as string}
-              </Text>
-            )}
+              {errors.fullname && (
+                <Text
+                  data-test="register-feedback-error"
+                  className="text-red-500 mt-2"
+                >
+                  {errors.fullname as string}
+                </Text>
+              )}
+            </motion.div>
 
             <FooterAuth
               footerText="Ya tienes una cuenta?"
@@ -85,7 +94,7 @@ export default function Name() {
             >
               <Button
                 type="button"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/register")}
                 variant="outline"
               >
                 Volver
