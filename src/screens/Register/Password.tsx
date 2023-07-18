@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
 
 import {
   Header as HeaderAuth,
@@ -15,6 +16,10 @@ import { Alert, Button, Input, Text, inputVariants } from "../../ui";
 import { useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { getAllTypesOfUsers, registerUser } from "../../services";
+import {
+  authStepAnimation,
+  authStepAnimationDelaySm,
+} from "../../utils/animation";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -113,42 +118,56 @@ const Password: React.FC = () => {
           errors,
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
-            <Input
-              data-test="register-input-password"
-              type="password"
-              value={values.password}
-              onChange={handleChange("password")}
-              onBlur={handleBlur("password")}
-              placeholder="nueva contrasena"
-            />
-            {errors.password && (
-              <Text
-                data-test="register-feedback-error"
-                className="text-red-500 my-2"
-              >
-                {errors.password as string}
-              </Text>
-            )}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={authStepAnimation}
+            >
+              <Input
+                data-test="register-input-password"
+                type="password"
+                value={values.password}
+                onChange={handleChange("password")}
+                onBlur={handleBlur("password")}
+                placeholder="nueva contrasena"
+              />
+              {errors.password && (
+                <Text
+                  data-test="register-feedback-error"
+                  className="text-red-500 my-2"
+                >
+                  {errors.password as string}
+                </Text>
+              )}
+            </motion.div>
 
-            <Input
-              data-test="register-input-confirm-password"
-              type="password"
-              className={inputVariants({
-                className: "mt-4",
-              })}
-              value={values.confirmPassword}
-              onChange={handleChange("confirmPassword")}
-              onBlur={handleBlur("confirmPassword")}
-              placeholder="confirme su contrasena"
-            />
-            {errors.confirmPassword && (
-              <Text
-                data-test="register-feedback-error-confirmPassword"
-                className="text-red-500 my-2"
-              >
-                {errors.confirmPassword as string}
-              </Text>
-            )}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={authStepAnimationDelaySm}
+            >
+              <Input
+                data-test="register-input-confirm-password"
+                type="password"
+                className={inputVariants({
+                  className: "mt-4",
+                })}
+                value={values.confirmPassword}
+                onChange={handleChange("confirmPassword")}
+                onBlur={handleBlur("confirmPassword")}
+                placeholder="confirme su contrasena"
+              />
+              {errors.confirmPassword && (
+                <Text
+                  data-test="register-feedback-error-confirmPassword"
+                  className="text-red-500 my-2"
+                >
+                  {errors.confirmPassword as string}
+                </Text>
+              )}
+            </motion.div>
 
             <FooterAuth
               footerText="Ya tienes una cuenta?"

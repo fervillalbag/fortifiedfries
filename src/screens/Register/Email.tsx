@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
+import { motion } from "framer-motion";
 
 import {
   Footer as FooterAuth,
@@ -15,6 +16,7 @@ import {
   authInitialValue,
 } from "../../utils/constants";
 import { useLocalStorageState } from "../../hooks/useAuth";
+import { authStepAnimation } from "../../utils/animation";
 
 const registerValidationSchema = yup.object().shape({
   email: yup
@@ -64,22 +66,29 @@ const Email: React.FC = () => {
           errors,
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
-            <Input
-              data-test="register-input-email"
-              placeholder="Ej: lucas@gmail.com"
-              value={values.email}
-              onChange={handleChange("email")}
-              onBlur={handleBlur("email")}
-            />
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={authStepAnimation}
+            >
+              <Input
+                data-test="register-input-email"
+                placeholder="Ej: lucas@gmail.com"
+                value={values.email}
+                onChange={handleChange("email")}
+                onBlur={handleBlur("email")}
+              />
 
-            {errors.email && (
-              <Text
-                data-test="register-feedback-error"
-                className="text-red-500 mt-2"
-              >
-                {errors.email as string}
-              </Text>
-            )}
+              {errors.email && (
+                <Text
+                  data-test="register-feedback-error"
+                  className="text-red-500 mt-2"
+                >
+                  {errors.email as string}
+                </Text>
+              )}
+            </motion.div>
 
             <FooterAuth
               footerText="Ya tienes una cuenta?"

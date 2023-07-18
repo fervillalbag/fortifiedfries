@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+
 import { Button, buttonVariants } from "../ui";
+import { authStepAnimation } from "../utils/animation";
 
 interface SelectProps {
   options: any[];
@@ -31,28 +34,39 @@ const Select: React.FC<SelectProps> = ({
         />
       )}
 
-      <Button
-        data-test="register-button-select-gender"
-        className={buttonVariants({
-          variant: "outline",
-          className: `font-normal text-base flex justify-between px-5 ${
-            value ? "text@sura-primary" : "text-@sura-text"
-          }`,
-        })}
-        onClick={() => {
-          setTextError(null);
-          setShowOptions(!showOptions);
-        }}
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={authStepAnimation}
       >
-        {itemSelected ? itemSelected : placeholder ? placeholder : ""}
-        <img
-          src="/icons/arrow-down.svg"
-          alt=""
-          className={`${
-            showOptions ? "rotate-180" : ""
-          } transition-all duration-300`}
-        />
-      </Button>
+        <Button
+          data-test="register-button-select-gender"
+          className={buttonVariants({
+            variant: "outline",
+            className: `font-normal text-base flex justify-between px-5 ${
+              value ? "text@sura-primary" : "text-@sura-text"
+            }`,
+          })}
+          onClick={() => {
+            setTextError(null);
+            setShowOptions(!showOptions);
+          }}
+        >
+          {itemSelected
+            ? itemSelected
+            : placeholder
+            ? placeholder
+            : ""}
+          <img
+            src="/icons/arrow-down.svg"
+            alt=""
+            className={`${
+              showOptions ? "rotate-180" : ""
+            } transition-all duration-300`}
+          />
+        </Button>
+      </motion.div>
 
       <div
         className={`border-2 border-b-4 border-@sura-border ${
