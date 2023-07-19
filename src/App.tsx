@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 
 import { WindowSizeProvider } from "./context";
 import AppRoute from "./routes";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 function App() {
   const queryClient = new QueryClient({
@@ -18,10 +19,12 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <WindowSizeProvider>
-        <AppRoute />
-        <Toaster position="top-center" reverseOrder={false} />
-      </WindowSizeProvider>
+      <LazyMotion strict features={domAnimation}>
+        <WindowSizeProvider>
+          <AppRoute />
+          <Toaster position="top-center" reverseOrder={false} />
+        </WindowSizeProvider>
+      </LazyMotion>
     </QueryClientProvider>
   );
 }

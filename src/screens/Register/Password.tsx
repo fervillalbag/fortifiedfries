@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import { toast } from "react-hot-toast";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import {
   Header as HeaderAuth,
@@ -115,7 +115,7 @@ const Password: React.FC = () => {
           errors,
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
-            <motion.div
+            <m.div
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -137,9 +137,9 @@ const Password: React.FC = () => {
                   {errors.password as string}
                 </Text>
               )}
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -164,7 +164,7 @@ const Password: React.FC = () => {
                   {errors.confirmPassword as string}
                 </Text>
               )}
-            </motion.div>
+            </m.div>
 
             <FooterAuth
               footerText="Ya tienes una cuenta?"

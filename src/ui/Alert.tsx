@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 interface AlertProps {
@@ -5,6 +6,7 @@ interface AlertProps {
   description?: string;
   t: any;
   type: "error" | "success";
+  duration?: number;
 }
 
 export default function Alert({
@@ -12,7 +14,14 @@ export default function Alert({
   description,
   t,
   type,
+  duration,
 }: AlertProps) {
+  useEffect(() => {
+    setTimeout(() => {
+      toast.dismiss(t.id);
+    }, duration);
+  }, []);
+
   return (
     <div
       className={`${
