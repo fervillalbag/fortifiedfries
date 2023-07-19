@@ -4,6 +4,7 @@ import { m } from "framer-motion";
 import { Button, Text } from "../../ui";
 import { Footer as FooterAuth } from "../../components/Auth";
 import { authStepAnimation } from "../../utils/animation";
+import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 
 export default function Photos() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function Photos() {
 
   const handleComplete = async () => {
     try {
+      localStorage.removeItem(NURA_AUTH_REGISTER_INFO);
       navigate("/home");
     } catch (error) {
       console.log(error);
