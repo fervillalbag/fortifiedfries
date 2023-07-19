@@ -33,6 +33,7 @@ const Email: React.FC = () => {
   const { windowSize } = useContext(WindowSizeContext);
 
   const [userInfoValue] = useState<any>(authInitialValue);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [initialValues, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -41,10 +42,12 @@ const Email: React.FC = () => {
 
   const handleNext = async (values: any) => {
     handleUpdateForm(values);
+    setLoading(true);
 
     const response = await getUser("email", values.email);
 
     if (response?.data) {
+      setLoading(false);
       return toast.custom(
         (t) => (
           <Alert
@@ -59,6 +62,7 @@ const Email: React.FC = () => {
       );
     }
 
+    setLoading(false);
     navigate("/register-gender");
   };
 
@@ -124,6 +128,7 @@ const Email: React.FC = () => {
                 Volver
               </Button>
               <Button
+                isLoading={loading}
                 data-test="register-button-submit"
                 type="submit"
               >
