@@ -42,8 +42,6 @@ const Gender: React.FC = () => {
     navigate("/register-password");
   };
 
-  console.log(windowSize.innerHeight);
-
   return (
     <div className={`h-[${windowSize.innerHeight}px]`}>
       <HeaderAuth
@@ -59,6 +57,7 @@ const Gender: React.FC = () => {
           setValue={setGenderSelected}
           setTextError={setTextError}
           placeholder="Seleccione una opcion"
+          animation
         />
         {textError && !genderSelected && (
           <Text
