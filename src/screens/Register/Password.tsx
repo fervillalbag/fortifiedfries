@@ -20,6 +20,7 @@ import {
   authStepAnimation,
   authStepAnimationDelaySm,
 } from "../../utils/animation";
+import { NURA_AUTH_TOKEN } from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -72,7 +73,12 @@ const Password: React.FC = () => {
             t={t}
           />
         ));
+
         handleUpdateForm({ username: dataToRegisterUser.username });
+        localStorage.setItem(
+          NURA_AUTH_TOKEN,
+          response?.data.toString()
+        );
         navigate("/register-username");
         setLoading(false);
       }
