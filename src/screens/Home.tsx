@@ -1,8 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import { HeaderGallery, CardProduct } from "../components/Home";
+import {
+  HeaderGallery,
+  CardProduct,
+  ModalLogin,
+} from "../components/Home";
 import { Button, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
+import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
 
 const headerImages = [
   {
@@ -78,12 +83,23 @@ const products = [
 ];
 
 const Home: React.FC = () => {
+  const [showModalLogin, setShowModalLogin] =
+    useState<boolean>(false);
+
   const [categorySelected, setCategorySelected] =
     useState<string>("1");
   const { windowSize } = useContext(WindowSizeContext);
 
+  useEffect(() => {
+    localStorage.getItem(NURA_AUTH_TOKEN)
+      ? setShowModalLogin(false)
+      : setShowModalLogin(true);
+  }, []);
+
   return (
     <div>
+      <ModalLogin show={showModalLogin} setShow={setShowModalLogin} />
+
       <div className="p-5">
         <HeaderGallery data={headerImages} />
       </div>
