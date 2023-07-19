@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import {
   Footer as FooterAuth,
@@ -66,7 +66,7 @@ const Email: React.FC = () => {
           errors,
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
-            <motion.div
+            <m.div
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -88,7 +88,7 @@ const Email: React.FC = () => {
                   {errors.email as string}
                 </Text>
               )}
-            </motion.div>
+            </m.div>
 
             <FooterAuth
               footerText="Ya tienes una cuenta?"

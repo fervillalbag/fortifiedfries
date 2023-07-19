@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import { Button, buttonVariants } from "../ui";
 import { authStepAnimation } from "../utils/animation";
@@ -34,7 +34,7 @@ const Select: React.FC<SelectProps> = ({
         />
       )}
 
-      <motion.div
+      <m.div
         initial="hidden"
         animate="visible"
         exit="exit"
@@ -66,7 +66,7 @@ const Select: React.FC<SelectProps> = ({
             } transition-all duration-300`}
           />
         </Button>
-      </motion.div>
+      </m.div>
 
       <div
         className={`border-2 border-b-4 border-@sura-border ${

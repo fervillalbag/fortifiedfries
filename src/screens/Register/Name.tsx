@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import { WindowSizeContext } from "../../context";
 import {
@@ -62,7 +62,7 @@ export default function Name() {
           errors,
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
-            <motion.div
+            <m.div
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -84,7 +84,7 @@ export default function Name() {
                   {errors.fullname as string}
                 </Text>
               )}
-            </motion.div>
+            </m.div>
 
             <FooterAuth
               footerText="Ya tienes una cuenta?"

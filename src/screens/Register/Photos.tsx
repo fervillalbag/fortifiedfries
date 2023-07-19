@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import { Button, Text } from "../../ui";
 import { Footer as FooterAuth } from "../../components/Auth";
@@ -19,7 +19,7 @@ export default function Photos() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      <motion.div
+      <m.div
         initial="hidden"
         animate="visible"
         exit="exit"
@@ -65,7 +65,7 @@ export default function Photos() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </m.div>
 
       <div className="grid items-end h-full">
         <FooterAuth

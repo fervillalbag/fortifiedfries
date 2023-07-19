@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
@@ -46,14 +46,18 @@ export default function Username() {
       const response = await updateUser(user?.id, usernameUpdated);
 
       if (response?.status === 200) {
-        toast.custom((t) => (
-          <Alert
-            type="success"
-            title="Excelente!"
-            description="Datos actualizados."
-            t={t}
-          />
-        ));
+        toast.custom(
+          (t) => (
+            <Alert
+              type="success"
+              title="Excelente!"
+              description="Datos actualizados."
+              t={t}
+              duration={2000}
+            />
+          ),
+          { duration: 4000 }
+        );
         handleUpdateForm(values);
         navigate("/register-photos", {
           state: {
@@ -101,7 +105,7 @@ export default function Username() {
           errors,
         }) => (
           <form className="p-5" onSubmit={handleSubmit}>
-            <motion.div
+            <m.div
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -123,7 +127,7 @@ export default function Username() {
                   {errors.username as string}
                 </Text>
               )}
-            </motion.div>
+            </m.div>
 
             <FooterAuth
               footerText="Ya tienes una cuenta?"
