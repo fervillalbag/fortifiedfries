@@ -42,8 +42,6 @@ const Gender: React.FC = () => {
     navigate("/register-password");
   };
 
-  console.log(windowSize.innerHeight);
-
   return (
     <div className={`h-[${windowSize.innerHeight}px]`}>
       <HeaderAuth
