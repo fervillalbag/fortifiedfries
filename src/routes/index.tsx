@@ -1,39 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Root from "../screens/Root";
-import {
-  Gender,
-  Password,
-  Principal,
-  Email,
-  Name,
-  Username,
-  Photos,
-} from "../screens/Register";
-import { Email as EmailLogin } from "../screens/Login";
 import { Home, NotFound } from "../screens";
+import {
+  LIST_ROUTES_AUTHENTICATED,
+  LIST_ROUTES_UNAUTHENTICATED,
+} from "./list";
+import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
 
 const AppRoute: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<
+    boolean | null
+  >(null);
+
+  useEffect(() => {
+    setIsAuthenticated(
+      localStorage.getItem(NURA_AUTH_TOKEN) ? true : false
+    );
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Root />} />
-        <Route path="/home" element={<Home />} />
+    <>
+      {isAuthenticated === null && (
+        <div className="fixed grid place-items-center w-screen h-screen top-0 left-0 bg-slate-50">
+          Cargando..
+        </div>
+      )}
 
-        <Route path="/register" element={<Principal />} />
-        <Route path="/register-name" element={<Name />} />
-        <Route path="/register-email" element={<Email />} />
-        <Route path="/register-gender" element={<Gender />} />
-        <Route path="/register-password" element={<Password />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/home" element={<Home />} />
 
-        <Route path="/login-email" element={<EmailLogin />} />
-        <Route path="/register-username" element={<Username />} />
-        <Route path="/register-photos" element={<Photos />} />
+          {!isAuthenticated
+            ? LIST_ROUTES_UNAUTHENTICATED.map((route) => (
+                <Route
+                  key={route.id}
+                  path={route.path}
+                  element={<route.component />}
+                />
+              ))
+            : LIST_ROUTES_AUTHENTICATED.map((route) => (
+                <Route
+                  key={route.id}
+                  path={route.path}
+                  element={<route.component />}
+                />
+              ))}
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 
