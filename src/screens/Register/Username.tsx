@@ -112,7 +112,7 @@ export default function Username() {
               variants={authStepAnimation}
             >
               <Input
-                data-test="register-input-name"
+                data-test="register-input-username"
                 placeholder="Ej: lucas_lamas"
                 value={values.username}
                 onChange={handleChange("username")}

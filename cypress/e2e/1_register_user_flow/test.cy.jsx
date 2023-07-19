@@ -5,7 +5,7 @@ const { customAlphabet } = require("nanoid");
 const customValuesEntry = "123456789abcdefghijkl";
 const nanoCustom = customAlphabet(customValuesEntry, 6);
 
-const testWithEmailAlready = !true;
+const testWithEmailAlready = !!true;
 
 const emailAlready = "fer@correo.com";
 const newEmail = `${nanoCustom()}@correo.com`;
@@ -86,6 +86,14 @@ const registerPasswordValidation = () => {
   cy.get("[data-test='register-button-submit']").click();
 };
 
+const registerUsernameValidation = () => {
+  cy.get("[data-test='register-input-username']").clear();
+  cy.get("[data-test='register-button-submit']").click();
+  cy.get("[data-test='register-alert-feedback']").contains(
+    "El nombre de usuario ya está en uso por otro usuario"
+  );
+};
+
 describe("start app", () => {
   it("correctly works root screen", () => {
     startRootAppTesting();
@@ -122,5 +130,15 @@ describe("All validations register", () => {
     registerEmailValidation();
     registerGenderValidation();
     registerPasswordValidation();
+  });
+
+  it("Username validations", () => {
+    registerFullnameValidation();
+    registerEmailValidation();
+    registerGenderValidation();
+    registerPasswordValidation();
+
+    if (emailAlready) return;
+    registerUsernameValidation();
   });
 });
