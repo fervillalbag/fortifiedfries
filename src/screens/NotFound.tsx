@@ -1,10 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Text, buttonVariants, textVariants } from "../ui";
 import { WindowSizeContext } from "../context";
+import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
 
 const NotFound: React.FC = () => {
   const { windowSize } = useContext(WindowSizeContext);
+
+  const [isAuthenticated, setIsAuthenticated] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    setIsAuthenticated(
+      localStorage.getItem(NURA_AUTH_TOKEN) ? true : false
+    );
+  }, []);
 
   return (
     <div
@@ -19,7 +29,7 @@ const NotFound: React.FC = () => {
         No se encontraron resultados
       </Text>
       <Link
-        to="/"
+        to={isAuthenticated ? "/home" : "/"}
         className={buttonVariants({
           variant: "outline",
         })}
