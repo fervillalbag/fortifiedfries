@@ -10,6 +10,7 @@ interface SelectProps {
   setValue: (value: string) => void;
   setTextError: (value: string | null) => void;
   placeholder?: string;
+  animation?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -17,6 +18,7 @@ const Select: React.FC<SelectProps> = ({
   value,
   setValue,
   setTextError,
+  animation = false,
   placeholder,
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
@@ -35,8 +37,8 @@ const Select: React.FC<SelectProps> = ({
       )}
 
       <m.div
-        initial="hidden"
-        animate="visible"
+        initial={animation ? "hidden" : ""}
+        animate={animation ? "visible" : ""}
         exit="exit"
         variants={authStepAnimation}
       >

@@ -57,6 +57,7 @@ const Gender: React.FC = () => {
           setValue={setGenderSelected}
           setTextError={setTextError}
           placeholder="Seleccione una opcion"
+          animation
         />
         {textError && !genderSelected && (
           <Text
