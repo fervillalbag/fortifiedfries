@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
-const { customAlphabet } = require("nanoid");
+const { customAlphabet, nanoid } = require("nanoid");
 
 const customValuesEntry = "123456789abcdefghijkl";
-const nanoCustom = customAlphabet(customValuesEntry, 6);
+const nanoCustom = customAlphabet(customValuesEntry, 12);
 
-const testWithEmailAlready = !true;
+const testWithEmailAlready = !!true;
 
 const emailAlready = "fer@correo.com";
 const newEmail = `${nanoCustom()}@correo.com`;
@@ -63,6 +63,9 @@ const registerGenderValidation = () => {
 };
 
 const registerPasswordValidation = () => {
+  cy.get("[data-test='register-input-password']").clear();
+  cy.get("[data-test='register-input-confirm-password']").clear();
+
   cy.get("[data-test='register-button-submit']").click();
   cy.get("[data-test='register-feedback-error']").contains(
     "La contrasena es obligatorio"
@@ -86,6 +89,19 @@ const registerPasswordValidation = () => {
   cy.get("[data-test='register-button-submit']").click();
 };
 
+const registerUsernameValidation = () => {
+  if (emailAlready) return;
+
+  cy.get("[data-test='register-input-username']").clear();
+  cy.get("[data-test='register-button-submit']").click();
+  cy.get("[data-test='register-alert-feedback']").contains(
+    "El nombre de usuario ya está en uso por otro usuario"
+  );
+
+  cy.get("[data-test='register-input-username']").type(nanoid(5));
+  cy.get("[data-test='register-button-submit']").click();
+};
+
 describe("start app", () => {
   it("correctly works root screen", () => {
     startRootAppTesting();
@@ -102,25 +118,13 @@ describe("All validations register", () => {
       .click();
   });
 
-  it("Fullname validations", () => {
-    registerFullnameValidation();
-  });
-
-  it("Email validations", () => {
-    registerFullnameValidation();
-    registerEmailValidation();
-  });
-
-  it("Gender validations", () => {
-    registerFullnameValidation();
-    registerEmailValidation();
-    registerGenderValidation();
-  });
-
-  it("Password validations", () => {
+  it("Register all forms validations", () => {
     registerFullnameValidation();
     registerEmailValidation();
     registerGenderValidation();
     registerPasswordValidation();
+
+    if (emailAlready) return;
+    registerUsernameValidation();
   });
 });
