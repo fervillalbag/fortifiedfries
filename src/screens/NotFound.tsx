@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { Text, buttonVariants } from "../ui";
-import { WindowSizeContext } from "../context";
 import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
+import { useHeight } from "../hooks";
 
 const NotFound: React.FC = () => {
-  const { windowSize } = useContext(WindowSizeContext);
 
   const [isAuthenticated, setIsAuthenticated] =
     useState<boolean>(false);
@@ -16,9 +16,12 @@ const NotFound: React.FC = () => {
     );
   }, []);
 
+  const stylesHeight = useHeight();
+
   return (
     <div
-      className={`h-[${windowSize.innerHeight}px] overflow-hidden grid grid-rows-[1fr_88px]`}
+      style={stylesHeight}
+      className={`bg-red-200 overflow-hidden grid grid-rows-[1fr_88px]`}
     >
       <div className="h-full grid content-center place-items-center">
         <img src="/icons/404.svg" alt="" />
