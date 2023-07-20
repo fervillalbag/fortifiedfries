@@ -18,7 +18,7 @@ const NotFound: React.FC = () => {
 
   return (
     <div
-      className={`h-[${windowSize.innerHeight}px] overflow-hidden grid grid-rows-[1fr_88px] h-screen`}
+      className={`h-[${windowSize.innerHeight}px] overflow-hidden grid grid-rows-[1fr_88px]`}
     >
       <div className="h-full grid content-center place-items-center">
         <img src="/icons/404.svg" alt="" />
