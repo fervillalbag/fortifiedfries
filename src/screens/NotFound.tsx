@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Text, buttonVariants, textVariants } from "../ui";
+import { Text, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
 import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
 
@@ -18,24 +18,30 @@ const NotFound: React.FC = () => {
 
   return (
     <div
-      className={`h-[${windowSize.innerHeight}px] overflow-hidden p-5 grid place-items-center h-screen content-center`}
+      className={`h-[${windowSize.innerHeight}px] overflow-hidden grid grid-rows-[1fr_88px] h-screen`}
     >
-      <Text
-        className={textVariants({
-          variant: "heading",
-          className: "text-center mb-3",
-        })}
-      >
-        No se encontraron resultados
-      </Text>
-      <Link
-        to={isAuthenticated ? "/home" : "/"}
-        className={buttonVariants({
-          variant: "outline",
-        })}
-      >
-        Volver al inicio
-      </Link>
+      <div className="h-full grid content-center place-items-center">
+        <img src="/icons/404.svg" alt="" />
+        <div className="px-5">
+          <Text className="text-2xl text-center text-@sura-primary-900">
+            No se encontraron resultados
+          </Text>
+          <Text className="text-@sura-primary-700 text-center mt-2">
+            La página que buscas no ha sido encontrada. Te sugerimos
+            revisar la URL o volver a la página de inicio.
+          </Text>
+        </div>
+      </div>
+      <div className="px-5 h-full">
+        <Link
+          to={isAuthenticated ? "/home" : "/"}
+          className={buttonVariants({
+            variant: "outline",
+          })}
+        >
+          Volver al inicio
+        </Link>
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ export default function Photos() {
 
   const handleComplete = async () => {
     try {
-      localStorage.removeItem(NURA_AUTH_REGISTER_INFO);
+      localStorage.setItem(NURA_AUTH_REGISTER_INFO, "");
       navigate("/home");
     } catch (error) {
       console.log(error);
