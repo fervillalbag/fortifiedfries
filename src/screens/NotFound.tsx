@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Text, buttonVariants, textVariants } from "../ui";
+import { Text, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
 import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
 
