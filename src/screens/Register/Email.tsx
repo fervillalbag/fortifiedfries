@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
@@ -9,7 +9,6 @@ import {
   Header as HeaderAuth,
 } from "../../components/Auth";
 import { Alert, Button, Input, Text } from "../../ui";
-import { WindowSizeContext } from "../../context";
 import { mailformat } from "../../utils/regex";
 import {
   NURA_AUTH_REGISTER_INFO,
@@ -19,6 +18,7 @@ import { useLocalStorageState } from "../../hooks/useAuth";
 import { authStepAnimation } from "../../utils/animation";
 import { getUser } from "../../services";
 import { toast } from "react-hot-toast";
+import { useHeight } from "../../hooks";
 
 const registerValidationSchema = yup.object().shape({
   email: yup
@@ -30,7 +30,7 @@ const registerValidationSchema = yup.object().shape({
 
 const Email: React.FC = () => {
   const navigate = useNavigate();
-  const { windowSize } = useContext(WindowSizeContext);
+  const styleHeight = useHeight();
 
   const [userInfoValue] = useState<any>(authInitialValue);
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,7 +67,7 @@ const Email: React.FC = () => {
   };
 
   return (
-    <div className={`h-[${windowSize.innerHeight}]px`}>
+    <div style={styleHeight}>
       <HeaderAuth
         image="/images/bg-register-email.jpg"
         title=""

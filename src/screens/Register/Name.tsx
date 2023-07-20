@@ -1,16 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { m } from "framer-motion";
 
-import { WindowSizeContext } from "../../context";
 import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { Button, Input, Text } from "../../ui";
-import { useLocalStorageState } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import {
   NURA_AUTH_REGISTER_INFO,
   authInitialValue,
@@ -25,8 +24,8 @@ const registerValidationSchema = yup.object().shape({
 
 export default function Name() {
   const navigate = useNavigate();
-  const { windowSize } = useContext(WindowSizeContext);
   const [userInfoValue] = useState<any>(authInitialValue);
+  const styleHeight = useHeight();
 
   const [initialValues, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -39,7 +38,7 @@ export default function Name() {
   };
 
   return (
-    <div className={`h-[${windowSize.innerHeight}]px`}>
+    <div style={styleHeight}>
       <HeaderAuth
         image="/images/bg-register-fullname.jpg"
         title=""
