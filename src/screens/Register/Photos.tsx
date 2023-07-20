@@ -5,10 +5,12 @@ import { Button, Text } from "../../ui";
 import { Footer as FooterAuth } from "../../components/Auth";
 import { authStepAnimation } from "../../utils/animation";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { useHeight } from "../../hooks";
 
 export default function Photos() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const styleHeight = useHeight();
 
   const handleComplete = async () => {
     try {
@@ -20,7 +22,10 @@ export default function Photos() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div
+      style={styleHeight}
+      className="flex flex-col h-screen overflow-hidden"
+    >
       <m.div
         initial="hidden"
         animate="visible"

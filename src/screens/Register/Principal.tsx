@@ -1,16 +1,15 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Button, Text, buttonVariants, textVariants } from "../../ui";
 import { Link, useNavigate } from "react-router-dom";
-import { WindowSizeContext } from "../../context";
 import {
   NURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../../utils/constants";
-import { useLocalStorageState } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 
 const RegisterPrincipal = () => {
   const navigate = useNavigate();
-  const { windowSize } = useContext(WindowSizeContext);
+  const stylesHeight = useHeight();
 
   const [_, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -21,7 +20,7 @@ const RegisterPrincipal = () => {
   }, []);
 
   return (
-    <div className={`h-[${windowSize.innerHeight}px]`}>
+    <div style={stylesHeight}>
       <div className="relative h-[60vh]">
         <img
           src="/images/bg-auth.png"

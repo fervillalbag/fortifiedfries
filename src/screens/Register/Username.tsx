@@ -12,7 +12,7 @@ import {
 } from "../../components/Auth";
 import { Alert, Button, Input, Text } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
-import { useLocalStorageState } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { getUser, updateUser } from "../../services/user";
 
@@ -24,6 +24,7 @@ const registerValidationSchema = yup.object().shape({
 
 export default function Username() {
   const navigate = useNavigate();
+  const styleHeight = useHeight();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -82,7 +83,7 @@ export default function Username() {
   };
 
   return (
-    <div>
+    <div style={styleHeight}>
       <HeaderAuth
         image="/images/bg-register-username.jpg"
         title=""

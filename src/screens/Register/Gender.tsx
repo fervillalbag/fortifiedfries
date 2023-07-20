@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -7,14 +7,13 @@ import {
   Header as HeaderAuth,
 } from "../../components/Auth";
 import { Button, Select, Text } from "../../ui";
-import { WindowSizeContext } from "../../context";
-import { useLocalStorageState } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { getAllGendersUser } from "../../services";
 
 const Gender: React.FC = () => {
   const navigate = useNavigate();
-  const { windowSize } = useContext(WindowSizeContext);
+  const styleHeight = useHeight();
 
   const [initialValues, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -43,7 +42,7 @@ const Gender: React.FC = () => {
   };
 
   return (
-    <div className={`h-[${windowSize.innerHeight}px]`}>
+    <div style={styleHeight}>
       <HeaderAuth
         image="/images/bg-register-gender.jpg"
         title=""

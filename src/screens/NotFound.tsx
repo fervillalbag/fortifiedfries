@@ -21,7 +21,7 @@ const NotFound: React.FC = () => {
   return (
     <div
       style={stylesHeight}
-      className={`bg-red-200 overflow-hidden grid grid-rows-[1fr_88px]`}
+      className={`overflow-hidden grid grid-rows-[1fr_88px]`}
     >
       <div className="h-full grid content-center place-items-center">
         <img src="/icons/404.svg" alt="" />

@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button, Text, textVariants } from "../ui";
-import { WindowSizeContext } from "../context";
+import { useHeight } from "../hooks";
 
 const Root: React.FC = () => {
   const navigate = useNavigate();
-  const { windowSize } = useContext(WindowSizeContext);
+  const stylesHeight = useHeight();
 
   return (
-    <div className={`h-[${windowSize}px]`}>
+    <div style={stylesHeight}>
       <div className="relative h-[60vh]">
         <img
           src="/images/bg-auth.png"
