@@ -9,12 +9,14 @@ import {
   Username,
   Photos,
 } from "../screens/Register";
-import Root from "../screens/Root";
+
+import { Root as RootRegister } from "../screens";
+import { Root as RootSearch } from "../screens/Search";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
     id: nanoid(3),
-    component: Root,
+    component: RootRegister,
     path: "/",
   },
   {
@@ -59,5 +61,10 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: Home,
     path: "/home",
+  },
+  {
+    id: nanoid(3),
+    component: RootSearch,
+    path: "/search",
   },
 ];
