@@ -8,6 +8,7 @@ import {
 import { Button, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
 import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
+import { Layout } from "../components";
 
 const headerImages = [
   {
@@ -97,7 +98,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <Layout>
       <ModalLogin show={showModalLogin} setShow={setShowModalLogin} />
 
       <div className="p-5">
@@ -134,7 +135,7 @@ const Home: React.FC = () => {
           <CardProduct key={product.id} product={product} />
         ))}
       </div>
-    </div>
+    </Layout>
   );
 };
 

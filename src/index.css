@@ -56,3 +56,11 @@
     transform: rotate(360deg);
   }
 }
+
+.link-active path {
+  fill: #1c2331;
+}
+
+.link-inactive path {
+  fill: #a9abb0;
+}
