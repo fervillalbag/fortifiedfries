@@ -18,6 +18,7 @@ export default function Navbar() {
             className="w-6 text-center bg-transparent grid place-items-center"
           >
             <link.icon
+              // className="w-8 h-8"
               className={
                 pathname === link.route
                   ? "link-active"
