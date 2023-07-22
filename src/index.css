@@ -57,6 +57,12 @@
   }
 }
 
+.link-active,
+.link-inactive {
+  width: 28px;
+  height: 28px;
+}
+
 .link-active path {
   fill: #1c2331;
 }

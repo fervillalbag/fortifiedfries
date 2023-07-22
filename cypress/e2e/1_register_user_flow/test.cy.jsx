@@ -5,7 +5,7 @@ const { customAlphabet, nanoid } = require("nanoid");
 const customValuesEntry = "123456789abcdefghijkl";
 const nanoCustom = customAlphabet(customValuesEntry, 12);
 
-const testWithEmailAlready = !!true;
+const testWithEmailAlready = !true;
 
 const emailAlready = "fer@correo.com";
 const newEmail = `${nanoCustom()}@correo.com`;
