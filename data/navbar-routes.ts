@@ -3,7 +3,7 @@ import {
   PlusCircleIcon,
   ChatBubbleLeftIcon,
   UserCircleIcon,
-  MagnifyingGlassPlusIcon,
+  ShoppingBagIcon,
 } from "@heroicons/react/24/solid";
 
 export const NAVBAR_ROUTES = [
@@ -14,7 +14,7 @@ export const NAVBAR_ROUTES = [
   },
   {
     id: 2,
-    icon: MagnifyingGlassPlusIcon,
+    icon: ShoppingBagIcon,
     route: "/search",
   },
   {

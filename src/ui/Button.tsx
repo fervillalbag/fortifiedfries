@@ -11,6 +11,7 @@ interface IButton
   to?: string;
   icon?: string;
   isLoading?: boolean;
+  sizeIcon?: string;
 }
 
 export const buttonVariants = cva(
@@ -22,7 +23,7 @@ export const buttonVariants = cva(
           "text-white bg-@sura-primary-900 border-2 border-@sura-primary-900",
         outline:
           "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 focus:ring-@sura-primary-200 focus:border-@sura-primary-200",
-        icon: "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 flex items-center justify-center focus:ring-@sura-primary-200 focus:border-@sura-primary-200",
+        icon: `bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 flex items-center justify-center focus:ring-@sura-primary-200 focus:border-@sura-primary-200`,
         link: "appearance-none bg-white ring-0 font-normal inline text-base w-max h-max focus:ring-transparent focus:border-transparent",
       },
       size: {
@@ -47,6 +48,7 @@ const Button = forwardRef<HTMLButtonElement, IButton>(
       size,
       icon,
       isLoading,
+      sizeIcon,
       ...props
     },
     ref
@@ -73,7 +75,9 @@ const Button = forwardRef<HTMLButtonElement, IButton>(
           <img
             src={`/icons/${icon}.svg`}
             alt=""
-            className="w-9 h-9 object-contain mr-2"
+            className={`${
+              sizeIcon ? `w-[${sizeIcon}] h-[${sizeIcon}]` : "w-9 h-9"
+            } object-contain mr-2`}
           />
           {children}
         </button>
