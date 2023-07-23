@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   QueryClient,
   QueryClientProvider,
@@ -7,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { WindowSizeProvider } from "./context";
 import AppRoute from "./routes";
 import { LazyMotion, domAnimation } from "framer-motion";
+import { AuthenticatedContext } from "./context";
 
 function App() {
   const queryClient = new QueryClient({
@@ -17,11 +19,13 @@ function App() {
     },
   });
 
+  const { isAuthenticated } = useContext(AuthenticatedContext);
+
   return (
     <QueryClientProvider client={queryClient}>
       <LazyMotion strict features={domAnimation}>
         <WindowSizeProvider>
-          <AppRoute />
+          <AppRoute isAuthenticated={isAuthenticated} />
           <Toaster position="top-center" reverseOrder={false} />
         </WindowSizeProvider>
       </LazyMotion>

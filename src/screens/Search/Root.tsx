@@ -15,6 +15,7 @@ export default function Root() {
         <div className="mt-3 relative">
           <MagnifyingGlassIcon className="w-6 absolute text-@sura-primary-300 top-1/2 left-4 -translate-y-1/2" />
           <Input
+            placeholder="busca por nombre el producto"
             className={inputVariants({
               variant: "md",
               className: "h-12 pl-12",

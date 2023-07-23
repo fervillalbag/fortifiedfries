@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { m } from "framer-motion";
 
@@ -6,15 +7,19 @@ import { Footer as FooterAuth } from "../../components/Auth";
 import { authStepAnimation } from "../../utils/animation";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { useHeight } from "../../hooks";
+import { AuthenticatedContext } from "../../context";
 
 export default function Photos() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const styleHeight = useHeight();
 
+  const { isLogged, setIsLogged } = useContext(AuthenticatedContext);
+
   const handleComplete = async () => {
     try {
       localStorage.setItem(NURA_AUTH_REGISTER_INFO, "");
+      setIsLogged(!isLogged);
       navigate("/home");
     } catch (error) {
       console.log(error);

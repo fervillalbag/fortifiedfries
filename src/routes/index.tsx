@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Home, NotFound } from "../screens";
@@ -6,19 +5,12 @@ import {
   LIST_ROUTES_AUTHENTICATED,
   LIST_ROUTES_UNAUTHENTICATED,
 } from "./list";
-import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
 
-const AppRoute: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<
-    boolean | null
-  >(null);
+interface AppRouteProps {
+  isAuthenticated: boolean | null;
+}
 
-  useEffect(() => {
-    setIsAuthenticated(
-      localStorage.getItem(NURA_AUTH_TOKEN) ? true : false
-    );
-  }, []);
-
+export default function AppRoute({ isAuthenticated }: AppRouteProps) {
   return (
     <>
       {isAuthenticated === null && (
@@ -52,6 +44,4 @@ const AppRoute: React.FC = () => {
       </BrowserRouter>
     </>
   );
-};
-
-export default AppRoute;
+}

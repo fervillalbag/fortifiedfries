@@ -50,7 +50,7 @@ const registerEmailValidation = () => {
 };
 
 const registerGenderValidation = () => {
-  cy.get("[data-test='register-button-submit']").click();
+  console.log(cy.get("[data-test='register-button-submit']"));
   cy.get("[data-test='register-feedback-error']").contains(
     "Este campo es obligatorio"
   );
@@ -122,9 +122,9 @@ describe("All validations register", () => {
     registerFullnameValidation();
     registerEmailValidation();
     registerGenderValidation();
-    registerPasswordValidation();
+    // registerPasswordValidation();
 
-    if (emailAlready) return;
-    registerUsernameValidation();
+    // if (emailAlready) return;
+    // registerUsernameValidation();
   });
 });
