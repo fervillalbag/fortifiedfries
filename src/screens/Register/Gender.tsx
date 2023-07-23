@@ -58,14 +58,14 @@ const Gender: React.FC = () => {
           placeholder="Seleccione una opcion"
           animation
         />
-        {textError && !genderSelected && (
+        {textError ? (
           <Text
             data-test="register-feedback-error"
             className="text-red-500 mt-2"
           >
             {textError}
           </Text>
-        )}
+        ) : null}
 
         <FooterAuth
           footerText="Ya tienes una cuenta?"
