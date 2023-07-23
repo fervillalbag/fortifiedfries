@@ -7,11 +7,12 @@ interface InputProps
     VariantProps<typeof inputVariants> {}
 
 export const inputVariants = cva(
-  "px-4 focus-visible:border-@sura-primary-900 focus-visible:outline-transparent w-full border-2 border-@sura-primary-200 rounded-md h-16",
+  "px-4 focus-visible:border-@sura-primary-900 focus-visible:outline-transparent w-full border-2 border-@sura-primary-200 rounded-md",
   {
     variants: {
       variant: {
-        default: "",
+        default: "h-16",
+        md: "h-14",
       },
     },
     defaultVariants: {
