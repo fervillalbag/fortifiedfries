@@ -7,7 +7,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [showNavbar, setShowNavbar] = useState<boolean>(false);
+  const [showNavbar, setShowNavbar] = useState<boolean>(true);
 
   useEffect(() => {
     localStorage.getItem(NURA_AUTH_TOKEN)

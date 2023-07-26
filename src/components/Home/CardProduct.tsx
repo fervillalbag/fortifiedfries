@@ -8,7 +8,7 @@ interface CardProductProps {
 const CardProduct: React.FC<CardProductProps> = ({ product }) => {
   return (
     <div className="relative">
-      <button className="absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white">
+      <button className="absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
         <img
           src="/icons/heart-no-like.svg"
           alt=""

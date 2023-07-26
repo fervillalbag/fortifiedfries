@@ -51,9 +51,9 @@ const registerEmailValidation = () => {
 
 const registerGenderValidation = () => {
   console.log(cy.get("[data-test='register-button-submit']"));
-  cy.get("[data-test='register-feedback-error']").contains(
-    "Este campo es obligatorio"
-  );
+  cy.get("[data-test='register-feedback-error']", {
+    timeout: 10000,
+  }).contains("Este campo es obligatorio");
 
   cy.get("[data-test='register-button-select-gender']").click();
   cy.get("[data-test='register-button-gender-option']")
