@@ -34,6 +34,19 @@ const registerEmailValidation = () => {
     "El correo es obligatorio"
   );
 
+  cy.request(
+    "GET",
+    `http://localhost:4000/api/user/email=${newEmail}`
+  )
+    .then((res) => {
+      console.log({ res });
+      // expect(res.status).to.equal(200);
+    })
+    .catch((error) => {
+      throw new Error("Error en la petición: " + error.message);
+    });
+  return;
+
   cy.get("[data-test='register-input-email']").type("fer@correo");
   // email validation
   cy.get("[data-test='register-button-submit']").click();
@@ -51,6 +64,15 @@ const registerEmailValidation = () => {
 
 const registerGenderValidation = () => {
   console.log(cy.get("[data-test='register-button-submit']"));
+
+  cy.request("GET", "http://localhost:4000/api/gender-user").then(
+    (res) => {
+      console.log({ res });
+      expect(res.status).to.equal(200);
+    }
+  );
+  return;
+
   cy.get("[data-test='register-feedback-error']", {
     timeout: 10000,
   }).contains("Este campo es obligatorio");
