@@ -14,12 +14,23 @@ import { Root as RootRegister } from "../screens";
 import { Root as RootSearch } from "../screens/Search";
 import { RootProfile } from "../screens/Profile";
 import { RootSettings } from "../screens/Settings";
+import { LoginEmail, PasswordEmail } from "../screens/Login";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
     id: nanoid(3),
     component: RootRegister,
     path: "/",
+  },
+  {
+    id: nanoid(3),
+    component: LoginEmail,
+    path: "/login-email",
+  },
+  {
+    id: nanoid(3),
+    component: PasswordEmail,
+    path: "/login-password",
   },
   {
     id: nanoid(3),

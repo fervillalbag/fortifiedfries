@@ -1,1 +1,2 @@
-export { default as Email } from "./Email";
+export { default as LoginEmail } from "./Email";
+export { default as PasswordEmail } from "./Password";

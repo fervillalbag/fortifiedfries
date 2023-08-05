@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Text } from "../../ui";
 import { DotLastStep, DotStep } from "./";
+import DotStepLogin from "./DotStepLogin";
 
 interface FooterProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface FooterProps {
   routeText: string;
   routeLink: string;
   currentStep: number;
+  isLogin?: boolean;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -20,6 +22,7 @@ const Footer: React.FC<FooterProps> = ({
   children,
   currentStep,
   disableFooterText = true,
+  isLogin = false,
 }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -29,6 +32,8 @@ const Footer: React.FC<FooterProps> = ({
       {pathname === "/register-username" ||
       pathname === "/register-photos" ? (
         <DotLastStep value={currentStep} />
+      ) : isLogin ? (
+        <DotStepLogin value={currentStep} />
       ) : (
         <DotStep value={currentStep} />
       )}

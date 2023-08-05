@@ -41,7 +41,12 @@ const Root: React.FC = () => {
           >
             Crear cuenta
           </Button>
-          <Button variant="outline">Iniciar sesion</Button>
+          <Button
+            variant="outline"
+            onClick={() => navigate("/login-email")}
+          >
+            Iniciar sesion
+          </Button>
         </div>
       </div>
     </div>
