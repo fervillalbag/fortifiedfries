@@ -10,6 +10,8 @@ import { WindowSizeContext } from "../context";
 import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
 import { Layout } from "../components";
 
+import { client } from "../../supabase/client";
+
 const headerImages = [
   {
     id: "1",
@@ -84,6 +86,12 @@ const products = [
 ];
 
 const Home: React.FC = () => {
+  const getAllUsers = async () => {
+    let { data: User, error } = await client.from("User").select("*");
+
+    return { User, error };
+  };
+
   const [showModalLogin, setShowModalLogin] =
     useState<boolean>(false);
 
@@ -95,6 +103,10 @@ const Home: React.FC = () => {
     localStorage.getItem(NURA_AUTH_TOKEN)
       ? setShowModalLogin(false)
       : setShowModalLogin(true);
+
+    getAllUsers().then((res) => {
+      console.log(res);
+    });
   }, []);
 
   return (
