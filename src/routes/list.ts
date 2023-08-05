@@ -13,6 +13,7 @@ import {
 import { Root as RootRegister } from "../screens";
 import { Root as RootSearch } from "../screens/Search";
 import { RootProfile } from "../screens/Profile";
+import { RootSettings } from "../screens/Settings";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
@@ -72,5 +73,10 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: RootProfile,
     path: "/profile",
+  },
+  {
+    id: nanoid(3),
+    component: RootSettings,
+    path: "/settings",
   },
 ];
