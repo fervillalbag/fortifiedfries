@@ -3,7 +3,6 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { m } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
 import {
@@ -14,7 +13,7 @@ import { Alert, Button, Input, Text } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { getUser, updateUser } from "../../services/user";
+import { client } from "../../../supabase/client";
 
 const registerValidationSchema = yup.object().shape({
   username: yup
@@ -32,21 +31,28 @@ export default function Username() {
     key: NURA_AUTH_REGISTER_INFO,
   });
 
-  const { data: dataUser } = useQuery(["getUser"], () =>
-    getUser("email", value.email)
-  );
-  const user = dataUser?.data;
+  const getUser = async () => {
+    const { data, error } = await client
+      .from("User")
+      .select("*")
+      .eq("email", value.email)
+      .single();
+
+    return { data, error };
+  };
 
   const handleNext = async (values: any) => {
-    const usernameUpdated = {
-      username: values.username,
-    };
     setLoading(true);
+    const currentUser: any = await getUser();
 
     try {
-      const response = await updateUser(user?.id, usernameUpdated);
+      const { status } = await client
+        .from("User")
+        .update({ username: values.username })
+        .eq("id", currentUser?.data.id)
+        .select();
 
-      if (response?.status === 200) {
+      if (status === 200) {
         toast.custom(
           (t) => (
             <Alert

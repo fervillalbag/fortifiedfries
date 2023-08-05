@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from "react";
-import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
+import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
 
 export const AuthenticatedContext = createContext<any>(null);
 
@@ -17,7 +17,7 @@ export default function AuthenticatedProvider({
 
   useEffect(() => {
     setIsAuthenticated(
-      localStorage.getItem(NURA_AUTH_TOKEN) ? true : false
+      localStorage.getItem(NURA_AUTH_USER_INFO) ? true : false
     );
   }, [isLogged]);
 

@@ -7,10 +7,8 @@ import {
 } from "../components/Home";
 import { Button, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
-import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
+import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
 import { Layout } from "../components";
-
-import { client } from "../../supabase/client";
 
 const headerImages = [
   {
@@ -83,14 +81,21 @@ const products = [
     image: "https://shorturl.at/hlQZ0",
     title: "Lorem ipsum dolor sit amet consectetur.",
   },
+  {
+    id: "7",
+    image: "https://shorturl.at/hlQZ0",
+    title:
+      "Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet.",
+  },
+  {
+    id: "8",
+    image: "https://shorturl.at/arDQS",
+    title: "Lorem ipsum dolor sit amet consectetur. Lorem.",
+  },
 ];
 
 const Home: React.FC = () => {
-  const getAllUsers = async () => {
-    let { data: User, error } = await client.from("User").select("*");
-
-    return { User, error };
-  };
+  const [scrollY, setScrollY] = useState(0);
 
   const [showModalLogin, setShowModalLogin] =
     useState<boolean>(false);
@@ -99,26 +104,34 @@ const Home: React.FC = () => {
     useState<string>("1");
   const { windowSize } = useContext(WindowSizeContext);
 
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
   useEffect(() => {
-    localStorage.getItem(NURA_AUTH_TOKEN)
+    localStorage.getItem(NURA_AUTH_USER_INFO)
       ? setShowModalLogin(false)
       : setShowModalLogin(true);
 
-    getAllUsers().then((res) => {
-      console.log(res);
-    });
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <Layout>
       <ModalLogin show={showModalLogin} setShow={setShowModalLogin} />
 
-      <div className="p-5">
+      <div className="p-5 pb-2">
         <HeaderGallery data={headerImages} />
       </div>
 
       <div
-        className={`flex w-[${
+        className={`${
+          scrollY > 300 && "shadow-lg"
+        } sticky top-0 z-20 bg-white py-3 flex w-[${
           windowSize - 20
         }px] overflow-x-auto pl-5 gap-3 hide-scrollbar`}
       >
@@ -142,7 +155,7 @@ const Home: React.FC = () => {
         ))}
       </div>
 
-      <div className="p-5 grid grid-cols-2 gap-x-5 gap-y-6">
+      <div className="p-5 pt-2 grid grid-cols-2 gap-x-5 gap-y-6">
         {products.map((product) => (
           <CardProduct key={product.id} product={product} />
         ))}

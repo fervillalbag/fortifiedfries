@@ -15,7 +15,7 @@ export default function AppRoute({ isAuthenticated }: AppRouteProps) {
     <>
       {isAuthenticated === null && (
         <div className="fixed grid place-items-center w-screen h-screen top-0 left-0 bg-slate-50">
-          Cargando..
+          {/* Cargando.. */}
         </div>
       )}
 

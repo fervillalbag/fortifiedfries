@@ -36,7 +36,6 @@ export default function Root() {
           <Text className="text-xl mt-4 text-@sura-primary-900">
             Categorias
           </Text>
-
           <div className="grid grid-cols-2 gap-5 mt-3">
             <ButtonCategory
               title="Tecnologia"

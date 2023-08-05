@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 
 import {
   Footer as FooterAuth,
@@ -9,27 +8,39 @@ import {
 import { Button, Select, Text } from "../../ui";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { getAllGendersUser } from "../../services";
+import { client } from "../../../supabase/client";
 
 const Gender: React.FC = () => {
   const navigate = useNavigate();
   const styleHeight = useHeight();
+  const [allGenders, setAllGenderes] = useState<any>();
 
-  const [initialValues, handleUpdateForm] = useLocalStorageState({
+  const [initialState, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
 
-  const [userInfoValue] = useState<any>(initialValues.genderId);
-
-  const [genderSelected, setGenderSelected] = useState<string | null>(
-    userInfoValue
+  const [genderSelected, setGenderSelected] = useState<number | null>(
+    0 || initialState?.gender
   );
   const [textError, setTextError] = useState<string | null>(null);
 
-  const { data: genderOfUser } = useQuery(
-    ["getAllGendersUser"],
-    getAllGendersUser
-  );
+  const getAllGenders = async () => {
+    try {
+      const { data, error, status } = await client
+        .from("GenderUser")
+        .select("*");
+      return { data, error, status };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const response = await getAllGenders();
+      setAllGenderes(response);
+    })();
+  }, []);
 
   const handleNext = async () => {
     if (!genderSelected) {
@@ -37,7 +48,7 @@ const Gender: React.FC = () => {
       return;
     }
 
-    handleUpdateForm({ genderId: genderSelected });
+    handleUpdateForm({ gender: genderSelected });
     navigate("/register-password");
   };
 
@@ -51,11 +62,12 @@ const Gender: React.FC = () => {
 
       <div className="p-5">
         <Select
-          options={genderOfUser?.data}
+          options={allGenders}
           value={genderSelected}
           setValue={setGenderSelected}
           setTextError={setTextError}
           placeholder="Seleccione una opcion"
+          handleUpdateForm={handleUpdateForm}
           animation
         />
         {textError ? (

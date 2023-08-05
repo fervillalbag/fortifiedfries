@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navbar } from "./";
-import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
+import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,16 +9,36 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [showNavbar, setShowNavbar] = useState<boolean>(true);
 
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
-    localStorage.getItem(NURA_AUTH_TOKEN)
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const scrollingDown = currentScrollPos > prevScrollPos;
+
+      setIsVisible(scrollingDown);
+
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [prevScrollPos]);
+
+  useEffect(() => {
+    localStorage.getItem(NURA_AUTH_USER_INFO)
       ? setShowNavbar(true)
       : setShowNavbar(false);
   }, []);
 
   return (
-    <div className="pb-[70px]">
+    <div>
       {children}
-      {showNavbar && <Navbar />}
+      {showNavbar ? <Navbar isVisible={isVisible} /> : null}
     </div>
   );
 }
