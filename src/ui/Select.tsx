@@ -60,10 +60,10 @@ const Select: React.FC<SelectProps> = ({
           {!options
             ? "Cargando.."
             : itemSelected
-            ? itemSelected
-            : placeholder
-            ? placeholder
-            : ""}
+            ? itemSelected === "man"
+              ? "Hombre"
+              : "Mujer"
+            : placeholder}
           <img
             src="/icons/arrow-down.svg"
             alt=""
@@ -95,7 +95,7 @@ const Select: React.FC<SelectProps> = ({
               handleUpdateForm({ gender: +option.id });
             }}
           >
-            {option.name}
+            {option.name === "man" ? "Hombre" : "Mujer"}
           </Button>
         ))}
       </div>
