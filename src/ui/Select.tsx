@@ -5,10 +5,11 @@ import { Button, buttonVariants } from "../ui";
 import { authStepAnimation } from "../utils/animation";
 
 interface SelectProps {
-  options: any[];
-  value: string | null;
-  setValue: (value: string) => void;
+  options: any;
+  value: number | null;
+  setValue: (value: number) => void;
   setTextError: (value: string | null) => void;
+  handleUpdateForm: (value: any) => any;
   placeholder?: string;
   animation?: boolean;
 }
@@ -20,11 +21,12 @@ const Select: React.FC<SelectProps> = ({
   setTextError,
   animation = false,
   placeholder,
+  handleUpdateForm,
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
 
-  const itemSelected = options?.find(
-    (item) => item.id === value
+  const itemSelected = options?.data.find(
+    (item: any) => item.id === value
   )?.name;
 
   return (
@@ -55,7 +57,9 @@ const Select: React.FC<SelectProps> = ({
             setShowOptions(!showOptions);
           }}
         >
-          {itemSelected
+          {!options
+            ? "Cargando.."
+            : itemSelected
             ? itemSelected
             : placeholder
             ? placeholder
@@ -77,7 +81,7 @@ const Select: React.FC<SelectProps> = ({
             : "h-max overflow-visible opacity-100"
         } rounded-md absolute top-full mt-4 w-full`}
       >
-        {options?.map((option) => (
+        {options?.data.map((option: any) => (
           <Button
             data-test="register-button-gender-option"
             key={option.id}
@@ -88,6 +92,7 @@ const Select: React.FC<SelectProps> = ({
             onClick={() => {
               setValue(option.id);
               setShowOptions(false);
+              handleUpdateForm({ gender: +option.id });
             }}
           >
             {option.name}

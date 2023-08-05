@@ -6,7 +6,7 @@ export interface UserProps {
   password: string;
   typeUserId: string;
   affiliatedId: any;
-  genderId: string;
+  gender: number;
   avatar: string;
   banner: string;
   verifiedUserId: any;

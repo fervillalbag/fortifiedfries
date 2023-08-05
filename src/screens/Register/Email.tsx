@@ -16,9 +16,9 @@ import {
 } from "../../utils/constants";
 import { useLocalStorageState } from "../../hooks/useAuth";
 import { authStepAnimation } from "../../utils/animation";
-import { getUser } from "../../services";
 import { toast } from "react-hot-toast";
 import { useHeight } from "../../hooks";
+import { client } from "../../../supabase/client";
 
 const registerValidationSchema = yup.object().shape({
   email: yup
@@ -44,9 +44,18 @@ const Email: React.FC = () => {
     handleUpdateForm(values);
     setLoading(true);
 
-    const response = await getUser("email", values.email);
+    try {
+      const { data: dataUser } = await client
+        .from("User")
+        .select("*")
+        .eq("email", values.email);
 
-    if (response?.data) {
+      if (dataUser?.length === 0) {
+        setLoading(false);
+        navigate("/register-gender");
+        return;
+      }
+
       setLoading(false);
       return toast.custom(
         (t) => (
@@ -60,10 +69,9 @@ const Email: React.FC = () => {
         ),
         { duration: 4000 }
       );
+    } catch (error: any) {
+      throw new Error(error);
     }
-
-    setLoading(false);
-    navigate("/register-gender");
   };
 
   return (

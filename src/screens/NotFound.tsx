@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Text, buttonVariants } from "../ui";
-import { NURA_AUTH_TOKEN } from "../utils/constants/auth";
+import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
 import { useHeight } from "../hooks";
 
 const NotFound: React.FC = () => {
-
   const [isAuthenticated, setIsAuthenticated] =
     useState<boolean>(false);
 
   useEffect(() => {
     setIsAuthenticated(
-      localStorage.getItem(NURA_AUTH_TOKEN) ? true : false
+      localStorage.getItem(NURA_AUTH_USER_INFO) ? true : false
     );
   }, []);
 

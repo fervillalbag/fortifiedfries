@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
-import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import { toast } from "react-hot-toast";
 import { m } from "framer-motion";
@@ -14,12 +13,12 @@ import {
 import { Alert, Button, Input, Text, inputVariants } from "../../ui";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { getAllTypesOfUsers, registerUser } from "../../services";
 import {
   authStepAnimation,
   authStepAnimationDelaySm,
 } from "../../utils/animation";
-import { NURA_AUTH_TOKEN } from "../../utils/constants/auth";
+import { client } from "../../../supabase/client";
+import { NURA_AUTH_USER_INFO } from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -38,32 +37,38 @@ const Password: React.FC = () => {
     key: NURA_AUTH_REGISTER_INFO,
   });
 
-  const { data: typeOfUser } = useQuery(
-    ["getAllTypeOfUsers"],
-    getAllTypesOfUsers
-  );
+  const typeOfUserFetch = async () => {
+    const { data } = await client
+      .from("TypeUser")
+      .select("*")
+      .eq("name", "BASIC")
+      .single();
 
-  const basicUserRole = typeOfUser?.data.find(
-    (item: any) => item.name === "basic"
-  );
+    return data;
+  };
 
   const handleNext = async (values: any) => {
     const shortIdCustom = nanoid(5);
     setLoading(true);
+    const typeUser = await typeOfUserFetch();
 
     const dataToRegisterUser = {
       ...initialValues,
       password: values.password,
-      typeUserId: basicUserRole.id,
+      typeUser: typeUser?.id,
       username: `${
         initialValues.email.split("@")[0]
       }${shortIdCustom}`,
     };
 
     try {
-      const response = await registerUser(dataToRegisterUser);
+      const { data, status } = await client
+        .from("User")
+        .insert([dataToRegisterUser])
+        .select()
+        .single();
 
-      if (response?.status === 201) {
+      if (status === 201) {
         toast.custom((t) => (
           <Alert
             type="success"
@@ -73,11 +78,15 @@ const Password: React.FC = () => {
           />
         ));
 
-        handleUpdateForm({ username: dataToRegisterUser.username });
         localStorage.setItem(
-          NURA_AUTH_TOKEN,
-          response?.data.toString()
+          NURA_AUTH_USER_INFO,
+          JSON.stringify({
+            id: data?.id,
+            email: data?.email,
+            fullname: data?.fullname,
+          })
         );
+        handleUpdateForm({ username: dataToRegisterUser.username });
         navigate("/register-username");
         setLoading(false);
       }
