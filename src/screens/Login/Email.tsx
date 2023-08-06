@@ -32,7 +32,7 @@ export default function Email() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const [_, handleUpdateForm] = useLocalStorageState({
+  const [initialValue, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
 
@@ -52,7 +52,9 @@ export default function Email() {
 
       if (dataUser?.length! > 0) {
         setLoading(false);
-        navigate("/login-password");
+        navigate("/login-password", {
+          state: { user: dataUser },
+        });
         return;
       }
 
@@ -86,7 +88,7 @@ export default function Email() {
         validationSchema={loginValidationSchema}
         validator={() => ({})}
         initialValues={{
-          email: "",
+          email: initialValue?.email || "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >

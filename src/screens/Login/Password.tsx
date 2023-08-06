@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { toast } from "react-hot-toast";
 import { m } from "framer-motion";
+// @ts-ignore
+import argon2 from "argon2-wasm-esm";
 
 import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { Alert, Button, Input, Text } from "../../ui";
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { authStepAnimation } from "../../utils/animation";
 import { client } from "../../../supabase/client";
-import { NURA_AUTH_USER_INFO } from "../../utils/constants/auth";
+import {
+  NURA_AUTH_REGISTER_INFO,
+  NURA_AUTH_USER_INFO,
+} from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -21,14 +26,36 @@ const registerValidationSchema = yup.object().shape({
 
 const Password: React.FC = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  console.log({ state });
+
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [initialValues] = useLocalStorageState({
+    key: NURA_AUTH_REGISTER_INFO,
+  });
+
   const handleNext = async (values: any) => {
-    setLoading(true);
+    // setLoading(true);
     console.log(values);
 
     const dataToRegisterUser = {};
+
+    const { data } = await client
+      .from("User")
+      .select("*")
+      .eq("email", initialValues.email)
+      .single();
+    console.log(data);
+
+    argon2
+      .verify({ pass: values.password, encoded: data?.password })
+      .then(() => console.log("OK"))
+      .catch((e: any) => console.error(e.message, e.code));
+
+    console.log("hello");
+    return;
 
     try {
       const { data, status } = await client
@@ -85,7 +112,6 @@ const Password: React.FC = () => {
         validator={() => ({})}
         initialValues={{
           password: "",
-          confirmPassword: "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >

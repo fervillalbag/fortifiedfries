@@ -5,6 +5,8 @@ import { Formik } from "formik";
 import { nanoid } from "nanoid";
 import { toast } from "react-hot-toast";
 import { m } from "framer-motion";
+// @ts-ignore
+import argon2 from "argon2-wasm-esm";
 
 import {
   Header as HeaderAuth,
@@ -52,9 +54,14 @@ const Password: React.FC = () => {
     setLoading(true);
     const typeUser = await typeOfUserFetch();
 
+    const hashedString = await argon2.hash({
+      pass: values.password,
+      salt: "somesalt",
+    });
+
     const dataToRegisterUser = {
       ...initialValues,
-      password: values.password,
+      password: hashedString?.encoded,
       typeUser: typeUser?.id,
       username: `${
         initialValues.email.split("@")[0]
