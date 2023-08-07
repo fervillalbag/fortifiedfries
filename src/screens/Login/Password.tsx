@@ -12,13 +12,8 @@ import {
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { Alert, Button, Input, Text } from "../../ui";
-import { useHeight, useLocalStorageState } from "../../hooks";
+import { useHeight } from "../../hooks";
 import { authStepAnimation } from "../../utils/animation";
-import { client } from "../../../supabase/client";
-import {
-  NURA_AUTH_REGISTER_INFO,
-  NURA_AUTH_USER_INFO,
-} from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -27,76 +22,37 @@ const registerValidationSchema = yup.object().shape({
 const Password: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log({ state });
 
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [initialValues] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
-  });
-
   const handleNext = async (values: any) => {
-    // setLoading(true);
-    console.log(values);
-
-    const dataToRegisterUser = {};
-
-    const { data } = await client
-      .from("User")
-      .select("*")
-      .eq("email", initialValues.email)
-      .single();
-    console.log(data);
+    setLoading(true);
 
     argon2
-      .verify({ pass: values.password, encoded: data?.password })
-      .then(() => console.log("OK"))
-      .catch((e: any) => console.error(e.message, e.code));
-
-    console.log("hello");
-    return;
-
-    try {
-      const { data, status } = await client
-        .from("User")
-        .insert([dataToRegisterUser])
-        .select()
-        .single();
-
-      if (status === 201) {
-        toast.custom((t) => (
-          <Alert
-            type="success"
-            title="Excelente!"
-            description="Cuenta creada exitosamente."
-            t={t}
-          />
-        ));
-
-        localStorage.setItem(
-          NURA_AUTH_USER_INFO,
-          JSON.stringify({
-            id: data?.id,
-            email: data?.email,
-            fullname: data?.fullname,
-          })
-        );
-        navigate("/register-username");
+      .verify({
+        pass: values.password,
+        encoded: state?.user[0]?.password,
+      })
+      .then(() => {
+        console.log("OK");
         setLoading(false);
-      }
-      setLoading(false);
-    } catch (error: any) {
-      toast.custom((t) => (
-        <Alert
-          type="error"
-          title="Hubo un problema"
-          description={error.message}
-          t={t}
-        />
-      ));
-      setLoading(false);
-    }
+      })
+      .catch((_: any) => {
+        setLoading(false);
+        toast.custom(
+          (t) => (
+            <Alert
+              type="error"
+              title="Error"
+              description="Las credenciales son incorrectas."
+              t={t}
+              duration={2000}
+            />
+          ),
+          { duration: 4000 }
+        );
+      });
   };
 
   return (
