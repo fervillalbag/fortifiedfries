@@ -15,6 +15,7 @@ import { Root as RootSearch } from "../screens/Search";
 import { RootProfile } from "../screens/Profile";
 import { RootSettings } from "../screens/Settings";
 import { LoginEmail, PasswordEmail } from "../screens/Login";
+import { LoginPrincipal } from "../screens/Login";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
@@ -31,6 +32,11 @@ export const LIST_ROUTES_UNAUTHENTICATED = [
     id: nanoid(3),
     component: PasswordEmail,
     path: "/login-password",
+  },
+  {
+    id: nanoid(3),
+    component: LoginPrincipal,
+    path: "/login",
   },
   {
     id: nanoid(3),

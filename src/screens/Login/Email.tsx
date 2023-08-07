@@ -133,7 +133,7 @@ export default function Email() {
             >
               <Button
                 type="button"
-                onClick={() => navigate("/register-name")}
+                onClick={() => navigate("/login")}
                 variant="outline"
               >
                 Volver
