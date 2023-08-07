@@ -65,8 +65,7 @@ const RegisterPrincipal = () => {
             className: "mt-5 text-center",
           })}
         >
-          Ya tienes una cuenta?{" "}
-          <Link to="/login-email">Inicia sesion</Link>
+          Ya tienes una cuenta? <Link to="/login">Inicia sesion</Link>
         </Text>
       </div>
     </div>

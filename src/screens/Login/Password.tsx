@@ -106,7 +106,7 @@ const Password: React.FC = () => {
                 value={values.password}
                 onChange={handleChange("password")}
                 onBlur={handleBlur("password")}
-                placeholder="nueva contrasena"
+                placeholder="introduce la contrasena"
               />
               {errors.password && (
                 <Text
@@ -127,7 +127,7 @@ const Password: React.FC = () => {
             >
               <Button
                 type="button"
-                onClick={() => navigate("/login-email")}
+                onClick={() => navigate("/login")}
                 variant="outline"
               >
                 Volver

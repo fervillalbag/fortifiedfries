@@ -82,7 +82,7 @@ const Gender: React.FC = () => {
         <FooterAuth
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
-          routeLink="/login-email"
+          routeLink="/login"
           currentStep={3}
         >
           <Button

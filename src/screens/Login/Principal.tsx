@@ -66,7 +66,7 @@ const RegisterPrincipal = () => {
           })}
         >
           Aun no tienes una cuenta?{" "}
-          <Link to="/register-name">Registrate</Link>
+          <Link to="/register">Registrate</Link>
         </Text>
       </div>
     </div>
