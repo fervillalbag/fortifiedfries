@@ -16,6 +16,7 @@
     "@heroicons/react": "^2.0.18",
     "@supabase/supabase-js": "^2.31.0",
     "@tanstack/react-query": "^4.29.23",
+    "argon2-wasm-esm": "^1.0.3",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
