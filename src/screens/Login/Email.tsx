@@ -15,8 +15,7 @@ import {
 import { mailformat } from "../../utils/regex";
 import { client } from "../../../supabase/client";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
-import { Alert, Button, Input, Text } from "../../ui";
+import { Button, Input, Text } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
 
 const loginValidationSchema = yup.object().shape({
@@ -50,28 +49,12 @@ export default function Email() {
         .select("*")
         .eq("email", values.email);
 
-      if (dataUser?.length! > 0) {
-        setLoading(false);
-        navigate("/login-password", {
-          state: { user: dataUser },
-        });
-        return;
-      }
-
       setLoading(false);
-      return toast.custom(
-        (t) => (
-          <Alert
-            type="error"
-            title="Hubo un problema!"
-            description="El email ya está registrado."
-            t={t}
-            duration={2000}
-          />
-        ),
-        { duration: 4000 }
-      );
+      navigate("/login-password", {
+        state: { user: dataUser },
+      });
     } catch (error: any) {
+      setLoading(false);
       throw new Error(error);
     }
   };
