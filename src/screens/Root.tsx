@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button, Text, textVariants } from "../ui";
-import { useHeight } from "../hooks";
+import { useHeight, useLocalStorageState } from "../hooks";
+import {
+  NURA_AUTH_REGISTER_INFO,
+  authInitialValue,
+} from "../utils/constants";
 
 const Root: React.FC = () => {
   const navigate = useNavigate();
   const stylesHeight = useHeight();
+
+  const [_, handleUpdateForm] = useLocalStorageState({
+    key: NURA_AUTH_REGISTER_INFO,
+  });
+
+  useEffect(() => {
+    handleUpdateForm(authInitialValue);
+  }, []);
 
   return (
     <div style={stylesHeight}>
@@ -43,7 +55,7 @@ const Root: React.FC = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => navigate("/login-email")}
+            onClick={() => navigate("/login")}
           >
             Iniciar sesion
           </Button>

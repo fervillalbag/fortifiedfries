@@ -125,7 +125,7 @@ const Email: React.FC = () => {
             <FooterAuth
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
-              routeLink="/login-email"
+              routeLink="/login"
               currentStep={2}
             >
               <Button

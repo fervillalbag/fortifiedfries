@@ -83,7 +83,7 @@ export default function Photos() {
         <FooterAuth
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
-          routeLink="/login-email"
+          routeLink="/login"
           currentStep={2}
           disableFooterText={false}
         >

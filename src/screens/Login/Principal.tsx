@@ -47,17 +47,17 @@ const RegisterPrincipal = () => {
 
         <Button
           data-test="auth-register-email-button"
-          onClick={() => navigate("/register-name")}
+          onClick={() => navigate("/login-email")}
           icon="icon-mail"
           className={buttonVariants({
             className: "mb-4",
             variant: "icon",
           })}
         >
-          Registrarse con email
+          Iniciar con email
         </Button>
         <Button variant="icon" icon="icon-google">
-          Registrarte con email
+          Iniciar con email
         </Button>
 
         <Text
@@ -65,7 +65,8 @@ const RegisterPrincipal = () => {
             className: "mt-5 text-center",
           })}
         >
-          Ya tienes una cuenta? <Link to="/login">Inicia sesion</Link>
+          Aun no tienes una cuenta?{" "}
+          <Link to="/register">Registrate</Link>
         </Text>
       </div>
     </div>

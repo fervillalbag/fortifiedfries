@@ -139,7 +139,7 @@ export default function Username() {
             <FooterAuth
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
-              routeLink="/login-email"
+              routeLink="/login"
               currentStep={1}
               disableFooterText={false}
             >

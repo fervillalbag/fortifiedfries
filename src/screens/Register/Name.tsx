@@ -88,12 +88,12 @@ export default function Name() {
             <FooterAuth
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
-              routeLink="/login-email"
+              routeLink="/login"
               currentStep={1}
             >
               <Button
                 type="button"
-                onClick={() => navigate("/register")}
+                onClick={() => navigate(-1)}
                 variant="outline"
               >
                 Volver
