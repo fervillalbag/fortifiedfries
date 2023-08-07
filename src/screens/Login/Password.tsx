@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
@@ -14,6 +14,9 @@ import {
 import { Alert, Button, Input, Text } from "../../ui";
 import { useHeight } from "../../hooks";
 import { authStepAnimation } from "../../utils/animation";
+import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { AuthenticatedContext } from "../../context";
+import { NURA_AUTH_USER_INFO } from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -22,6 +25,8 @@ const registerValidationSchema = yup.object().shape({
 const Password: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+
+  const { isLogged, setIsLogged } = useContext(AuthenticatedContext);
 
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,11 +37,21 @@ const Password: React.FC = () => {
     argon2
       .verify({
         pass: values.password,
-        encoded: state?.user[0]?.password,
+        encoded: state?.user[0].password,
       })
       .then(() => {
-        console.log("OK");
         setLoading(false);
+        localStorage.setItem(NURA_AUTH_REGISTER_INFO, "");
+        setIsLogged(!isLogged);
+        localStorage.setItem(
+          NURA_AUTH_USER_INFO,
+          JSON.stringify({
+            id: state?.user[0]?.id,
+            email: state?.user[0]?.email,
+            fullname: state?.user[0]?.fullname,
+          })
+        );
+        navigate("/home");
       })
       .catch((_: any) => {
         setLoading(false);
