@@ -34,6 +34,23 @@ const Password: React.FC = () => {
   const handleNext = async (values: any) => {
     setLoading(true);
 
+    if (state.user.length === 0) {
+      setLoading(false);
+      toast.custom(
+        (t) => (
+          <Alert
+            type="error"
+            title="Error"
+            description="Las credenciales son incorrectas."
+            t={t}
+            duration={2000}
+          />
+        ),
+        { duration: 4000 }
+      );
+      return;
+    }
+
     argon2
       .verify({
         pass: values.password,
@@ -59,8 +76,8 @@ const Password: React.FC = () => {
           (t) => (
             <Alert
               type="error"
-              title="Error"
-              description="Las credenciales son incorrectas."
+              title="Error."
+              description="Asegúrate de ingresar correctamente tu correo o contraseña."
               t={t}
               duration={2000}
             />
@@ -127,7 +144,7 @@ const Password: React.FC = () => {
             >
               <Button
                 type="button"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/login-email")}
                 variant="outline"
               >
                 Volver
