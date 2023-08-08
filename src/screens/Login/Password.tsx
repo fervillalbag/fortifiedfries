@@ -40,8 +40,8 @@ const Password: React.FC = () => {
         (t) => (
           <Alert
             type="error"
-            title="Error"
-            description="Las credenciales son incorrectas."
+            title="Error."
+            description="Asegúrate de ingresar correctamente tu correo o contraseña."
             t={t}
             duration={2000}
           />

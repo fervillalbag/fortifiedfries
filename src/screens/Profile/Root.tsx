@@ -10,6 +10,7 @@ import { client } from "../../../supabase/client";
 import SettingIcon from "../../assets/icons/settings-icon.svg";
 import AvatarDefault from "../../assets/images/avatar-default.png";
 import VerifiedIcon from "../../assets/icons/verified-icon.svg";
+import ToastUI from "../../ui/Toast";
 
 export default function Root() {
   const navigate = useNavigate();
@@ -81,6 +82,8 @@ export default function Root() {
           </div>
         </div>
       </div>
+
+      <ToastUI />
     </Layout>
   );
 }
