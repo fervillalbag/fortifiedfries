@@ -16,6 +16,7 @@ import { RootProfile } from "../screens/Profile";
 import { RootSettings } from "../screens/Settings";
 import { LoginEmail, PasswordEmail } from "../screens/Login";
 import { LoginPrincipal } from "../screens/Login";
+import { ActionsRoot } from "../screens/Actions";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
@@ -95,5 +96,10 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: RootSettings,
     path: "/settings",
+  },
+  {
+    id: nanoid(3),
+    component: ActionsRoot,
+    path: "/actions",
   },
 ];
