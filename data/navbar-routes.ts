@@ -20,7 +20,7 @@ export const NAVBAR_ROUTES = [
   {
     id: 3,
     icon: PlusCircleIcon,
-    route: "/create",
+    route: "/actions",
   },
   {
     id: 4,
