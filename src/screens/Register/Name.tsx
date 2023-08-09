@@ -94,7 +94,7 @@ export default function Name() {
             >
               <Button
                 type="button"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/register")}
                 variant="outline"
               >
                 Volver

@@ -3,7 +3,7 @@ export const ACTIONS = [
     id: 1,
     title: "Quiero publicar un producto",
     description: "Ingresa aqui para publicar un nuevo producto",
-    route: "/publish-product",
+    route: "/create-post-name",
   },
   {
     id: 2,
