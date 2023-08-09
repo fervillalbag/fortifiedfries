@@ -17,6 +17,10 @@ import { RootSettings } from "../screens/Settings";
 import { LoginEmail, PasswordEmail } from "../screens/Login";
 import { LoginPrincipal } from "../screens/Login";
 import { ActionsRoot } from "../screens/Actions";
+import {
+  CreatePostName,
+  CreatePostStatus,
+} from "../screens/CreatePost";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
@@ -101,5 +105,15 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: ActionsRoot,
     path: "/actions",
+  },
+  {
+    id: nanoid(3),
+    component: CreatePostName,
+    path: "/create-post-name",
+  },
+  {
+    id: nanoid(3),
+    component: CreatePostStatus,
+    path: "/create-post-status",
   },
 ];
