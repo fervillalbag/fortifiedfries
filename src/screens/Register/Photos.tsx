@@ -85,6 +85,7 @@ export default function Photos() {
           routeText="Inicia sesion"
           routeLink="/login"
           currentStep={2}
+          count={2}
           disableFooterText={false}
         >
           <Button

@@ -84,6 +84,7 @@ const Gender: React.FC = () => {
           routeText="Inicia sesion"
           routeLink="/login"
           currentStep={3}
+          count={4}
         >
           <Button
             onClick={() => navigate("/register-email")}

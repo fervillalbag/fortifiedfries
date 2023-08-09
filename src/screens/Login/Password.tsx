@@ -140,6 +140,7 @@ const Password: React.FC = () => {
               routeText="Registrate"
               routeLink="/register"
               currentStep={2}
+              count={2}
               isLogin
             >
               <Button

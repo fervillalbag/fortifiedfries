@@ -127,6 +127,7 @@ const Email: React.FC = () => {
               routeText="Inicia sesion"
               routeLink="/login"
               currentStep={2}
+              count={4}
             >
               <Button
                 type="button"

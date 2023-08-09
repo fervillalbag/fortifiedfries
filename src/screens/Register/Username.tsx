@@ -142,6 +142,7 @@ export default function Username() {
               routeLink="/login"
               currentStep={1}
               disableFooterText={false}
+              count={2}
             >
               <div />
               <Button

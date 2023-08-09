@@ -112,6 +112,7 @@ export default function Email() {
               routeText="Registrate"
               routeLink="/register"
               currentStep={1}
+              count={2}
               isLogin
             >
               <Button
