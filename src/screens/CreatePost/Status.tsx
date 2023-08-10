@@ -12,6 +12,10 @@ export default function Status() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
+  const handleNext = () => {
+    navigate("/create-post-category");
+  };
+
   return (
     <div style={styleHeight}>
       <div className="h-full">
@@ -88,7 +92,7 @@ export default function Status() {
               >
                 Volver
               </Button>
-              <Button>Siguiente</Button>
+              <Button onClick={handleNext}>Siguiente</Button>
             </div>
           </div>
         </div>
