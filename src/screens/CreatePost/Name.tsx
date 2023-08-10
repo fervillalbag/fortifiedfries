@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useHeight } from "../../hooks";
 import { Button, Input, buttonVariants } from "../../ui";
 import { DotStep } from "../../components/Auth";
+import { HeaderLoader } from "../../components";
 
 import CreatePostHeader from "../../assets/images/create-post-name.png";
 
@@ -17,13 +18,7 @@ export default function Name() {
   return (
     <div style={styleHeight}>
       <div className="h-full">
-        <div className="relative h-[200px]">
-          <img
-            src={CreatePostHeader}
-            alt=""
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <HeaderLoader imgCmp={CreatePostHeader} />
 
         <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
           <Input placeholder="Nombre del producto" />
