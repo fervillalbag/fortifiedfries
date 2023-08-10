@@ -46,7 +46,7 @@ export default function Category() {
   const styleHeight = useHeight();
 
   const handleNext = () => {
-    navigate("/create-post-status");
+    navigate("/create-post-details");
   };
 
   return (
