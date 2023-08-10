@@ -19,6 +19,8 @@ import { LoginPrincipal } from "../screens/Login";
 import { ActionsRoot } from "../screens/Actions";
 import {
   CreatePostCategory,
+  CreatePostDetails,
+  CreatePostImages,
   CreatePostName,
   CreatePostStatus,
 } from "../screens/CreatePost";
@@ -121,5 +123,15 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: CreatePostCategory,
     path: "/create-post-category",
+  },
+  {
+    id: nanoid(3),
+    component: CreatePostDetails,
+    path: "/create-post-details",
+  },
+  {
+    id: nanoid(3),
+    component: CreatePostImages,
+    path: "/create-post-images",
   },
 ];
