@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { m } from "framer-motion";
 
 import { Navbar } from "./";
 import {
@@ -47,9 +48,21 @@ export default function Layout({ children }: LayoutProps) {
       : setShowNavbar(false);
   }, []);
 
+  const transition = {
+    duration: 0.5,
+    ease: [0.43, 0.13, 0.23, 0.96],
+  };
+
   return (
     <div>
-      {children}
+      <m.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={transition}
+      >
+        {children}
+      </m.div>
       {showNavbar ? <Navbar isVisible={isVisible} /> : null}
     </div>
   );
