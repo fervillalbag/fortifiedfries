@@ -12,7 +12,7 @@ export default function Root() {
           Buscar
         </Text>
 
-        <div className="mt-3 relative">
+        <div className="mt-4 relative">
           <MagnifyingGlassIcon className="w-6 absolute text-@sura-primary-300 top-1/2 left-4 -translate-y-1/2" />
           <Input
             placeholder="busca por nombre el producto"

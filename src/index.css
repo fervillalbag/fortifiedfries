@@ -70,3 +70,13 @@
 .link-inactive path {
   fill: #a9abb0;
 }
+
+.loaded {
+  filter: none;
+  transition: filter 0.3s ease-in-out;
+}
+
+.loading {
+  filter: blur(10px); /* o el valor de desenfoque que necesites */
+  transition: filter 0.3s ease-in-out;
+}

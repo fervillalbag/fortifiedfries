@@ -145,7 +145,7 @@ const Home: React.FC = () => {
                   ? "default"
                   : "outline"
               }`,
-              className: `h-12 flex-1 px-7 focus:ring-0 ${
+              className: `h-12 flex-1 px-7 focus:outline-none focus:ring-opacity-0 focus:ring-0 ${
                 index === categories.length - 1 ? "mr-5" : "mr-0"
               }`,
             })}

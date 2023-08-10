@@ -4,6 +4,7 @@ import { DotStep } from "../../components/Auth";
 
 import CreatePostHeader from "../../assets/images/create-post-status.png";
 import { useNavigate } from "react-router-dom";
+import { HeaderLoader } from "../../components";
 
 export default function Status() {
   const navigate = useNavigate();
@@ -12,13 +13,7 @@ export default function Status() {
   return (
     <div style={styleHeight}>
       <div className="h-full">
-        <div className="relative h-[200px]">
-          <img
-            src={CreatePostHeader}
-            alt=""
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <HeaderLoader imgCmp={CreatePostHeader} />
 
         <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
           <div></div>
