@@ -7,13 +7,14 @@ import { useHeight } from "../../hooks";
 import { Button, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-images.png";
+import { Layout } from "../../components/CreatePost";
 
 export default function Images() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
   const handleNext = () => {
-    navigate("/create-post-details");
+    navigate("/create-post-hashtag");
   };
 
   return (
@@ -22,7 +23,7 @@ export default function Images() {
         <HeaderLoader imgCmp={CreatePostHeader} />
 
         <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <div>
+          <Layout>
             <h3 className="mb-3 text-lg text-@sura-primary-900">
               Imagenes
             </h3>
@@ -47,7 +48,7 @@ export default function Images() {
                 />
               </div>
             </div>
-          </div>
+          </Layout>
 
           <div>
             <DotStep value={5} count={7} />

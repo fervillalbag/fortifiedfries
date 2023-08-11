@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 
 import { useHeight } from "../../hooks";
-import { Button, Input, buttonVariants } from "../../ui";
-import { DotStep } from "../../components/Auth";
 import { HeaderLoader } from "../../components";
+import { DotStep } from "../../components/Auth";
+import { Button, Input, buttonVariants } from "../../ui";
+
+import CreatePostHeader from "../../assets/images/create-post-price.png";
 import { Layout } from "../../components/CreatePost";
 
-import CreatePostHeader from "../../assets/images/create-post-name.png";
-
-export default function Name() {
+export default function Hashtag() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
   const handleNext = () => {
-    navigate("/create-post-status");
+    navigate("/home");
   };
 
   return (
@@ -23,17 +23,17 @@ export default function Name() {
 
         <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
           <Layout>
-            <Input placeholder="Nombre del producto" />
+            <Input placeholder="precio" />
           </Layout>
 
           <div>
-            <DotStep value={1} count={7} />
+            <DotStep value={7} count={7} />
             <div className="grid grid-cols-2 gap-4">
               <Button
+                onClick={() => navigate(-1)}
                 className={buttonVariants({
                   variant: "outline",
                 })}
-                onClick={() => navigate(-1)}
               >
                 Volver
               </Button>

@@ -5,6 +5,7 @@ import { useHeight } from "../../hooks";
 import { Button, buttonVariants } from "../../ui";
 import { DotStep } from "../../components/Auth";
 import { HeaderLoader } from "../../components";
+import { Layout } from "../../components/CreatePost";
 
 import CreatePostHeader from "../../assets/images/create-post-status.png";
 
@@ -22,7 +23,7 @@ export default function Status() {
         <HeaderLoader imgCmp={CreatePostHeader} />
 
         <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <div>
+          <Layout>
             <h3 className="mb-3 text-lg text-@sura-primary-900">
               Estado del producto
             </h3>
@@ -79,7 +80,7 @@ export default function Status() {
                 </label>
               </div>
             </RadioGroup.Root>
-          </div>
+          </Layout>
 
           <div>
             <DotStep value={2} count={7} />

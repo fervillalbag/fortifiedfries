@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
+
 import { HeaderLoader } from "../../components";
 import { useHeight } from "../../hooks";
-
-import CreatePostHeader from "../../assets/images/create-post-details.png";
 import { DotStep } from "../../components/Auth";
 import { Button, buttonVariants } from "../../ui";
+
+import CreatePostHeader from "../../assets/images/create-post-details.png";
+import { Layout } from "../../components/CreatePost";
 
 export default function Details() {
   const navigate = useNavigate();
@@ -20,17 +22,14 @@ export default function Details() {
         <HeaderLoader imgCmp={CreatePostHeader} />
 
         <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <div>
-            <h3 className="mb-3 text-lg text-@sura-primary-900">
-              Detalles del producto
-            </h3>
-
+          <Layout>
             <textarea
               name=""
               id=""
+              placeholder="Detalles del producto"
               className="p-3 focus-visible:border-@sura-primary-900 focus-visible:outline-transparent resize-none h-64 w-full border-2 border-@sura-primary-200 rounded-md"
             ></textarea>
-          </div>
+          </Layout>
 
           <div>
             <DotStep value={4} count={7} />
