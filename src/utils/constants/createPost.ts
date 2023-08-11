@@ -1,0 +1,1 @@
+export const SURA_CREATE_POST_INFO = "@SURA_CREATE_POST_INFO";
