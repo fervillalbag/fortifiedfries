@@ -20,8 +20,10 @@ import { ActionsRoot } from "../screens/Actions";
 import {
   CreatePostCategory,
   CreatePostDetails,
+  CreatePostHashtag,
   CreatePostImages,
   CreatePostName,
+  CreatePostPrice,
   CreatePostStatus,
 } from "../screens/CreatePost";
 
@@ -133,5 +135,15 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: CreatePostImages,
     path: "/create-post-images",
+  },
+  {
+    id: nanoid(3),
+    component: CreatePostHashtag,
+    path: "/create-post-hashtag",
+  },
+  {
+    id: nanoid(3),
+    component: CreatePostPrice,
+    path: "/create-post-price",
   },
 ];

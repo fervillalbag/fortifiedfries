@@ -14,6 +14,7 @@ import { DotStep } from "../../components/Auth";
 import { Button, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-category.png";
+import { Layout } from "../../components/CreatePost";
 
 interface SelectItemProps
   extends React.ComponentPropsWithRef<typeof Select.Item> {
@@ -55,10 +56,10 @@ export default function Category() {
         <HeaderLoader imgCmp={CreatePostHeader} />
 
         <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <div>
+          <Layout>
             <Select.Root>
               <Select.Trigger
-                className="text-@sura-primary-600 w-full inline-flex items-center justify-between rounded px-[15px] text-lg leading-none h-14 gap-[5px] bg-white text-violet11 border border-@sura-primary-300 hover:bg-mauve3 data-[placeholder]:text-violet9 outline-none"
+                className="text-@sura-primary-600 w-full inline-flex items-center justify-between rounded px-[15px] text-lg leading-none h-14 gap-[5px] bg-white text-violet11 border-2 border-@sura-primary-200 hover:bg-mauve3 data-[placeholder]:text-violet9 outline-none"
                 aria-label="Food"
               >
                 <Select.Value placeholder="Seleccione una categoria" />
@@ -90,7 +91,7 @@ export default function Category() {
                 </Select.Content>
               </Select.Portal>
             </Select.Root>
-          </div>
+          </Layout>
 
           <div>
             <DotStep value={3} count={7} />

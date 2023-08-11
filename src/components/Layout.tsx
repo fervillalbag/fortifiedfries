@@ -8,6 +8,7 @@ import {
   authInitialValue,
 } from "../utils/constants/auth";
 import { useLocalStorageState } from "../hooks";
+import { transitionLayoutPage } from "../utils/animation";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -48,18 +49,13 @@ export default function Layout({ children }: LayoutProps) {
       : setShowNavbar(false);
   }, []);
 
-  const transition = {
-    duration: 0.5,
-    ease: [0.43, 0.13, 0.23, 0.96],
-  };
-
   return (
     <div>
       <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={transition}
+        transition={transitionLayoutPage}
       >
         {children}
       </m.div>

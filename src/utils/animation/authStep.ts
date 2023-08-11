@@ -1,5 +1,10 @@
 import { Variants } from "framer-motion";
 
+export const transitionLayoutPage = {
+  duration: 0.5,
+  ease: [0.43, 0.13, 0.23, 0.96],
+};
+
 export const authStepAnimation: Variants = {
   hidden: {
     opacity: 0,
