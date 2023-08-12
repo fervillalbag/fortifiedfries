@@ -8,15 +8,15 @@ import {
   ChevronUpIcon,
 } from "@radix-ui/react-icons";
 import classnames from "classnames";
+import { Form, Formik } from "formik";
 
 import { useHeight } from "../../hooks";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { Button, Text, buttonVariants } from "../../ui";
+import { Layout } from "../../components/CreatePost";
 
 import CreatePostHeader from "../../assets/images/create-post-category.png";
-import { Layout } from "../../components/CreatePost";
-import { Form, Formik } from "formik";
 
 interface SelectItemProps
   extends React.ComponentPropsWithRef<typeof Select.Item> {
@@ -73,8 +73,8 @@ export default function Category() {
                 <Layout>
                   <Select.Root
                     value={values.category}
-                    onValueChange={(newValue) => {
-                      handleChange("category")(newValue);
+                    onValueChange={(value) => {
+                      handleChange("category")(value);
                     }}
                   >
                     <Select.Trigger

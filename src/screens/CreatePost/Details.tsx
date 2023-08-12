@@ -1,52 +1,84 @@
+import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { Form, Formik } from "formik";
 
-import { HeaderLoader } from "../../components";
 import { useHeight } from "../../hooks";
 import { DotStep } from "../../components/Auth";
-import { Button, buttonVariants } from "../../ui";
+import { HeaderLoader } from "../../components";
+import { Layout } from "../../components/CreatePost";
+import { Button, Text, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-details.png";
-import { Layout } from "../../components/CreatePost";
+
+const validationDetailsSchema = yup.object().shape({
+  details: yup
+    .string()
+    .required("El campo es obligatorio")
+    .min(20, "La descripcion debe tener como minimo 20 palabras"),
+});
 
 export default function Details() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const handleNext = () => {
+  const handleNext = (values: any) => {
+    console.log({ values });
     navigate("/create-post-images");
   };
 
   return (
-    <div style={styleHeight}>
-      <div className="h-full">
-        <HeaderLoader imgCmp={CreatePostHeader} />
+    <Formik
+      initialValues={{ details: "" }}
+      validationSchema={validationDetailsSchema}
+      onSubmit={(values) => handleNext(values)}
+    >
+      {({ handleChange, handleSubmit, values, errors }) => (
+        <Form onSubmit={handleSubmit}>
+          <div style={styleHeight}>
+            <div className="h-full">
+              <HeaderLoader imgCmp={CreatePostHeader} />
 
-        <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <Layout>
-            <textarea
-              name=""
-              id=""
-              placeholder="Detalles del producto"
-              className="p-3 focus-visible:border-@sura-primary-900 focus-visible:outline-transparent resize-none h-64 w-full border-2 border-@sura-primary-200 rounded-md"
-            ></textarea>
-          </Layout>
+              <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
+                <Layout>
+                  <textarea
+                    value={values.details}
+                    placeholder="Detalles del producto"
+                    className="p-3 focus-visible:border-@sura-primary-900 focus-visible:outline-transparent resize-none h-64 w-full border-2 border-@sura-primary-200 rounded-md"
+                    onChange={(value) =>
+                      handleChange("details")(value)
+                    }
+                  ></textarea>
 
-          <div>
-            <DotStep value={4} count={7} />
-            <div className="grid grid-cols-2 gap-4">
-              <Button
-                onClick={() => navigate(-1)}
-                className={buttonVariants({
-                  variant: "outline",
-                })}
-              >
-                Volver
-              </Button>
-              <Button onClick={handleNext}>Siguiente</Button>
+                  {errors.details && (
+                    <Text
+                      data-test="register-feedback-error"
+                      className="text-red-500 mt-2"
+                    >
+                      {errors.details as string}
+                    </Text>
+                  )}
+                </Layout>
+
+                <div>
+                  <DotStep value={4} count={7} />
+                  <div className="grid grid-cols-2 gap-4">
+                    <Button
+                      type="button"
+                      onClick={() => navigate(-1)}
+                      className={buttonVariants({
+                        variant: "outline",
+                      })}
+                    >
+                      Volver
+                    </Button>
+                    <Button type="submit">Siguiente</Button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
