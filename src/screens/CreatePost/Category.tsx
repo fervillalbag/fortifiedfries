@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as Select from "@radix-ui/react-select";
+import * as yup from "yup";
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -11,16 +12,21 @@ import classnames from "classnames";
 import { useHeight } from "../../hooks";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
-import { Button, buttonVariants } from "../../ui";
+import { Button, Text, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-category.png";
 import { Layout } from "../../components/CreatePost";
+import { Form, Formik } from "formik";
 
 interface SelectItemProps
   extends React.ComponentPropsWithRef<typeof Select.Item> {
   children: React.ReactNode;
   className?: string;
 }
+
+const validationCategorySchema = yup.object().shape({
+  category: yup.string().required("El campo es obligatorio"),
+});
 
 const SelectItem: React.FC<SelectItemProps> = React.forwardRef(
   ({ children, className, ...props }, forwardedRef) => {
@@ -46,69 +52,105 @@ export default function Category() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const handleNext = () => {
+  const handleNext = (values: any) => {
+    console.log(values);
     navigate("/create-post-details");
   };
 
   return (
-    <div style={styleHeight}>
-      <div className="h-full">
-        <HeaderLoader imgCmp={CreatePostHeader} />
+    <Formik
+      initialValues={{ category: "" }}
+      validationSchema={validationCategorySchema}
+      onSubmit={(values) => handleNext(values)}
+    >
+      {({ handleChange, handleSubmit, values, errors }) => (
+        <Form onSubmit={handleSubmit}>
+          <div style={styleHeight}>
+            <div className="h-full">
+              <HeaderLoader imgCmp={CreatePostHeader} />
 
-        <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <Layout>
-            <Select.Root>
-              <Select.Trigger
-                className="text-@sura-primary-600 w-full inline-flex items-center justify-between rounded px-[15px] text-lg leading-none h-14 gap-[5px] bg-white text-violet11 border-2 border-@sura-primary-200 hover:bg-mauve3 data-[placeholder]:text-violet9 outline-none"
-                aria-label="Food"
-              >
-                <Select.Value placeholder="Seleccione una categoria" />
-                <Select.Icon className="text-violet11">
-                  <ChevronDownIcon />
-                </Select.Icon>
-              </Select.Trigger>
+              <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
+                <Layout>
+                  <Select.Root
+                    value={values.category}
+                    onValueChange={(newValue) => {
+                      handleChange("category")(newValue);
+                    }}
+                  >
+                    <Select.Trigger
+                      className="text-@sura-primary-600 w-full inline-flex items-center justify-between rounded px-[15px] text-lg leading-none h-14 gap-[5px] bg-white text-violet11 border-2 border-@sura-primary-200 hover:bg-mauve3 data-[placeholder]:text-violet9 outline-none"
+                      aria-label="Food"
+                    >
+                      <Select.Value placeholder="Seleccione una categoria" />
+                      <Select.Icon className="text-violet11">
+                        <ChevronDownIcon />
+                      </Select.Icon>
+                    </Select.Trigger>
 
-              <Select.Portal>
-                <Select.Content className="overflow-hidden pt-2 pb-1 bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
-                  <Select.ScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
-                    <ChevronUpIcon />
-                  </Select.ScrollUpButton>
-                  <Select.Viewport className="p-[5px]">
-                    <Select.Group>
-                      <SelectItem value="apple">Apple</SelectItem>
-                      <SelectItem value="banana">Banana</SelectItem>
-                      <SelectItem value="blueberry">
-                        Blueberry
-                      </SelectItem>
-                      <SelectItem value="grapes">Grapes</SelectItem>
-                      <SelectItem value="pineapple">
-                        Pineapple
-                      </SelectItem>
-                      <SelectItem value="carrot">Carrot</SelectItem>
-                      <SelectItem value="berry">Berry</SelectItem>
-                    </Select.Group>
-                  </Select.Viewport>
-                </Select.Content>
-              </Select.Portal>
-            </Select.Root>
-          </Layout>
+                    <Select.Portal>
+                      <Select.Content className="overflow-hidden pt-2 pb-1 bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+                        <Select.ScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                          <ChevronUpIcon />
+                        </Select.ScrollUpButton>
+                        <Select.Viewport className="p-[5px]">
+                          <Select.Group>
+                            <SelectItem value="">
+                              Seleccione una categoria
+                            </SelectItem>
+                            <SelectItem value="banana">
+                              Banana
+                            </SelectItem>
+                            <SelectItem value="blueberry">
+                              Blueberry
+                            </SelectItem>
+                            <SelectItem value="grapes">
+                              Grapes
+                            </SelectItem>
+                            <SelectItem value="pineapple">
+                              Pineapple
+                            </SelectItem>
+                            <SelectItem value="carrot">
+                              Carrot
+                            </SelectItem>
+                            <SelectItem value="berry">
+                              Berry
+                            </SelectItem>
+                          </Select.Group>
+                        </Select.Viewport>
+                      </Select.Content>
+                    </Select.Portal>
+                  </Select.Root>
 
-          <div>
-            <DotStep value={3} count={7} />
-            <div className="grid grid-cols-2 gap-4">
-              <Button
-                onClick={() => navigate(-1)}
-                className={buttonVariants({
-                  variant: "outline",
-                })}
-              >
-                Volver
-              </Button>
-              <Button onClick={handleNext}>Siguiente</Button>
+                  {errors.category && (
+                    <Text
+                      data-test="register-feedback-error"
+                      className="text-red-500 mt-2"
+                    >
+                      {errors.category as string}
+                    </Text>
+                  )}
+                </Layout>
+
+                <div>
+                  <DotStep value={3} count={7} />
+                  <div className="grid grid-cols-2 gap-4">
+                    <Button
+                      type="button"
+                      onClick={() => navigate(-1)}
+                      className={buttonVariants({
+                        variant: "outline",
+                      })}
+                    >
+                      Volver
+                    </Button>
+                    <Button type="submit">Siguiente</Button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Form>
+      )}
+    </Formik>
   );
 }

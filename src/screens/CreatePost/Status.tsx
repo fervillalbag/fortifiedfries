@@ -18,9 +18,9 @@ export default function Status() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const handleNext = (values: any) => {
-    console.log({ values });
-    // navigate("/create-post-category");
+  const handleNext = ({ status }: any) => {
+    console.log({ status });
+    navigate("/create-post-category");
   };
 
   return (
