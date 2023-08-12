@@ -1,28 +1,41 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 
 import { useHeight } from "../../hooks";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
-import { Button, Input, buttonVariants } from "../../ui";
+import { Button, Input, Text, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-tag.png";
 import { Layout } from "../../components/CreatePost";
-
-const tags = [
-  "prendas",
-  "pantalones",
-  "violeta",
-  "mujeres",
-  "invierno",
-  "asuncion",
-];
 
 export default function Hashtag() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
+  const [inputValue, setInputValue] = useState<string>("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [messageError, setMessageError] = useState<string | null>(
+    null
+  );
+
+  const handleAddTag = (e: any, value: string) => {
+    e.preventDefault();
+    if (inputValue.length <= 0) return;
+
+    setTags([...tags, value]);
+    setInputValue("");
+    setMessageError(null);
+  };
+
   const handleNext = () => {
+    console.log("hello");
+
+    if (tags.length === 0)
+      return setMessageError("Al menos debe tener una etiqueta");
+
+    setMessageError(null);
     navigate("/create-post-price");
   };
 
@@ -37,9 +50,17 @@ export default function Hashtag() {
               Etiquetas
             </h3>
 
-            <div className="flex items-center gap-3">
-              <Input placeholder="" />
+            <form
+              onSubmit={(e) => handleAddTag(e, inputValue)}
+              className="flex items-center gap-3"
+            >
+              <Input
+                placeholder="#remera"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
               <Button
+                type="submit"
                 className={buttonVariants({
                   variant: "outline",
                   className: "w-auto px-4",
@@ -47,7 +68,16 @@ export default function Hashtag() {
               >
                 <PlusCircledIcon className="w-6 h-6 text-@sura-primary-900" />
               </Button>
-            </div>
+            </form>
+
+            {messageError && (
+              <Text
+                data-test="register-feedback-error"
+                className="text-red-500 mt-2"
+              >
+                {messageError}
+              </Text>
+            )}
 
             <div className="flex flex-wrap gap-2 mt-5">
               {tags.map((tag) => (
