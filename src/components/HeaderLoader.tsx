@@ -10,7 +10,7 @@ export default function HeaderLoader({ imgCmp }: HeaderLoaderProps) {
       <LazyLoadImage
         src={imgCmp}
         alt="Imagen"
-        className={`w-full h-full`}
+        className={`w-full h-[200px] object-cover`}
         placeholderSrc="/images/placeholder-banner-create-post.png"
       />
     </div>
