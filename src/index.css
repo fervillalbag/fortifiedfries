@@ -80,3 +80,7 @@
   filter: blur(10px); /* o el valor de desenfoque que necesites */
   transition: filter 0.3s ease-in-out;
 }
+
+.header-loader span {
+  width: 100% !important;
+}

@@ -6,7 +6,7 @@ interface HeaderLoaderProps {
 
 export default function HeaderLoader({ imgCmp }: HeaderLoaderProps) {
   return (
-    <div className="relative h-[200px]">
+    <div className="relative w-full h-[200px] header-loader">
       <LazyLoadImage
         src={imgCmp}
         alt="Imagen"
