@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { Formik } from "formik";
 
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { Button, Input, Text, buttonVariants } from "../../ui";
 import { DotStep } from "../../components/Auth";
 import { HeaderLoader } from "../../components";
 import { Layout } from "../../components/CreatePost";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 import CreatePostHeader from "../../assets/images/create-post-name.png";
-import { Formik } from "formik";
-import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 const validationSchemaName = yup.object().shape({
   name: yup

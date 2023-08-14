@@ -6,9 +6,9 @@ import { useHeight } from "../../hooks";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { Button, Input, Text, buttonVariants } from "../../ui";
+import { Layout } from "../../components/CreatePost";
 
 import CreatePostHeader from "../../assets/images/create-post-tag.png";
-import { Layout } from "../../components/CreatePost";
 
 export default function Hashtag() {
   const navigate = useNavigate();
