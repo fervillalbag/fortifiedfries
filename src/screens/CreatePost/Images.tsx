@@ -5,9 +5,9 @@ import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { useHeight } from "../../hooks";
 import { Button, buttonVariants } from "../../ui";
+import { Layout } from "../../components/CreatePost";
 
 import CreatePostHeader from "../../assets/images/create-post-images.png";
-import { Layout } from "../../components/CreatePost";
 
 export default function Images() {
   const navigate = useNavigate();
