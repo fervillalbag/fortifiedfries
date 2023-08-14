@@ -10,13 +10,14 @@ import {
 import classnames from "classnames";
 import { Form, Formik } from "formik";
 
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { Button, Text, buttonVariants } from "../../ui";
 import { Layout } from "../../components/CreatePost";
 
 import CreatePostHeader from "../../assets/images/create-post-category.png";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 interface SelectItemProps
   extends React.ComponentPropsWithRef<typeof Select.Item> {
@@ -52,8 +53,12 @@ export default function Category() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
+  const [_, handleUpdate] = useLocalStorageState({
+    key: SURA_CREATE_POST_INFO,
+  });
+
   const handleNext = (values: any) => {
-    console.log(values);
+    handleUpdate(values);
     navigate("/create-post-details");
   };
 

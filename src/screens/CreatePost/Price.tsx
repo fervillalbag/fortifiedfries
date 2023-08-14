@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { NumericFormat } from "react-number-format";
 import { Formik } from "formik";
 
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { Button, Input, Text, buttonVariants } from "../../ui";
@@ -11,6 +11,7 @@ import { Layout } from "../../components/CreatePost";
 
 import CreatePostHeader from "../../assets/images/create-post-price.png";
 import { useState } from "react";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 const validationSchemaPrice = yup.object().shape({
   price: yup.string().required("El campo es obligatorio"),
@@ -24,6 +25,10 @@ export default function Hashtag() {
     null
   );
 
+  const [_, handleUpdate] = useLocalStorageState({
+    key: SURA_CREATE_POST_INFO,
+  });
+
   const handleNext = (values: any) => {
     const price = +values.price.split("Gs. ")[1].replace(",", "");
 
@@ -34,8 +39,10 @@ export default function Hashtag() {
       return;
     }
 
+    handleUpdate({ price });
     setErrorMessage(null);
     console.log({ price });
+    return;
     navigate("/home");
   };
 

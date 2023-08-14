@@ -4,9 +4,15 @@ import { Layout } from "../../components";
 import { ACTIONS } from "../../../data/actions";
 import { ButtonAction } from "../../components/Actions";
 import { Text } from "../../ui";
+import { useEffect } from "react";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 export default function Root() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem(SURA_CREATE_POST_INFO, "");
+  }, []);
 
   return (
     <Layout>

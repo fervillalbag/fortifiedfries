@@ -2,11 +2,12 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Field, Form, Formik } from "formik";
 
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { Button, Text, buttonVariants } from "../../ui";
 import { DotStep } from "../../components/Auth";
 import { HeaderLoader } from "../../components";
 import { Layout } from "../../components/CreatePost";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 import CreatePostHeader from "../../assets/images/create-post-status.png";
 
@@ -18,8 +19,12 @@ export default function Status() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const handleNext = ({ status }: any) => {
-    console.log({ status });
+  const [_, handleUpdate] = useLocalStorageState({
+    key: SURA_CREATE_POST_INFO,
+  });
+
+  const handleNext = (values: any) => {
+    handleUpdate(values);
     navigate("/create-post-category");
   };
 

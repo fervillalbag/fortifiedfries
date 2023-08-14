@@ -5,10 +5,11 @@ import {
   CardProduct,
   ModalLogin,
 } from "../components/Home";
+import { Layout } from "../components";
 import { Button, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
 import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
-import { Layout } from "../components";
+import { SURA_CREATE_POST_INFO } from "../utils/constants";
 
 const headerImages = [
   {
@@ -109,6 +110,8 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
+    localStorage.setItem(SURA_CREATE_POST_INFO, "");
+
     localStorage.getItem(NURA_AUTH_USER_INFO)
       ? setShowModalLogin(false)
       : setShowModalLogin(true);
