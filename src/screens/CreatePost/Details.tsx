@@ -2,13 +2,14 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { DotStep } from "../../components/Auth";
 import { HeaderLoader } from "../../components";
 import { Layout } from "../../components/CreatePost";
 import { Button, Text, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-details.png";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 const validationDetailsSchema = yup.object().shape({
   details: yup
@@ -21,8 +22,12 @@ export default function Details() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
+  const [_, handleUpdate] = useLocalStorageState({
+    key: SURA_CREATE_POST_INFO,
+  });
+
   const handleNext = (values: any) => {
-    console.log({ values });
+    handleUpdate(values);
     navigate("/create-post-images");
   };
 

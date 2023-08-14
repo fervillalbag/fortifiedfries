@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { Button, Input, Text, buttonVariants } from "../../ui";
 import { Layout } from "../../components/CreatePost";
 
 import CreatePostHeader from "../../assets/images/create-post-tag.png";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 export default function Hashtag() {
   const navigate = useNavigate();
@@ -19,6 +20,10 @@ export default function Hashtag() {
   const [messageError, setMessageError] = useState<string | null>(
     null
   );
+
+  const [_, handleUpdate] = useLocalStorageState({
+    key: SURA_CREATE_POST_INFO,
+  });
 
   const handleAddTag = (e: any, value: string) => {
     e.preventDefault();
@@ -35,6 +40,7 @@ export default function Hashtag() {
     if (tags.length === 0)
       return setMessageError("Al menos debe tener una etiqueta");
 
+    handleUpdate({ tags });
     setMessageError(null);
     navigate("/create-post-price");
   };
