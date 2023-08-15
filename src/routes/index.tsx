@@ -13,11 +13,10 @@ interface AppRouteProps {
 export default function AppRoute({ isAuthenticated }: AppRouteProps) {
   return (
     <>
-      {isAuthenticated === null && (
+      {/* {isAuthenticated === null && (
         <div className="fixed grid place-items-center w-screen h-screen top-0 left-0 bg-slate-50">
-          {/* Cargando.. */}
         </div>
-      )}
+      )} */}
 
       <BrowserRouter>
         <Routes>

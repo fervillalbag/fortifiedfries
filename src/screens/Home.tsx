@@ -8,8 +8,8 @@ import {
 import { Layout } from "../components";
 import { Button, buttonVariants } from "../ui";
 import { WindowSizeContext } from "../context";
-import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
+import { client } from "../../supabase/client";
 
 const headerImages = [
   {
@@ -98,6 +98,15 @@ const products = [
 const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
 
+  useEffect(() => {
+    (async () => {
+      const { data } = await client.auth.getSession();
+
+      if (data) return setShowModalLogin(false);
+      setShowModalLogin(true);
+    })();
+  }, []);
+
   const [showModalLogin, setShowModalLogin] =
     useState<boolean>(false);
 
@@ -111,10 +120,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem(SURA_CREATE_POST_INFO, "");
-
-    localStorage.getItem(NURA_AUTH_USER_INFO)
-      ? setShowModalLogin(false)
-      : setShowModalLogin(true);
 
     window.addEventListener("scroll", handleScroll);
 

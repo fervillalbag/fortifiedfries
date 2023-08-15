@@ -22,7 +22,7 @@ export default function Root() {
 
   const getUser = async () => {
     const response = await client
-      .from("User")
+      .from("Users")
       .select("*")
       .eq("email", initialValues.email)
       .single();

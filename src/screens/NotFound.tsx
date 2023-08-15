@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Text, buttonVariants } from "../ui";
-import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
 import { useHeight } from "../hooks";
+import { client } from "../../supabase/client";
+import { AuthenticatedContext } from "../context";
 
 const NotFound: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] =
-    useState<boolean>(false);
+  const { isAuthenticated, setIsAuthenticated } = useContext(
+    AuthenticatedContext
+  );
 
   useEffect(() => {
-    setIsAuthenticated(
-      localStorage.getItem(NURA_AUTH_USER_INFO) ? true : false
-    );
+    (async () => {
+      const { data } = await client.auth.getSession();
+
+      if (data) return setIsAuthenticated(true);
+      setIsAuthenticated(false);
+    })();
   }, []);
 
   const stylesHeight = useHeight();

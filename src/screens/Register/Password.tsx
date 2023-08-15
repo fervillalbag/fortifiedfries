@@ -20,7 +20,6 @@ import {
   authStepAnimationDelaySm,
 } from "../../utils/animation";
 import { client } from "../../../supabase/client";
-import { NURA_AUTH_USER_INFO } from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -63,14 +62,25 @@ const Password: React.FC = () => {
       ...initialValues,
       password: hashedString?.encoded,
       typeUser: typeUser?.id,
+      gender: 1,
       username: `${
         initialValues.email.split("@")[0]
       }${shortIdCustom}`,
     };
 
     try {
-      const { data, status } = await client
-        .from("User")
+      const { error } = await client.auth.signUp({
+        email: initialValues.email,
+        password: values.password,
+      });
+
+      if (error) {
+        console.log({ error });
+        return;
+      }
+
+      const { status } = await client
+        .from("Personal")
         .insert([dataToRegisterUser])
         .select()
         .single();
@@ -84,17 +94,8 @@ const Password: React.FC = () => {
             t={t}
           />
         ));
-
-        localStorage.setItem(
-          NURA_AUTH_USER_INFO,
-          JSON.stringify({
-            id: data?.id,
-            email: data?.email,
-            fullname: data?.fullname,
-          })
-        );
         handleUpdateForm({ username: dataToRegisterUser.username });
-        navigate("/register-username");
+        navigate("/register-fullname");
         setLoading(false);
       }
       setLoading(false);
@@ -191,12 +192,12 @@ const Password: React.FC = () => {
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
               routeLink="/login"
-              currentStep={4}
-              count={4}
+              currentStep={2}
+              count={2}
             >
               <Button
                 type="button"
-                onClick={() => navigate("/register-gender")}
+                onClick={() => navigate("/register-email")}
                 variant="outline"
               >
                 Volver

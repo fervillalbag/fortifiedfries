@@ -33,7 +33,7 @@ export default function Username() {
 
   const getUser = async () => {
     const { data, error } = await client
-      .from("User")
+      .from("Users")
       .select("*")
       .eq("email", value.email)
       .single();
@@ -47,7 +47,7 @@ export default function Username() {
 
     try {
       const { status } = await client
-        .from("User")
+        .from("Users")
         .update({ username: values.username })
         .eq("id", currentUser?.data.id)
         .select();

@@ -45,7 +45,7 @@ export default function Email() {
 
     try {
       const { data: dataUser } = await client
-        .from("User")
+        .from("Users")
         .select("*")
         .eq("email", values.email);
 

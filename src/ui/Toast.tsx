@@ -1,42 +1,54 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as Toast from "@radix-ui/react-toast";
 
 import InfoIcon from "../assets/icons/toast-info-icon.svg";
+import WarningIcon from "../assets/icons/toast-warning-icon.svg";
+import SuccessIcon from "../assets/icons/toast-success-icon.svg";
+import ErrorIcon from "../assets/icons/toast-error-icon.svg";
 import CloseIcon from "../assets/icons/toast-close-icon.svg";
 
-export default function ToastUI() {
-  const [open, setOpen] = useState(false);
+interface ToastUIProps {
+  type: string;
+  open: boolean;
+  message: string;
+  duration?: number;
+  setOpen: (value: boolean) => void;
+}
+
+export default function ToastUI({
+  type,
+  open = false,
+  message,
+  duration = 3000,
+  setOpen,
+}: ToastUIProps) {
   const timerRef = useRef(0);
 
   useEffect(() => {
     return () => clearTimeout(timerRef.current);
   }, []);
 
-  return (
-    <Toast.Provider swipeDirection="right">
-      <button
-        className="relative z-50 inline-flex items-center justify-center rounded font-medium text-[15px] px-[15px] leading-[35px] h-[35px] bg-white text-violet11 shadow-[0_2px_10px] shadow-blackA7 outline-none hover:bg-mauve3 focus:shadow-[0_0_0_2px] focus:shadow-black"
-        onClick={() => {
-          setOpen(false);
-          window.clearTimeout(timerRef.current);
-          timerRef.current = window.setTimeout(() => {
-            setOpen(true);
-          }, 100);
-        }}
-      >
-        Add to calendar
-      </button>
+  const icon =
+    type === "error"
+      ? ErrorIcon
+      : type === "success"
+      ? SuccessIcon
+      : type === "warning"
+      ? WarningIcon
+      : InfoIcon;
 
+  return (
+    <Toast.Provider swipeDirection="down" duration={duration}>
       <Toast.Root
-        duration={3000}
-        className="border-2 border-[#006CE5] bg-white rounded-md shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] p-[15px] grid [grid-template-areas:_'title_action'_'description_action'] grid-cols-[auto_max-content] gap-x-[15px] items-center data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut"
+        duration={duration}
+        className="bg-white rounded-md shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] p-[15px] grid [grid-template-areas:_'title_action'_'description_action'] grid-cols-[auto_max-content] gap-x-[15px] items-center data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut"
         open={open}
         onOpenChange={setOpen}
       >
         <div className="flex items-center gap-3">
-          <img src={InfoIcon} alt="" className="w-10" />
-          <Toast.Title className="[grid-area:_title] font-medium text-slate12 text-lg text-@sura-primary-700">
-            Scheduled: Catch up
+          <img src={icon} alt="" className="w-10" />
+          <Toast.Title className="[grid-area:_title] font-medium text-@sura-primary-700">
+            {message}
           </Toast.Title>
         </div>
         <Toast.Action
@@ -49,7 +61,7 @@ export default function ToastUI() {
           </button>
         </Toast.Action>
       </Toast.Root>
-      <Toast.Viewport className="[--viewport-padding:_16px] fixed bottom-0 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />
+      <Toast.Viewport className="[--viewport-padding:_16px] fixed top-0 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />
     </Toast.Provider>
   );
 }

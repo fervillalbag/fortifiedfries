@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { m } from "framer-motion";
 
 import { Navbar } from "./";
 import {
   NURA_AUTH_REGISTER_INFO,
-  NURA_AUTH_USER_INFO,
   authInitialValue,
 } from "../utils/constants/auth";
 import { useLocalStorageState } from "../hooks";
 import { transitionLayoutPage } from "../utils/animation";
+import { AuthenticatedContext } from "../context";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [showNavbar, setShowNavbar] = useState<boolean>(true);
+  const { isAuthenticated } = useContext(AuthenticatedContext);
 
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -30,7 +30,6 @@ export default function Layout({ children }: LayoutProps) {
       const scrollingDown = currentScrollPos > prevScrollPos;
 
       setIsVisible(scrollingDown);
-
       setPrevScrollPos(currentScrollPos);
     };
 
@@ -43,10 +42,6 @@ export default function Layout({ children }: LayoutProps) {
 
   useEffect(() => {
     handleUpdateForm(authInitialValue);
-
-    localStorage.getItem(NURA_AUTH_USER_INFO)
-      ? setShowNavbar(true)
-      : setShowNavbar(false);
   }, []);
 
   return (
@@ -59,7 +54,8 @@ export default function Layout({ children }: LayoutProps) {
       >
         {children}
       </m.div>
-      {showNavbar ? <Navbar isVisible={isVisible} /> : null}
+
+      {isAuthenticated ? <Navbar isVisible={isVisible} /> : null}
     </div>
   );
 }
