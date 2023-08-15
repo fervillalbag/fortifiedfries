@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import { toast } from "react-hot-toast";
 import { m } from "framer-motion";
 // @ts-ignore
@@ -14,9 +14,6 @@ import {
 import { Alert, Button, Input, Text } from "../../ui";
 import { useHeight } from "../../hooks";
 import { authStepAnimation } from "../../utils/animation";
-import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { AuthenticatedContext } from "../../context";
-import { NURA_AUTH_USER_INFO } from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -25,8 +22,6 @@ const registerValidationSchema = yup.object().shape({
 const Password: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-
-  const { isLogged, setIsLogged } = useContext(AuthenticatedContext);
 
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
@@ -56,19 +51,27 @@ const Password: React.FC = () => {
         pass: values.password,
         encoded: state?.user[0].password,
       })
-      .then(() => {
+      .then(async () => {
         setLoading(false);
-        localStorage.setItem(NURA_AUTH_REGISTER_INFO, "");
-        setIsLogged(!isLogged);
-        localStorage.setItem(
-          NURA_AUTH_USER_INFO,
-          JSON.stringify({
-            id: state?.user[0]?.id,
-            email: state?.user[0]?.email,
-            fullname: state?.user[0]?.fullname,
-          })
-        );
-        navigate("/home");
+        // localStorage.setItem(NURA_AUTH_REGISTER_INFO, "");
+        // setIsLogged(!isLogged);
+        // localStorage.setItem(
+        //   NURA_AUTH_USER_INFO,
+        //   JSON.stringify({
+        //     id: state?.user[0]?.id,
+        //     email: state?.user[0]?.email,
+        //     fullname: state?.user[0]?.fullname,
+        //   })
+        // );
+        // navigate("/home");
+
+        // const { data } = await client.auth.signIn({
+        //   email: state?.user[0]?.email,
+        //   password: state?.user[0].password,
+        // });
+
+        // console.log({ data });
+        setLoading(false);
       })
       .catch((_: any) => {
         setLoading(false);
@@ -110,7 +113,7 @@ const Password: React.FC = () => {
           handleSubmit,
           errors,
         }) => (
-          <form className="p-5" onSubmit={handleSubmit}>
+          <Form className="p-5" onSubmit={handleSubmit}>
             <m.div
               initial="hidden"
               animate="visible"
@@ -158,7 +161,7 @@ const Password: React.FC = () => {
                 Siguiente
               </Button>
             </FooterAuth>
-          </form>
+          </Form>
         )}
       </Formik>
     </div>

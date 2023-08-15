@@ -8,7 +8,7 @@ import {
   Footer as FooterAuth,
   Header as HeaderAuth,
 } from "../../components/Auth";
-import { Alert, Button, Input, Text } from "../../ui";
+import { Alert, Button, Input, Text, Toast } from "../../ui";
 import { mailformat } from "../../utils/regex";
 import {
   NURA_AUTH_REGISTER_INFO,
@@ -31,9 +31,11 @@ const registerValidationSchema = yup.object().shape({
 const Email: React.FC = () => {
   const navigate = useNavigate();
   const styleHeight = useHeight();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [openToast, setOpenToast] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [userInfoValue] = useState<any>(authInitialValue);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const [initialValues, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -45,17 +47,22 @@ const Email: React.FC = () => {
     setLoading(true);
 
     try {
-      const { data: dataUser } = await client
-        .from("User")
+      const { data } = await client
+        .from("Personal")
         .select("*")
         .eq("email", values.email);
 
-      if (dataUser?.length === 0) {
-        setLoading(false);
-        navigate("/register-gender");
+      if (data?.length === 0) {
+        navigate("/register-password");
         return;
       }
 
+      setOpenToast(true);
+      setErrorMessage("El email ya existe");
+      setLoading(false);
+      console.log("Correo no disponible");
+    } catch (error: any) {
+      console.log(error);
       setLoading(false);
       return toast.custom(
         (t) => (
@@ -69,8 +76,6 @@ const Email: React.FC = () => {
         ),
         { duration: 4000 }
       );
-    } catch (error: any) {
-      throw new Error(error);
     }
   };
 
@@ -80,6 +85,13 @@ const Email: React.FC = () => {
         image="/images/bg-register-email.jpg"
         title=""
         subtitle={`Ingrese su correo electronico`}
+      />
+      <Toast
+        type="error"
+        open={openToast}
+        duration={3000}
+        setOpen={setOpenToast}
+        message={errorMessage}
       />
 
       <Formik
@@ -126,20 +138,20 @@ const Email: React.FC = () => {
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
               routeLink="/login"
-              currentStep={2}
-              count={4}
+              currentStep={1}
+              count={2}
             >
               <Button
                 type="button"
-                onClick={() => navigate("/register-name")}
+                onClick={() => navigate("/register")}
                 variant="outline"
               >
                 Volver
               </Button>
               <Button
-                isLoading={loading}
                 data-test="register-button-submit"
                 type="submit"
+                isLoading={loading}
               >
                 Siguiente
               </Button>

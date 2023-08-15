@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from "react";
-import { NURA_AUTH_USER_INFO } from "../utils/constants/auth";
+import { client } from "../../supabase/client";
 
 export const AuthenticatedContext = createContext<any>(null);
 
@@ -10,16 +10,18 @@ interface AuthenticatedProps {
 export default function AuthenticatedProvider({
   children,
 }: AuthenticatedProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState<
-    boolean | null
-  >(null);
-  const [isLogged, setIsLogged] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] =
+    useState<boolean>(false);
+  const [isLogged, setIsLogged] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setIsAuthenticated(
-      localStorage.getItem(NURA_AUTH_USER_INFO) ? true : false
-    );
-  }, [isLogged]);
+    (async () => {
+      const { data } = await client.auth.getSession();
+
+      if (data) return setIsAuthenticated(true);
+      setIsAuthenticated(false);
+    })();
+  }, []);
 
   return (
     <AuthenticatedContext.Provider
