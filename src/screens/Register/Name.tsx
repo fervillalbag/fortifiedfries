@@ -31,10 +31,12 @@ export default function Name() {
   const styleHeight = useHeight();
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingPage, setLoadingPage] = useState<boolean>(false);
 
   const { setIsAuthenticated } = useContext(AuthenticatedContext);
 
   useEffect(() => {
+    setLoadingPage(true);
     setIsAuthenticated(true);
   }, []);
 
@@ -73,6 +75,13 @@ export default function Name() {
     console.log("Ha ocurrido un problema");
     setLoading(false);
   };
+
+  if (!loadingPage)
+    return (
+      <div className="bg-white fixed top-0 left-0 w-screen h-screen grid place-items-center">
+        <p className="text-xl">Cargando..</p>
+      </div>
+    );
 
   if (value.email)
     return (
