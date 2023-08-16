@@ -5,26 +5,32 @@ import { m } from "framer-motion";
 import { Button, Text } from "../../ui";
 import { Footer as FooterAuth } from "../../components/Auth";
 import { authStepAnimation } from "../../utils/animation";
-import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { AuthenticatedContext } from "../../context";
+import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { NotFound } from "../";
 
 export default function Photos() {
   const navigate = useNavigate();
-  const { state } = useLocation();
   const styleHeight = useHeight();
+  const { state } = useLocation();
 
-  const { isLogged, setIsLogged } = useContext(AuthenticatedContext);
+  const { setIsLogged } = useContext(AuthenticatedContext);
+  const [value] = useLocalStorageState({
+    key: NURA_AUTH_REGISTER_INFO,
+  });
 
   const handleComplete = async () => {
     try {
-      localStorage.setItem(NURA_AUTH_REGISTER_INFO, "");
-      setIsLogged(!isLogged);
+      localStorage.setItem("AUTH", true.toString());
+      setIsLogged(true);
       navigate("/home");
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (value.email === "" || !value.email) return <NotFound />;
 
   return (
     <div
@@ -84,8 +90,8 @@ export default function Photos() {
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
           routeLink="/login"
-          currentStep={2}
-          count={2}
+          currentStep={3}
+          count={3}
           disableFooterText={false}
         >
           <Button

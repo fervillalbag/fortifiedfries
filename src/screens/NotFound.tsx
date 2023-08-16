@@ -1,24 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { Text, buttonVariants } from "../ui";
 import { useHeight } from "../hooks";
-import { client } from "../../supabase/client";
 import { AuthenticatedContext } from "../context";
 
 const NotFound: React.FC = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(
-    AuthenticatedContext
-  );
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await client.auth.getSession();
-
-      if (data) return setIsAuthenticated(true);
-      setIsAuthenticated(false);
-    })();
-  }, []);
+  const { isAuthenticated } = useContext(AuthenticatedContext);
 
   const stylesHeight = useHeight();
 

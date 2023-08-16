@@ -19,13 +19,18 @@ function App() {
     },
   });
 
-  const { isAuthenticated } = useContext(AuthenticatedContext);
+  const { isAuthenticated, isLogged } = useContext(
+    AuthenticatedContext
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
       <LazyMotion strict features={domAnimation}>
         <WindowSizeProvider>
-          <AppRoute isAuthenticated={isAuthenticated} />
+          <AppRoute
+            isAuthenticated={isAuthenticated}
+            isLogged={isLogged}
+          />
           <Toaster position="top-center" reverseOrder={false} />
         </WindowSizeProvider>
       </LazyMotion>

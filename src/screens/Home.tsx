@@ -7,9 +7,8 @@ import {
 } from "../components/Home";
 import { Layout } from "../components";
 import { Button, buttonVariants } from "../ui";
-import { WindowSizeContext } from "../context";
+import { AuthenticatedContext, WindowSizeContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
-import { client } from "../../supabase/client";
 
 const headerImages = [
   {
@@ -97,18 +96,11 @@ const products = [
 
 const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
+  const { isAuthenticated } = useContext(AuthenticatedContext);
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await client.auth.getSession();
-
-      if (data) return setShowModalLogin(false);
-      setShowModalLogin(true);
-    })();
-  }, []);
-
-  const [showModalLogin, setShowModalLogin] =
-    useState<boolean>(false);
+  const [showModalLogin, setShowModalLogin] = useState<boolean>(
+    !isAuthenticated
+  );
 
   const [categorySelected, setCategorySelected] =
     useState<string>("1");
@@ -120,7 +112,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem(SURA_CREATE_POST_INFO, "");
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {
