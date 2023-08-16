@@ -3,17 +3,17 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { m } from "framer-motion";
-import { toast } from "react-hot-toast";
 
 import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
-import { Alert, Button, Input, Text } from "../../ui";
+import { Button, Input, Text, buttonVariants } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
-import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { client } from "../../../supabase/client";
+import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { NotFound } from "..";
 
 const registerValidationSchema = yup.object().shape({
   username: yup
@@ -25,68 +25,47 @@ export default function Username() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const [value, handleUpdateForm] = useLocalStorageState({
+  const [value, handleUpdate] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
 
-  const getUser = async () => {
-    const { data, error } = await client
-      .from("Users")
-      .select("*")
-      .eq("email", value.email)
-      .single();
+  console.log({ value });
 
-    return { data, error };
-  };
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleNext = async (values: any) => {
     setLoading(true);
-    const currentUser: any = await getUser();
+    const { data: dataUser } = await client.auth.getUser();
 
-    try {
-      const { status } = await client
-        .from("Users")
-        .update({ username: values.username })
-        .eq("id", currentUser?.data.id)
-        .select();
-
-      if (status === 200) {
-        toast.custom(
-          (t) => (
-            <Alert
-              type="success"
-              title="Excelente!"
-              description="Datos actualizados."
-              t={t}
-              duration={2000}
-            />
-          ),
-          { duration: 4000 }
-        );
-        handleUpdateForm(values);
-        navigate("/register-photos", {
-          state: {
-            fullname: value.fullname,
-            username: values.username,
-          },
-        });
-        setLoading(false);
-      }
-      setLoading(false);
-    } catch (error: any) {
-      toast.custom((t) => (
-        <Alert
-          type="error"
-          title="Hubo un problema"
-          description={error.message}
-          t={t}
-        />
-      ));
-      setLoading(false);
+    if (!dataUser.user) {
+      console.log("No se pudo obtener usuario");
+      return;
     }
+
+    const { data, status } = await client
+      .from("Personal")
+      .update({ username: values.username })
+      .eq("user", dataUser.user.id)
+      .select("*")
+      .single();
+
+    if (status === 200) {
+      console.log("Actualizacion existosa");
+      handleUpdate({
+        username: data.username,
+      });
+      navigate("/register-photos", {
+        state: { fullname: data.fullname, username: data.username },
+      });
+      setLoading(false);
+      return;
+    }
+
+    console.log("Ha ocurrido un problema");
+    setLoading(false);
   };
+
+  if (value.email === "" || !value.email) return <NotFound />;
 
   return (
     <div style={styleHeight}>
@@ -140,11 +119,19 @@ export default function Username() {
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
               routeLink="/login"
-              currentStep={1}
+              currentStep={2}
               disableFooterText={false}
-              count={2}
+              count={3}
             >
-              <div />
+              <Button
+                type="button"
+                className={buttonVariants({
+                  variant: "outline",
+                })}
+                onClick={() => navigate(-1)}
+              >
+                Volver
+              </Button>
               <Button
                 isLoading={loading}
                 data-test="register-button-submit"

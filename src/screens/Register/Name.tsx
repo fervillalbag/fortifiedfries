@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,9 @@ import {
   authInitialValue,
 } from "../../utils/constants";
 import { authStepAnimation } from "../../utils/animation";
+import { AuthenticatedContext } from "../../context";
+import { client } from "../../../supabase/client";
+import { NotFound } from "..";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -27,15 +30,51 @@ export default function Name() {
   const [userInfoValue] = useState<any>(authInitialValue);
   const styleHeight = useHeight();
 
-  const [initialValues, handleUpdateForm] = useLocalStorageState({
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { setIsAuthenticated } = useContext(AuthenticatedContext);
+
+  useEffect(() => {
+    setIsAuthenticated(true);
+  }, []);
+
+  const [value, handleUpdate] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
     value: userInfoValue,
   });
 
   const handleNext = async (values: any) => {
-    handleUpdateForm(values);
-    navigate("/register-email");
+    setLoading(true);
+    const { data: dataUser } = await client.auth.getUser();
+
+    if (dataUser.user === null) {
+      console.log("No se ha encontrado el usuario");
+      return;
+    }
+
+    const { data, status } = await client
+      .from("Personal")
+      .update({ fullname: values.fullname })
+      .eq("user", dataUser.user.id)
+      .select("*")
+      .single();
+
+    if (status === 200) {
+      console.log("Actualizacion existosa");
+      handleUpdate({
+        username: data.username,
+        fullname: data.fullname,
+      });
+      navigate("/register-username");
+      setLoading(false);
+      return;
+    }
+
+    console.log("Ha ocurrido un problema");
+    setLoading(false);
   };
+
+  if (value.email === "" || !value.email) return <NotFound />;
 
   return (
     <div style={styleHeight}>
@@ -49,7 +88,7 @@ export default function Name() {
         validationSchema={registerValidationSchema}
         validator={() => ({})}
         initialValues={{
-          fullname: initialValues?.fullname || "",
+          fullname: value?.fullname || "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >
@@ -86,22 +125,18 @@ export default function Name() {
             </m.div>
 
             <FooterAuth
-              footerText="Ya tienes una cuenta?"
-              routeText="Inicia sesion"
+              footerText=""
+              routeText=""
               routeLink="/login"
+              disableFooterText={false}
               currentStep={1}
-              count={4}
+              count={3}
             >
-              <Button
-                type="button"
-                onClick={() => navigate("/register")}
-                variant="outline"
-              >
-                Volver
-              </Button>
+              <div />
               <Button
                 data-test="register-button-submit"
                 type="submit"
+                isLoading={loading}
               >
                 Siguiente
               </Button>

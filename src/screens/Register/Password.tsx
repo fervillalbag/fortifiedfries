@@ -3,7 +3,6 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { nanoid } from "nanoid";
-import { toast } from "react-hot-toast";
 import { m } from "framer-motion";
 // @ts-ignore
 import argon2 from "argon2-wasm-esm";
@@ -12,7 +11,7 @@ import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
-import { Alert, Button, Input, Text, inputVariants } from "../../ui";
+import { Button, Input, Text, inputVariants } from "../../ui";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import {
@@ -33,8 +32,10 @@ const Password: React.FC = () => {
   const navigate = useNavigate();
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
+  const [showModalEmail, setShowModalEmail] =
+    useState<boolean>(false);
 
-  const [initialValues, handleUpdateForm] = useLocalStorageState({
+  const [initialValues] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
 
@@ -58,9 +59,23 @@ const Password: React.FC = () => {
       salt: "somesalt",
     });
 
+    const { data, error } = await client.auth.signUp({
+      email: initialValues.email,
+      password: values.password,
+    });
+
+    if (error || data.user === null) {
+      console.log({ error });
+      return;
+    }
+
     const dataToRegisterUser = {
       ...initialValues,
+      user: data?.user.id,
       password: hashedString?.encoded,
+      fullname: `${
+        initialValues.email.split("@")[0]
+      }${shortIdCustom}`,
       typeUser: typeUser?.id,
       gender: 1,
       username: `${
@@ -68,52 +83,39 @@ const Password: React.FC = () => {
       }${shortIdCustom}`,
     };
 
-    try {
-      const { error } = await client.auth.signUp({
-        email: initialValues.email,
-        password: values.password,
-      });
+    const { status } = await client
+      .from("Personal")
+      .insert([dataToRegisterUser])
+      .select()
+      .single();
 
-      if (error) {
-        console.log({ error });
-        return;
-      }
-
-      const { status } = await client
-        .from("Personal")
-        .insert([dataToRegisterUser])
-        .select()
-        .single();
-
-      if (status === 201) {
-        toast.custom((t) => (
-          <Alert
-            type="success"
-            title="Excelente!"
-            description="Cuenta creada exitosamente."
-            t={t}
-          />
-        ));
-        handleUpdateForm({ username: dataToRegisterUser.username });
-        navigate("/register-fullname");
-        setLoading(false);
-      }
-      setLoading(false);
-    } catch (error: any) {
-      toast.custom((t) => (
-        <Alert
-          type="error"
-          title="Hubo un problema"
-          description={error.message}
-          t={t}
-        />
-      ));
+    if (status === 201) {
+      setShowModalEmail(true);
       setLoading(false);
     }
+
+    console.log("Hubo un problema");
+    setLoading(false);
   };
 
   return (
     <div style={styleHeight}>
+      <div
+        className={`w-screen h-screen fixed top-0 left-0 bg-white z-20 p-5 ${
+          showModalEmail ? "block" : "hidden"
+        }`}
+      >
+        <div>
+          <h3 className="text-3xl font-bold text-@sura-primary-900">
+            Revise su correo
+          </h3>
+          <p className="text-@sura-primary-600 mt-2">
+            Por favor, revisa tu correo electrónico para ingresar al
+            enlace que te permitirá completar tu registro.
+          </p>
+        </div>
+      </div>
+
       <HeaderAuth
         image="/images/bg-register-password.jpg"
         title=""

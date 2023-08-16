@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { client } from "../../supabase/client";
 
 export const AuthenticatedContext = createContext<any>(null);
@@ -12,13 +12,17 @@ export default function AuthenticatedProvider({
 }: AuthenticatedProps) {
   const [isAuthenticated, setIsAuthenticated] =
     useState<boolean>(false);
-  const [isLogged, setIsLogged] = useState<boolean | null>(null);
+  const [isLogged, setIsLogged] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       const { data } = await client.auth.getSession();
 
-      if (data) return setIsAuthenticated(true);
+      if (data.session?.access_token) {
+        setIsAuthenticated(true);
+        return;
+      }
+
       setIsAuthenticated(false);
     })();
   }, []);

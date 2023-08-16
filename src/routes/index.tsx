@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { Home, NotFound } from "../screens";
+import { NotFound } from "../screens";
 import {
   LIST_ROUTES_AUTHENTICATED,
   LIST_ROUTES_UNAUTHENTICATED,
@@ -8,20 +8,14 @@ import {
 
 interface AppRouteProps {
   isAuthenticated: boolean | null;
+  isLogged: boolean | null;
 }
 
 export default function AppRoute({ isAuthenticated }: AppRouteProps) {
   return (
     <>
-      {/* {isAuthenticated === null && (
-        <div className="fixed grid place-items-center w-screen h-screen top-0 left-0 bg-slate-50">
-        </div>
-      )} */}
-
       <BrowserRouter>
         <Routes>
-          <Route path="/home" element={<Home />} />
-
           {!isAuthenticated
             ? LIST_ROUTES_UNAUTHENTICATED.map((route) => (
                 <Route
