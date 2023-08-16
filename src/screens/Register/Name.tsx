@@ -17,7 +17,6 @@ import {
 import { authStepAnimation } from "../../utils/animation";
 import { AuthenticatedContext } from "../../context";
 import { client } from "../../../supabase/client";
-import { NotFound } from "..";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -83,77 +82,74 @@ export default function Name() {
       </div>
     );
 
-  if (value.email)
-    return (
-      <div style={styleHeight}>
-        <HeaderAuth
-          image="/images/bg-register-fullname.jpg"
-          title=""
-          subtitle={`Ingrese su nombre completo`}
-        />
+  return (
+    <div style={styleHeight}>
+      <HeaderAuth
+        image="/images/bg-register-fullname.jpg"
+        title=""
+        subtitle={`Ingrese su nombre completo`}
+      />
 
-        <Formik
-          validationSchema={registerValidationSchema}
-          validator={() => ({})}
-          initialValues={{
-            fullname: value?.fullname || "",
-          }}
-          onSubmit={(values: any) => handleNext(values)}
-        >
-          {({
-            handleBlur,
-            handleChange,
-            values,
-            handleSubmit,
-            errors,
-          }) => (
-            <form className="p-5" onSubmit={handleSubmit}>
-              <m.div
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={authStepAnimation}
-              >
-                <Input
-                  data-test="register-input-name"
-                  placeholder="Ej: Lucas Lamas"
-                  value={values.fullname}
-                  onChange={handleChange("fullname")}
-                  onBlur={handleBlur("fullname")}
-                />
+      <Formik
+        validationSchema={registerValidationSchema}
+        validator={() => ({})}
+        initialValues={{
+          fullname: value?.fullname || "",
+        }}
+        onSubmit={(values: any) => handleNext(values)}
+      >
+        {({
+          handleBlur,
+          handleChange,
+          values,
+          handleSubmit,
+          errors,
+        }) => (
+          <form className="p-5" onSubmit={handleSubmit}>
+            <m.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={authStepAnimation}
+            >
+              <Input
+                data-test="register-input-name"
+                placeholder="Ej: Lucas Lamas"
+                value={values.fullname}
+                onChange={handleChange("fullname")}
+                onBlur={handleBlur("fullname")}
+              />
 
-                {errors.fullname && (
-                  <Text
-                    data-test="register-feedback-error"
-                    className="text-red-500 mt-2"
-                  >
-                    {errors.fullname as string}
-                  </Text>
-                )}
-              </m.div>
-
-              <FooterAuth
-                footerText=""
-                routeText=""
-                routeLink="/login"
-                disableFooterText={false}
-                currentStep={1}
-                count={3}
-              >
-                <div />
-                <Button
-                  data-test="register-button-submit"
-                  type="submit"
-                  isLoading={loading}
+              {errors.fullname && (
+                <Text
+                  data-test="register-feedback-error"
+                  className="text-red-500 mt-2"
                 >
-                  Siguiente
-                </Button>
-              </FooterAuth>
-            </form>
-          )}
-        </Formik>
-      </div>
-    );
+                  {errors.fullname as string}
+                </Text>
+              )}
+            </m.div>
 
-  if (!value.email) return <NotFound />;
+            <FooterAuth
+              footerText=""
+              routeText=""
+              routeLink="/login"
+              disableFooterText={false}
+              currentStep={1}
+              count={3}
+            >
+              <div />
+              <Button
+                data-test="register-button-submit"
+                type="submit"
+                isLoading={loading}
+              >
+                Siguiente
+              </Button>
+            </FooterAuth>
+          </form>
+        )}
+      </Formik>
+    </div>
+  );
 }
