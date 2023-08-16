@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import {
 } from "../../utils/constants";
 import { authStepAnimation } from "../../utils/animation";
 import { client } from "../../../supabase/client";
+import { AuthenticatedContext } from "../../context";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -27,6 +28,7 @@ export default function Name() {
   const navigate = useNavigate();
   const [userInfoValue] = useState<any>(authInitialValue);
   const styleHeight = useHeight();
+  const { isAuthenticated } = useContext(AuthenticatedContext);
 
   const [value, handleUpdate] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -74,6 +76,8 @@ export default function Name() {
     console.log("Ha ocurrido un problema");
     setLoading(false);
   };
+
+  if (isAuthenticated === null) return;
 
   if (loadingPage)
     return (
