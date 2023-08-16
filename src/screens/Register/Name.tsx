@@ -29,20 +29,25 @@ export default function Name() {
   const [userInfoValue] = useState<any>(authInitialValue);
   const styleHeight = useHeight();
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loadingPage, setLoadingPage] = useState<boolean>(false);
-
-  const { setIsAuthenticated } = useContext(AuthenticatedContext);
-
-  useEffect(() => {
-    setLoadingPage(true);
-    setIsAuthenticated(true);
-  }, []);
-
   const [value, handleUpdate] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
     value: userInfoValue,
   });
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingPage, setLoadingPage] = useState<boolean>(
+    value.name ? false : true
+  );
+
+  const { setIsAuthenticated } = useContext(AuthenticatedContext);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingPage(false);
+    }, 1500);
+
+    setIsAuthenticated(true);
+  }, []);
 
   const handleNext = async (values: any) => {
     setLoading(true);
@@ -75,7 +80,7 @@ export default function Name() {
     setLoading(false);
   };
 
-  if (!loadingPage)
+  if (loadingPage)
     return (
       <div className="bg-white fixed top-0 left-0 w-screen h-screen grid place-items-center">
         <p className="text-xl">Cargando..</p>
