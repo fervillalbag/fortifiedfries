@@ -74,7 +74,7 @@ export default function Name() {
     setLoading(false);
   };
 
-  if (value.email === "")
+  if (value.email)
     return (
       <div style={styleHeight}>
         <HeaderAuth
