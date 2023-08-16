@@ -15,8 +15,8 @@ import {
   authInitialValue,
 } from "../../utils/constants";
 import { authStepAnimation } from "../../utils/animation";
-import { AuthenticatedContext } from "../../context";
 import { client } from "../../../supabase/client";
+import { AuthenticatedContext } from "../../context";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -28,6 +28,7 @@ export default function Name() {
   const navigate = useNavigate();
   const [userInfoValue] = useState<any>(authInitialValue);
   const styleHeight = useHeight();
+  const { isAuthenticated } = useContext(AuthenticatedContext);
 
   const [value, handleUpdate] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -36,17 +37,13 @@ export default function Name() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingPage, setLoadingPage] = useState<boolean>(
-    value.name ? false : true
+    value.fullname ? false : true
   );
-
-  const { setIsAuthenticated } = useContext(AuthenticatedContext);
 
   useEffect(() => {
     setTimeout(() => {
       setLoadingPage(false);
     }, 1500);
-
-    setIsAuthenticated(true);
   }, []);
 
   const handleNext = async (values: any) => {
@@ -79,6 +76,8 @@ export default function Name() {
     console.log("Ha ocurrido un problema");
     setLoading(false);
   };
+
+  if (isAuthenticated === null) return;
 
   if (loadingPage)
     return (

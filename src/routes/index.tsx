@@ -12,6 +12,8 @@ interface AppRouteProps {
 }
 
 export default function AppRoute({ isAuthenticated }: AppRouteProps) {
+  if (isAuthenticated === null) return null;
+
   return (
     <>
       <BrowserRouter>

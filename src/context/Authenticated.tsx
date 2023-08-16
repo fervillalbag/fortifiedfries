@@ -10,8 +10,9 @@ interface AuthenticatedProps {
 export default function AuthenticatedProvider({
   children,
 }: AuthenticatedProps) {
-  const [isAuthenticated, setIsAuthenticated] =
-    useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<
+    boolean | null
+  >(null);
   const [isLogged, setIsLogged] = useState<boolean>(false);
 
   useEffect(() => {
