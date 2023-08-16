@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
@@ -19,6 +19,7 @@ import {
   authStepAnimationDelaySm,
 } from "../../utils/animation";
 import { client } from "../../../supabase/client";
+import { AuthenticatedContext } from "../../context";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -34,6 +35,8 @@ const Password: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showModalEmail, setShowModalEmail] =
     useState<boolean>(false);
+
+  const { setIsAuthenticated } = useContext(AuthenticatedContext);
 
   const [initialValues] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -92,6 +95,7 @@ const Password: React.FC = () => {
     if (status === 201) {
       setShowModalEmail(true);
       setLoading(false);
+      setIsAuthenticated(true);
     }
 
     console.log("Hubo un problema");
