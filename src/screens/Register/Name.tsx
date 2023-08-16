@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,6 @@ import {
   authInitialValue,
 } from "../../utils/constants";
 import { authStepAnimation } from "../../utils/animation";
-import { AuthenticatedContext } from "../../context";
 import { client } from "../../../supabase/client";
 
 const registerValidationSchema = yup.object().shape({
@@ -36,17 +35,13 @@ export default function Name() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingPage, setLoadingPage] = useState<boolean>(
-    value.name ? false : true
+    value.fullname ? false : true
   );
-
-  const { setIsAuthenticated } = useContext(AuthenticatedContext);
 
   useEffect(() => {
     setTimeout(() => {
       setLoadingPage(false);
     }, 1500);
-
-    setIsAuthenticated(true);
   }, []);
 
   const handleNext = async (values: any) => {
