@@ -45,13 +45,13 @@ export default function Email() {
 
     try {
       const { data: dataUser } = await client
-        .from("Users")
+        .from("Personal")
         .select("*")
         .eq("email", values.email);
 
       setLoading(false);
       navigate("/login-password", {
-        state: { user: dataUser },
+        state: { user: dataUser![0] },
       });
     } catch (error: any) {
       setLoading(false);

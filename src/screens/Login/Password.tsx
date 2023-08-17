@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
-import { toast } from "react-hot-toast";
 import { m } from "framer-motion";
 // @ts-ignore
 import argon2 from "argon2-wasm-esm";
@@ -11,9 +10,11 @@ import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
-import { Alert, Button, Input, Text } from "../../ui";
+import { Button, Input, Text } from "../../ui";
 import { useHeight } from "../../hooks";
 import { authStepAnimation } from "../../utils/animation";
+import { client } from "../../../supabase/client";
+import { AuthenticatedContext } from "../../context";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -22,6 +23,7 @@ const registerValidationSchema = yup.object().shape({
 const Password: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { setIsAuthenticated } = useContext(AuthenticatedContext);
 
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,65 +31,26 @@ const Password: React.FC = () => {
   const handleNext = async (values: any) => {
     setLoading(true);
 
-    if (state.user.length === 0) {
+    if (!state.user) {
+      console.log("Credenciales incorrectas");
       setLoading(false);
-      toast.custom(
-        (t) => (
-          <Alert
-            type="error"
-            title="Error."
-            description="Asegúrate de ingresar correctamente tu correo o contraseña."
-            t={t}
-            duration={2000}
-          />
-        ),
-        { duration: 4000 }
-      );
       return;
     }
 
-    argon2
-      .verify({
-        pass: values.password,
-        encoded: state?.user[0].password,
-      })
-      .then(async () => {
-        setLoading(false);
-        // localStorage.setItem(NURA_AUTH_REGISTER_INFO, "");
-        // setIsLogged(!isLogged);
-        // localStorage.setItem(
-        //   NURA_AUTH_USER_INFO,
-        //   JSON.stringify({
-        //     id: state?.user[0]?.id,
-        //     email: state?.user[0]?.email,
-        //     fullname: state?.user[0]?.fullname,
-        //   })
-        // );
-        // navigate("/home");
+    const { data } = await client.auth.signInWithPassword({
+      email: state.user.email,
+      password: values.password,
+    });
 
-        // const { data } = await client.auth.signIn({
-        //   email: state?.user[0]?.email,
-        //   password: state?.user[0].password,
-        // });
+    if (data) {
+      setIsAuthenticated(true);
+      navigate("/home");
+      setLoading(false);
+      return;
+    }
 
-        // console.log({ data });
-        setLoading(false);
-      })
-      .catch((_: any) => {
-        setLoading(false);
-        toast.custom(
-          (t) => (
-            <Alert
-              type="error"
-              title="Error."
-              description="Asegúrate de ingresar correctamente tu correo o contraseña."
-              t={t}
-              duration={2000}
-            />
-          ),
-          { duration: 4000 }
-        );
-      });
+    setLoading(false);
+    console.log("Ha ocurrido un problema");
   };
 
   return (
