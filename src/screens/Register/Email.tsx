@@ -117,6 +117,7 @@ const Email: React.FC = () => {
               variants={authStepAnimation}
             >
               <Input
+                type="email"
                 data-test="register-input-email"
                 placeholder="Ej: lucas@gmail.com"
                 value={values.email}
