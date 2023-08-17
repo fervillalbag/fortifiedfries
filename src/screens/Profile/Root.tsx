@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useLocalStorageState } from "../../hooks";
 import { LineLoader } from "../../components/Loader";
 import { Layout } from "../../components";
-import { NURA_AUTH_USER_INFO } from "../../utils/constants/auth";
 import { client } from "../../../supabase/client";
-// import ToastUI from "../../ui/Toast";
 
 import SettingIcon from "../../assets/icons/settings-icon.svg";
 import AvatarDefault from "../../assets/images/avatar-default.png";
@@ -16,18 +13,22 @@ export default function Root() {
   const navigate = useNavigate();
   const [userInfo, setInfoUser] = useState<any>(null);
 
-  const [initialValues] = useLocalStorageState({
-    key: NURA_AUTH_USER_INFO,
-  });
-
   const getUser = async () => {
-    const response = await client
-      .from("Users")
+    const { data, error } = await client.auth.getUser();
+
+    if (!data.user) {
+      console.log("Usuario no encontrado");
+      return;
+    }
+
+    const { data: dataUser } = await client
+      .from("Personal")
       .select("*")
-      .eq("email", initialValues.email)
+      .eq("email", data?.user.email)
       .single();
 
-    setInfoUser(response?.data);
+    if (error) return;
+    setInfoUser(dataUser);
   };
 
   useEffect(() => {
