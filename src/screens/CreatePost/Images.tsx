@@ -1,7 +1,7 @@
+import axios from "axios";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CameraIcon, TrashIcon } from "@radix-ui/react-icons";
-import { v4 as uuid } from "uuid";
 
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
@@ -10,55 +10,70 @@ import { useHeight, useLocalStorageState } from "../../hooks";
 import { Button, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-images.png";
-import { client } from "../../../supabase/client";
-import { NURA_AUTH_USER_INFO } from "../../utils/constants/auth";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
-interface FileList {
-  readonly length: number;
-  item(index: number): File | null;
-  [index: number]: File;
-}
+const ItemImage = ({ url }: any) => {
+  return (
+    <img
+      src={url}
+      alt=""
+      className="w-full h-full object-cover rounded-md"
+    />
+  );
+};
 
 export default function Images() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
-  const [files, setFiles] = useState<FileList | null>(null);
+  const [files, setFiles] = useState<any>(null);
 
-  const [value] = useLocalStorageState({
-    key: NURA_AUTH_USER_INFO,
+  const [_, handleUpdate] = useLocalStorageState({
+    key: SURA_CREATE_POST_INFO,
   });
 
   const buttonImgRef: any = useRef(null);
+  const [previewURLs, setPreviewURLs] = useState<any>(null);
 
-  const handleFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFileChange = (event: any) => {
     if (event.target.files) {
       setFiles(event.target.files);
+
+      const urls = Array.from(event.target.files).map((file: any) =>
+        URL.createObjectURL(file)
+      );
+      setPreviewURLs(urls);
     }
   };
 
-  const uploadFiles = async () => {
-    if (!files) return;
+  const handleUpload = async () => {
+    if (!files || files.length === 0) return;
 
-    const file = files[0];
+    const formData = new FormData();
 
-    const { data, error } = await client.storage
-      .from(import.meta.env.VITE_BUCKET_NAME)
-      .upload(`${value.id}/${uuid()}`, file, {});
+    let arrayImages: any = [];
 
-    if (error) {
-      console.error("Error uploading file:", error.message);
-    } else if (data) {
-      console.log("File uploaded:", data.path);
+    for (let i = 0; i < files.length; i++) {
+      formData.append(`file`, files[i]);
+      formData.append("upload_preset", "posts_product");
+
+      await axios
+        .post(
+          "https://api.cloudinary.com/v1_1/dabmtejzr/image/upload",
+          formData
+        )
+        .then(async (res) => {
+          const imageUploaded = await res?.data.secure_url;
+          arrayImages.push(imageUploaded);
+        })
+        .catch((error) => console.log(error));
     }
 
-    // for (let i = 0; i < files.length; i++) {}
+    handleUpdate({ images: arrayImages });
   };
 
-  const handleNext = () => {
-    uploadFiles();
-    // navigate("/create-post-hashtag");
+  const handleNext = async () => {
+    await handleUpload();
+    navigate("/create-post-hashtag");
   };
 
   return (
@@ -90,17 +105,16 @@ export default function Images() {
                 </p>
               </button>
 
-              <div className="relative">
-                <button className="absolute top-2 right-2 w-8 rounded-md text-white h-8 bg-red-500 grid place-items-center">
-                  <TrashIcon className="w-5 h-5" />
-                </button>
+              {previewURLs &&
+                previewURLs.map((url: any, index: number) => (
+                  <div key={index} className="relative h-24">
+                    <button className="absolute top-2 right-2 w-8 rounded-md text-white h-8 bg-red-500 grid place-items-center">
+                      <TrashIcon className="w-5 h-5" />
+                    </button>
 
-                <img
-                  src="/images/bg-register-fullname.jpg"
-                  alt=""
-                  className="w-full h-24 rounded-md object-cover"
-                />
-              </div>
+                    <ItemImage url={url} />
+                  </div>
+                ))}
             </div>
           </Layout>
 
