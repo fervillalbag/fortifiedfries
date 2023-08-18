@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Select from "@radix-ui/react-select";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +15,11 @@ import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { Button, Text, buttonVariants } from "../../ui";
 import { Layout } from "../../components/CreatePost";
+import { CategoryProps } from "../../interface/category.interface";
 
 import CreatePostHeader from "../../assets/images/create-post-category.png";
 import { SURA_CREATE_POST_INFO } from "../../utils/constants";
+import { client } from "../../../supabase/client";
 
 interface SelectItemProps
   extends React.ComponentPropsWithRef<typeof Select.Item> {
@@ -52,6 +54,19 @@ const SelectItem: React.FC<SelectItemProps> = React.forwardRef(
 export default function Category() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
+
+  const [categoryList, setCategoryList] = useState<
+    CategoryProps[] | null
+  >(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await client
+        .from("CategoryProduct")
+        .select("*");
+      setCategoryList(data);
+    })();
+  }, []);
 
   const [_, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
@@ -99,27 +114,21 @@ export default function Category() {
                         </Select.ScrollUpButton>
                         <Select.Viewport className="p-[5px]">
                           <Select.Group>
-                            <SelectItem value="">
+                            <SelectItem
+                              value=""
+                              className="text-@sura-primary-500"
+                            >
                               Seleccione una categoria
                             </SelectItem>
-                            <SelectItem value="banana">
-                              Banana
-                            </SelectItem>
-                            <SelectItem value="blueberry">
-                              Blueberry
-                            </SelectItem>
-                            <SelectItem value="grapes">
-                              Grapes
-                            </SelectItem>
-                            <SelectItem value="pineapple">
-                              Pineapple
-                            </SelectItem>
-                            <SelectItem value="carrot">
-                              Carrot
-                            </SelectItem>
-                            <SelectItem value="berry">
-                              Berry
-                            </SelectItem>
+                            {categoryList?.map((category) => (
+                              <SelectItem
+                                key={category.id}
+                                value={category.id.toString()}
+                                className="text-lg text-@sura-primary-700"
+                              >
+                                {category.name}
+                              </SelectItem>
+                            ))}
                           </Select.Group>
                         </Select.Viewport>
                       </Select.Content>
