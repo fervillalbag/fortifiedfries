@@ -57,13 +57,11 @@ const Gender: React.FC = () => {
     null
   );
 
-  const [initialState, handleUpdateForm] = useLocalStorageState({
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [value, handleUpdate] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
-
-  const [genderSelected, _] = useState<number | null>(
-    0 || initialState?.gender
-  );
 
   useEffect(() => {
     (async () => {
@@ -73,15 +71,34 @@ const Gender: React.FC = () => {
   }, []);
 
   const handleNext = async (values: any) => {
-    console.log({ values });
+    setLoading(true);
 
-    handleUpdateForm({ gender: genderSelected });
-    navigate("/register-password");
+    const { data, status } = await client
+      .from("Personal")
+      .update({ gender: +values.gender })
+      .eq("email", value.email)
+      .select()
+      .single();
+
+    if (status === 200) {
+      console.log("Actualizacion existosa");
+      handleUpdate({
+        gender: +data?.gender,
+      });
+      navigate("/register-photos", {
+        state: { fullname: data.fullname, username: data.username },
+      });
+      setLoading(false);
+      return;
+    }
+
+    console.log("Ha ocurrido un problema");
+    setLoading(false);
   };
 
   return (
     <Formik
-      initialValues={{ gender: "" }}
+      initialValues={{ gender: +value.gender || 0 }}
       validationSchema={validationGenderSchema}
       onSubmit={(values) => handleNext(values)}
     >
@@ -96,7 +113,8 @@ const Gender: React.FC = () => {
 
             <div className="p-5">
               <Select.Root
-                value={values.gender}
+                defaultValue={value.gender}
+                value={values.gender.toString()}
                 onValueChange={(value) => {
                   handleChange("gender")(value);
                 }}
@@ -153,17 +171,19 @@ const Gender: React.FC = () => {
                 routeText="Inicia sesion"
                 routeLink="/login"
                 currentStep={3}
+                disableFooterText={false}
                 count={4}
               >
                 <Button
-                  onClick={() => navigate("/register-email")}
+                  onClick={() => navigate("/register-username")}
                   variant="outline"
                 >
                   Volver
                 </Button>
                 <Button
+                  type="submit"
                   data-test="register-button-submit"
-                  onClick={handleNext}
+                  isLoading={loading}
                 >
                   Siguiente
                 </Button>

@@ -140,7 +140,7 @@ export default function Name() {
               routeLink="/login"
               disableFooterText={false}
               currentStep={1}
-              count={3}
+              count={4}
             >
               <div />
               <Button

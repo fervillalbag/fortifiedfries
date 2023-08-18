@@ -90,8 +90,8 @@ export default function Photos() {
           footerText="Ya tienes una cuenta?"
           routeText="Inicia sesion"
           routeLink="/login"
-          currentStep={3}
-          count={3}
+          currentStep={4}
+          count={4}
           disableFooterText={false}
         >
           <Button
