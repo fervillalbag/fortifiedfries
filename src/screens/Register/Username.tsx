@@ -54,7 +54,7 @@ export default function Username() {
       handleUpdate({
         username: data.username,
       });
-      navigate("/register-photos", {
+      navigate("/register-gender", {
         state: { fullname: data.fullname, username: data.username },
       });
       setLoading(false);
@@ -121,14 +121,14 @@ export default function Username() {
               routeLink="/login"
               currentStep={2}
               disableFooterText={false}
-              count={3}
+              count={4}
             >
               <Button
                 type="button"
                 className={buttonVariants({
                   variant: "outline",
                 })}
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/register-name")}
               >
                 Volver
               </Button>
