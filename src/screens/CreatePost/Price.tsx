@@ -45,8 +45,6 @@ export default function Hashtag() {
       .single();
     if (errorUser) return;
 
-    console.log({ values });
-
     const price =
       typeof values.price === "number"
         ? values.price

@@ -1,13 +1,17 @@
 interface LineProps {
-  width?: number | null;
+  width?: number | string;
+  height?: number | string;
+  rounded?: string;
 }
 
-export default function Line({ width }: LineProps) {
+export default function Line({ width, height, rounded }: LineProps) {
   return (
-    <div className="h-7 w-full items-center flex">
+    <div className="w-full h-full items-center flex">
       <div
-        className={`bg-slate-300 h-4 ${
-          width ? `w-[${width}px]` : "w-32"
+        className={`animate-pulse bg-@sura-primary-300 ${
+          width === "full" ? "w-full" : width ? `w-${width}` : "w-32"
+        } ${height ? `h-${height}` : "h-4"} ${
+          rounded ? `rounded-${rounded}` : "rounded-none"
         }`}
       ></div>
     </div>
