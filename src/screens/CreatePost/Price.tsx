@@ -50,7 +50,7 @@ export default function Hashtag() {
 
   return (
     <Formik
-      initialValues={{ price: "" }}
+      initialValues={{ price: value.price || "" }}
       validationSchema={validationSchemaPrice}
       onSubmit={(values: { price: string }) => handleNext(values)}
     >

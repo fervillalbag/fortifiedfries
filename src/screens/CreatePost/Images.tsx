@@ -35,6 +35,7 @@ export default function Images() {
     key: SURA_CREATE_POST_INFO,
   });
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [previewURLs, setPreviewURLs] = useState<any>(value.images);
   const buttonImgRef: any = useRef(null);
 
@@ -55,9 +56,9 @@ export default function Images() {
 
   const handleUpload = async () => {
     if (!files || files.length === 0) return;
+    setLoading(true);
 
     const formData = new FormData();
-
     let arrayImages: any = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -78,10 +79,12 @@ export default function Images() {
 
     if (value.images) {
       handleUpdate({ images: [...value.images, ...arrayImages] });
+      setLoading(false);
       return;
     }
 
     handleUpdate({ images: arrayImages });
+    setLoading(false);
   };
 
   const handleNext = async () => {
@@ -151,7 +154,9 @@ export default function Images() {
               >
                 Volver
               </Button>
-              <Button onClick={handleNext}>Siguiente</Button>
+              <Button onClick={handleNext} isLoading={loading}>
+                Siguiente
+              </Button>
             </div>
           </div>
         </div>
