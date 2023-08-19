@@ -20,12 +20,13 @@ const validationSchemaPrice = yup.object().shape({
 export default function Hashtag() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
+  const [currency] = useState<string>("gs");
 
   const [errorMessage, setErrorMessage] = useState<null | string>(
     null
   );
 
-  const [_, handleUpdate] = useLocalStorageState({
+  const [value, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
   });
 
@@ -39,7 +40,8 @@ export default function Hashtag() {
       return;
     }
 
-    handleUpdate({ price });
+    console.log({ value });
+    handleUpdate({ price, currency });
     setErrorMessage(null);
     console.log({ price });
     return;

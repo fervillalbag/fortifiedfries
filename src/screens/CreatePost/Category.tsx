@@ -68,7 +68,7 @@ export default function Category() {
     })();
   }, []);
 
-  const [_, handleUpdate] = useLocalStorageState({
+  const [value, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
   });
 
@@ -79,7 +79,7 @@ export default function Category() {
 
   return (
     <Formik
-      initialValues={{ category: "" }}
+      initialValues={{ category: value.category || "" }}
       validationSchema={validationCategorySchema}
       onSubmit={(values) => handleNext(values)}
     >

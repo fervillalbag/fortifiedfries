@@ -22,7 +22,7 @@ export default function Details() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const [_, handleUpdate] = useLocalStorageState({
+  const [value, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
   });
 
@@ -33,7 +33,7 @@ export default function Details() {
 
   return (
     <Formik
-      initialValues={{ details: "" }}
+      initialValues={{ details: value.details || "" }}
       validationSchema={validationDetailsSchema}
       onSubmit={(values) => handleNext(values)}
     >
