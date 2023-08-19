@@ -9,6 +9,8 @@ import { Layout } from "../components";
 import { Button, buttonVariants } from "../ui";
 import { AuthenticatedContext, WindowSizeContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
+import { client } from "../../supabase/client";
+import Line from "../components/Loader/Line";
 
 const headerImages = [
   {
@@ -48,59 +50,32 @@ const categories = [
   },
 ];
 
-const products = [
-  {
-    id: "1",
-    image: "https://shorturl.at/bot19",
-    title: "Lorem ipsum dolor sit amet consectetur. Lorem, ipsum.",
-  },
-  {
-    id: "2",
-    image: "https://shorturl.at/dtzT8",
-    title: "Lorem ipsum dolor.",
-  },
-  {
-    id: "3",
-    image: "https://shorturl.at/hlQZ0",
-    title:
-      "Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet.",
-  },
-  {
-    id: "4",
-    image: "https://shorturl.at/arDQS",
-    title: "Lorem ipsum dolor sit amet consectetur. Lorem.",
-  },
-  {
-    id: "5",
-    image: "https://shorturl.at/dtzT8",
-    title:
-      "Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-  {
-    id: "6",
-    image: "https://shorturl.at/hlQZ0",
-    title: "Lorem ipsum dolor sit amet consectetur.",
-  },
-  {
-    id: "7",
-    image: "https://shorturl.at/hlQZ0",
-    title:
-      "Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet.",
-  },
-  {
-    id: "8",
-    image: "https://shorturl.at/arDQS",
-    title: "Lorem ipsum dolor sit amet consectetur. Lorem.",
-  },
-];
-
 const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const { isAuthenticated } = useContext(AuthenticatedContext);
 
+  const [products, setProducts] = useState<any | null>(null);
+  const [errorProduct, setErrorProduct] = useState<any | null>(null);
+
   const [showModalLogin, setShowModalLogin] = useState<boolean>(
     !isAuthenticated
   );
+
+  useEffect(() => {
+    (async () => {
+      const { data: products, error: errorProducts } = await client
+        .from("Product")
+        .select("*");
+
+      if (errorProducts) {
+        console.log("Productos no encontrados");
+        return;
+      }
+
+      setErrorProduct(errorProducts);
+      setProducts(products);
+    })();
+  }, []);
 
   const [categorySelected, setCategorySelected] =
     useState<string>("1");
@@ -154,11 +129,24 @@ const Home: React.FC = () => {
         ))}
       </div>
 
-      <div className="p-5 pt-2 grid grid-cols-2 gap-x-5 gap-y-6">
-        {products.map((product) => (
-          <CardProduct key={product.id} product={product} />
-        ))}
-      </div>
+      {!products && !errorProduct ? (
+        <div className="p-5 pt-2 grid grid-cols-2 gap-x-5 gap-y-6">
+          <Line rounded="md" width="full" height="40" />
+          <Line rounded="md" width="full" height="40" />
+          <Line rounded="md" width="full" height="40" />
+          <Line rounded="md" width="full" height="40" />
+        </div>
+      ) : errorProduct ? (
+        <div>error</div>
+      ) : products?.length === 0 ? (
+        <div>no hay</div>
+      ) : (
+        <div className="p-5 pt-2 grid grid-cols-2 gap-x-5 gap-y-6">
+          {products.map((product: any) => (
+            <CardProduct key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </Layout>
   );
 };

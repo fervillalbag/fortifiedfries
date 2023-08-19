@@ -1,11 +1,35 @@
-import React from "react";
-import { Text, textVariants } from "../../ui";
+import React, { useEffect, useState } from "react";
+import { NumericFormat } from "react-number-format";
+
+import { client } from "../../../supabase/client";
+import { Text } from "../../ui";
+import Line from "../Loader/Line";
 
 interface CardProductProps {
   product: any;
 }
 
 const CardProduct: React.FC<CardProductProps> = ({ product }) => {
+  const [currencies, setCurrencies] = useState<any | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data: currencies, error: errorCurrencies } =
+        await client.from("CurrencyProduct").select("*");
+
+      if (errorCurrencies) {
+        console.log("No se encontraron monedas");
+        return;
+      }
+
+      setCurrencies(currencies);
+    })();
+  }, []);
+
+  const currencyProduct = currencies?.find(
+    (currency: any) => currency.id === product.currency
+  );
+
   return (
     <div className="relative">
       <button className="absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
@@ -18,7 +42,7 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
 
       <div>
         <img
-          src={product.image}
+          src={product.images[0]}
           alt=""
           className="w-full h-40 object-cover rounded-md"
         />
@@ -26,16 +50,21 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
 
       <div>
         <Text className="text-@sura-primary-900 mt-1">
-          Brown Blazer Coat..
+          {product.title}
         </Text>
-        <Text
-          className={textVariants({
-            className:
-              "font-extrabold mt-[2px] text-@sura-primary-700",
-          })}
-        >
-          Gs. 200.000
-        </Text>
+        <span className="font-extrabold mt-[2px] text-@sura-primary-700">
+          {!currencyProduct || !currencies ? (
+            <div>
+              <Line width="28" height="5" rounded="sm" />
+            </div>
+          ) : (
+            <NumericFormat
+              prefix={`${currencyProduct?.name.toString()} `}
+              value={product.price}
+              thousandSeparator={true}
+            />
+          )}
+        </span>
       </div>
     </div>
   );
