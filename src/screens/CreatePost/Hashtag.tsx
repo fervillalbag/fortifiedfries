@@ -15,19 +15,21 @@ export default function Hashtag() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
+  const [value, handleUpdate] = useLocalStorageState({
+    key: SURA_CREATE_POST_INFO,
+  });
+
   const [inputValue, setInputValue] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(value?.tags || []);
   const [messageError, setMessageError] = useState<string | null>(
     null
   );
 
-  const [_, handleUpdate] = useLocalStorageState({
-    key: SURA_CREATE_POST_INFO,
-  });
-
   const handleAddTag = (e: any, value: string) => {
     e.preventDefault();
     if (inputValue.length <= 0) return;
+
+    handleUpdate({ tags: [...tags, inputValue] });
 
     setTags([...tags, value]);
     setInputValue("");

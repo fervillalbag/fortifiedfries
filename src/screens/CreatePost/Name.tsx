@@ -10,6 +10,7 @@ import { Layout } from "../../components/CreatePost";
 import { SURA_CREATE_POST_INFO } from "../../utils/constants";
 
 import CreatePostHeader from "../../assets/images/create-post-name.png";
+import { initialValueCreatePost } from "../../utils/constants/createPost";
 
 const validationSchemaName = yup.object().shape({
   name: yup
@@ -22,8 +23,9 @@ export default function Name() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const [_, handleUpdate] = useLocalStorageState({
+  const [value, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
+    value: initialValueCreatePost,
   });
 
   const handleNext = (values: { name: string }) => {
@@ -34,7 +36,7 @@ export default function Name() {
   return (
     <div style={styleHeight}>
       <Formik
-        initialValues={{ name: "" }}
+        initialValues={{ name: value.name || "" }}
         validationSchema={validationSchemaName}
         onSubmit={(values: { name: string }) => handleNext(values)}
       >
