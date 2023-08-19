@@ -12,6 +12,7 @@ import { Layout } from "../../components/CreatePost";
 import CreatePostHeader from "../../assets/images/create-post-price.png";
 import { useState } from "react";
 import { SURA_CREATE_POST_INFO } from "../../utils/constants";
+import { client } from "../../../supabase/client";
 
 const validationSchemaPrice = yup.object().shape({
   price: yup.string().required("El campo es obligatorio"),
@@ -20,18 +21,36 @@ const validationSchemaPrice = yup.object().shape({
 export default function Hashtag() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
-  const [currency] = useState<string>("gs");
+  const [currency] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState<null | string>(
     null
   );
 
-  const [value, handleUpdate] = useLocalStorageState({
+  const [value] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
   });
 
-  const handleNext = (values: any) => {
-    const price = +values.price.split("Gs. ")[1].replace(",", "");
+  const handleNext = async (values: any) => {
+    setLoading(true);
+
+    const { data, error } = await client.auth.getUser();
+    if (error) return;
+
+    const { data: dataUser, error: errorUser } = await client
+      .from("Personal")
+      .select("*")
+      .eq("email", data.user.email)
+      .single();
+    if (errorUser) return;
+
+    console.log({ values });
+
+    const price =
+      typeof values.price === "number"
+        ? values.price
+        : +values.price.split("Gs. ")[1].replace(",", "");
 
     if (price < 5000) {
       setErrorMessage(
@@ -40,12 +59,36 @@ export default function Hashtag() {
       return;
     }
 
-    console.log({ value });
-    handleUpdate({ price, currency });
-    setErrorMessage(null);
-    console.log({ price });
-    return;
-    navigate("/home");
+    const productData = {
+      title: value.name,
+      description: value.details,
+      price,
+      category: +value.category,
+      images: value.images,
+      tags: value.tags,
+      type: 3,
+      status: +value.status,
+      saleStatus: 2,
+      typeAd: null,
+      owner: dataUser.id,
+      quantityType: 1,
+      currency,
+    };
+
+    const { status } = await client
+      .from("Product")
+      .insert(productData);
+
+    if (status === 201) {
+      console.log("Creado correctamente");
+      setErrorMessage(null);
+      navigate("/home");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    console.log("Hubo un problema");
   };
 
   return (
@@ -101,7 +144,9 @@ export default function Hashtag() {
                     >
                       Volver
                     </Button>
-                    <Button type="submit">Siguiente</Button>
+                    <Button type="submit" isLoading={loading}>
+                      Siguiente
+                    </Button>
                   </div>
                 </div>
               </div>
