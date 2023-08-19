@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CameraIcon, TrashIcon } from "@radix-ui/react-icons";
 
@@ -11,28 +11,36 @@ import { Button, buttonVariants } from "../../ui";
 
 import CreatePostHeader from "../../assets/images/create-post-images.png";
 import { SURA_CREATE_POST_INFO } from "../../utils/constants";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ItemImage = ({ url }: any) => {
   return (
-    <img
-      src={url}
-      alt=""
-      className="w-full h-full object-cover rounded-md"
-    />
+    <div className="item-image-loader">
+      <LazyLoadImage
+        src={url}
+        alt="Imagen"
+        className={`w-full h-24 object-cover`}
+        placeholderSrc="/images/placeholder-banner-create-post.png"
+      />
+    </div>
   );
 };
 
 export default function Images() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
-  const [files, setFiles] = useState<any>(null);
 
-  const [_, handleUpdate] = useLocalStorageState({
+  const [files, setFiles] = useState<any>(null);
+  const [value, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
   });
 
+  const [previewURLs, setPreviewURLs] = useState<any>(value.images);
   const buttonImgRef: any = useRef(null);
-  const [previewURLs, setPreviewURLs] = useState<any>(null);
+
+  useEffect(() => {
+    setFiles(null);
+  }, []);
 
   const handleFileChange = (event: any) => {
     if (event.target.files) {
@@ -41,7 +49,7 @@ export default function Images() {
       const urls = Array.from(event.target.files).map((file: any) =>
         URL.createObjectURL(file)
       );
-      setPreviewURLs(urls);
+      setPreviewURLs([...previewURLs, ...urls]);
     }
   };
 
@@ -66,6 +74,11 @@ export default function Images() {
           arrayImages.push(imageUploaded);
         })
         .catch((error) => console.log(error));
+    }
+
+    if (value.images) {
+      handleUpdate({ images: [...value.images, ...arrayImages] });
+      return;
     }
 
     handleUpdate({ images: arrayImages });
@@ -108,7 +121,16 @@ export default function Images() {
               {previewURLs &&
                 previewURLs.map((url: any, index: number) => (
                   <div key={index} className="relative h-24">
-                    <button className="absolute top-2 right-2 w-8 rounded-md text-white h-8 bg-red-500 grid place-items-center">
+                    <button
+                      className="absolute top-2 right-2 w-8 rounded-md text-white h-8 bg-red-500 grid place-items-center"
+                      onClick={() => {
+                        const urlsFiltered = previewURLs.filter(
+                          (item: any) => item !== url
+                        );
+                        handleUpdate({ images: urlsFiltered });
+                        setPreviewURLs(urlsFiltered);
+                      }}
+                    >
                       <TrashIcon className="w-5 h-5" />
                     </button>
 

@@ -84,3 +84,9 @@
 .header-loader span {
   width: 100% !important;
 }
+
+.item-image-loader span {
+  width: 100% !important;
+  border-radius: 6px;
+  overflow: hidden;
+}
