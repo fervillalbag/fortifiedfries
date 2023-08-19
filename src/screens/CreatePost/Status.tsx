@@ -51,10 +51,10 @@ export default function Status() {
                       <Field
                         className="bg-white border border-@sura-primary-300 w-[25px] h-[25px] rounded-full focus:shadow-[0_0_0_2px] focus:shadow-transparent outline-none cursor-default"
                         type="radio"
-                        value="usado"
+                        value={"2"}
                         name="status"
                         onChange={handleChange}
-                        checked={values.status === "usado"}
+                        checked={values.status === "2"}
                       ></Field>
                       Usado
                     </label>
@@ -62,10 +62,10 @@ export default function Status() {
                       <Field
                         className="bg-white border border-@sura-primary-300 w-[25px] h-[25px] rounded-full focus:shadow-[0_0_0_2px] focus:shadow-transparent outline-none cursor-default"
                         type="radio"
-                        value="nuevo"
+                        value={"1"}
                         name="status"
                         onChange={handleChange}
-                        checked={values.status === "nuevo"}
+                        checked={values.status === "1"}
                       />
                       Nuevo
                     </label>
@@ -73,10 +73,10 @@ export default function Status() {
                       <Field
                         className="bg-white border border-@sura-primary-300 w-[25px] h-[25px] rounded-full focus:shadow-[0_0_0_2px] focus:shadow-transparent outline-none cursor-default"
                         type="radio"
-                        value="semi-nuevo"
+                        value={"3"}
                         name="status"
                         onChange={handleChange}
-                        checked={values.status === "semi-nuevo"}
+                        checked={values.status === "3"}
                       />
                       Semi nuevo
                     </label>
