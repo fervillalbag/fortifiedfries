@@ -22,7 +22,7 @@ Las solicitudes de extracción (PRs) deben dirigirse a la rama `develop`.
 
 - Lee y sigue nuestro [Código de Conducta](CODE_OF_CONDUCT.md).
 - Consulta la guía de [Contribución](CONTRIBUTING.md) para obtener detalles sobre cómo contribuir, crear PRs y trabajar en problemas.
-- Si deseas proponer una nueva característica o informar sobre un problema, utiliza las [Plantillas de Problemas](.github/ISSUE_TEMPLATE/).
+- Si deseas proponer una nueva característica o informar sobre un problema, utiliza las [Plantillas de Problemas](.github/ISSUE_TEMPLATE.md).
 - Asegúrate de realizar pruebas y de que tu código cumple con las guías de estilo.
 
 ## Descripción
