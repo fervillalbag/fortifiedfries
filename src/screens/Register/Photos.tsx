@@ -8,7 +8,6 @@ import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { AuthenticatedContext } from "../../context";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { NotFound } from "../";
 
 export default function Photos() {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ export default function Photos() {
   const { state } = useLocation();
 
   const { setIsLogged } = useContext(AuthenticatedContext);
-  const [value] = useLocalStorageState({
+  const [] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
 
@@ -29,8 +28,6 @@ export default function Photos() {
       console.log(error);
     }
   };
-
-  if (value.email === "" || !value.email) return <NotFound />;
 
   return (
     <div
