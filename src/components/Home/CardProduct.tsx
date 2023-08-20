@@ -55,15 +55,18 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
         <span className="font-extrabold mt-[2px] text-@sura-primary-700">
           {!currencyProduct || !currencies ? (
             <div>
-              <Line width="28" height="5" rounded="sm" />
+              <Line width="28" height={20} rounded="sm" />
             </div>
           ) : (
-            <NumericFormat
-              className="w-32"
-              prefix={`${currencyProduct?.name.toString()} `}
-              value={product.price}
-              thousandSeparator={true}
-            />
+            <div className="relative">
+              <div className="absolute top-0 left-0 bg-transparent z-10 w-full h-full" />
+              <NumericFormat
+                className="w-32"
+                prefix={`${currencyProduct?.name.toString()} `}
+                value={product.price}
+                thousandSeparator={true}
+              />
+            </div>
           )}
         </span>
       </div>

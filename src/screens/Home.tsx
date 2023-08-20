@@ -101,11 +101,11 @@ const Home: React.FC = () => {
 
       {!errorCategories && !categories ? (
         <div className="px-5 py-3 flex gap-x-3 overflow-x-auto hide-scrollbar">
-          <Line rounded="md" width={32} height={12}></Line>
-          <Line rounded="md" width={32} height={12}></Line>
-          <Line rounded="md" width={32} height={12}></Line>
-          <Line rounded="md" width={32} height={12}></Line>
-          <Line rounded="md" width={32} height={12}></Line>
+          <Line rounded="md" width={32} height={48}></Line>
+          <Line rounded="md" width={32} height={48}></Line>
+          <Line rounded="md" width={32} height={48}></Line>
+          <Line rounded="md" width={32} height={48}></Line>
+          <Line rounded="md" width={32} height={48}></Line>
         </div>
       ) : errorCategories ? (
         <div>error</div>
@@ -139,18 +139,18 @@ const Home: React.FC = () => {
       )}
 
       {!products && !errorProduct ? (
-        <div className="p-5 pt-2 grid grid-cols-2 gap-x-5 gap-y-6">
-          <Line rounded="md" width="full" height="40" />
-          <Line rounded="md" width="full" height="40" />
-          <Line rounded="md" width="full" height="40" />
-          <Line rounded="md" width="full" height="40" />
+        <div className="p-5 pt-2 grid grid-cols-2 gap-5">
+          <Line rounded="md" width="full" height={208} />
+          <Line rounded="md" width="full" height={208} />
+          <Line rounded="md" width="full" height={208} />
+          <Line rounded="md" width="full" height={208} />
         </div>
       ) : errorProduct ? (
         <div>error</div>
       ) : products?.length === 0 ? (
         <div>no hay</div>
       ) : (
-        <div className="p-5 pt-2 grid grid-cols-2 gap-x-5 gap-y-6">
+        <div className="p-5 pt-2 grid grid-cols-2 gap-5">
           {products.map((product: any) => (
             <CardProduct key={product.id} product={product} />
           ))}
