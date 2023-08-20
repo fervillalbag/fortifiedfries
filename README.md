@@ -1,5 +1,5 @@
 <a href="https://sura.fervillalbag.com" target="_blank"><p align="center">
-<img height=100 src="banner-readme.svg"/>
+<img width="100%" src="banner-readme.svg"/>
 
 </p></a>
 
