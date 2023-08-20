@@ -1,4 +1,7 @@
-# SURA
+<a href="https://dogehouse.tv"><p align="center">
+<img height=100 src="banner-readme.svg"/>
+
+</p></a>
 
 **Contribución:** [Cómo Contribuir](CONTRIBUTING.md)  
 **Comunidad:** [Únete a nuestra Comunidad](enlace_comunidad_discord)  
