@@ -50,7 +50,9 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
 
       <div>
         <Text className="text-@sura-primary-900 mt-1">
-          {product.title}
+          {product.title.length >= 16
+            ? `${product.title.slice(0, 16)}..`
+            : product.title}
         </Text>
         <span className="font-extrabold mt-[2px] text-@sura-primary-700">
           {!currencyProduct || !currencies ? (
