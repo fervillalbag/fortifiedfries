@@ -13,6 +13,7 @@ import { client } from "../../supabase/client";
 import Line from "../components/Loader/Line";
 
 import NotResultIcon from "../assets/images/not-result-icon.png";
+import { Link } from "react-router-dom";
 
 const headerImages = [
   {
@@ -185,7 +186,9 @@ const Home: React.FC = () => {
       ) : (
         <div className="p-5 pt-2 grid grid-cols-2 gap-5">
           {products.map((product: any) => (
-            <CardProduct key={product.id} product={product} />
+            <Link key={product.id} to={`/product/${product.id}`}>
+              <CardProduct product={product} />
+            </Link>
           ))}
         </div>
       )}
