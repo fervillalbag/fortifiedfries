@@ -17,6 +17,7 @@ import { RootSettings } from "../screens/Settings";
 import { LoginEmail, PasswordEmail } from "../screens/Login";
 import { LoginPrincipal } from "../screens/Login";
 import { ActionsRoot } from "../screens/Actions";
+import { MessageRoot } from "../screens/Messages";
 import {
   CreatePostCategory,
   CreatePostDetails,
@@ -95,6 +96,11 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: RootSearch,
     path: "/search",
+  },
+  {
+    id: nanoid(3),
+    component: MessageRoot,
+    path: "/messages",
   },
   {
     id: nanoid(3),
