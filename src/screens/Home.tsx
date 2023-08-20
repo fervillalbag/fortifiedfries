@@ -6,11 +6,13 @@ import {
   ModalLogin,
 } from "../components/Home";
 import { Layout } from "../components";
-import { Button, buttonVariants } from "../ui";
+import { Button, Text, buttonVariants } from "../ui";
 import { AuthenticatedContext, WindowSizeContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
 import { client } from "../../supabase/client";
 import Line from "../components/Loader/Line";
+
+import NotResultIcon from "../assets/images/not-result-icon.png";
 
 const headerImages = [
   {
@@ -35,7 +37,9 @@ const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const { isAuthenticated } = useContext(AuthenticatedContext);
 
-  const [categorySelected, setCategorySelected] = useState<number>(7);
+  const [categorySelected, setCategorySelected] = useState<
+    number | null
+  >(null);
   const { windowSize } = useContext(WindowSizeContext);
 
   const [products, setProducts] = useState<any | null>(null);
@@ -53,13 +57,23 @@ const Home: React.FC = () => {
     (async () => {
       const { data: products, error: errorProducts } = await client
         .from("Product")
-        .select("*");
+        .select("*")
+        .eq(
+          categorySelected !== null ? "category" : "",
+          categorySelected
+        );
 
       if (errorProducts) {
         console.log("Productos no encontrados");
         return;
       }
+      setErrorProduct(errorProducts);
+      setProducts(products);
+    })();
+  }, [categorySelected]);
 
+  useEffect(() => {
+    (async () => {
       const { data: categories, error: errorCategories } =
         await client
           .from("CategoryProduct")
@@ -73,8 +87,6 @@ const Home: React.FC = () => {
       }
 
       setCategories(categories);
-      setErrorProduct(errorProducts);
-      setProducts(products);
     })();
   }, []);
 
@@ -117,6 +129,17 @@ const Home: React.FC = () => {
             windowSize - 20
           }px] overflow-x-auto pl-5 gap-3 hide-scrollbar`}
         >
+          <Button
+            onClick={() => setCategorySelected(null)}
+            className={buttonVariants({
+              variant: `${
+                categorySelected === null ? "default" : "outline"
+              }`,
+              className: `mr-0 h-12 flex-1 px-7 focus:outline-none focus:ring-opacity-0 focus:ring-0`,
+            })}
+          >
+            Todos
+          </Button>
           {categories.map((category: any, index: number) => (
             <Button
               key={category.id}
@@ -148,7 +171,17 @@ const Home: React.FC = () => {
       ) : errorProduct ? (
         <div>error</div>
       ) : products?.length === 0 ? (
-        <div>no hay</div>
+        <div className="px-5 py-6 w-72 mx-auto grid place-items-center">
+          <img
+            src={NotResultIcon}
+            alt=""
+            className="w-12 object-contain mb-3"
+          />
+          <Text className="text-center">
+            No hay productos disponibles con esta categoría en este
+            momento.
+          </Text>
+        </div>
       ) : (
         <div className="p-5 pt-2 grid grid-cols-2 gap-5">
           {products.map((product: any) => (

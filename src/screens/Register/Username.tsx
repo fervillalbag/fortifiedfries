@@ -13,7 +13,6 @@ import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { client } from "../../../supabase/client";
 import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { NotFound } from "..";
 
 const registerValidationSchema = yup.object().shape({
   username: yup
@@ -61,8 +60,6 @@ export default function Username() {
     console.log("Ha ocurrido un problema");
     setLoading(false);
   };
-
-  if (value.email === "" || !value.email) return <NotFound />;
 
   return (
     <div style={styleHeight}>
