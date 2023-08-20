@@ -10,9 +10,8 @@ export default function Line({ width, height, rounded }: LineProps) {
       <div
         className={`animate-pulse bg-@sura-primary-300 ${
           width === "full" ? "w-full" : width ? `w-${width}` : "w-32"
-        } ${height ? `h-${height}` : "h-4"} ${
-          rounded ? `rounded-${rounded}` : "rounded-none"
-        }`}
+        }  ${rounded ? `rounded-${rounded}` : "rounded-none"}`}
+        style={{ height }}
       ></div>
     </div>
   );
