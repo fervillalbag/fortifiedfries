@@ -1,8 +1,8 @@
-# Nombre del Proyecto
+# SURA
 
-**Contribución:** [Cómo Contribuir](enlace_contribucion)  
-**Comunidad:** [Únete a nuestra Comunidad](enlace_comunidad)  
-**Documentación:** [Documentación del Proyecto](enlace_documentacion)
+**Contribución:** [Cómo Contribuir](CONTRIBUTING.md)  
+**Comunidad:** [Únete a nuestra Comunidad](enlace_comunidad_discord)  
+**Documentación:** [Documentación del Proyecto](docs/DOCUMENTATION.md)
 
 ## Ramas
 
