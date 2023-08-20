@@ -81,7 +81,6 @@ const Gender: React.FC = () => {
       .single();
 
     if (status === 200) {
-      console.log("Actualizacion existosa");
       handleUpdate({
         gender: +data?.gender,
       });

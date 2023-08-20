@@ -29,8 +29,6 @@ export default function Username() {
     key: NURA_AUTH_REGISTER_INFO,
   });
 
-  console.log({ value });
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleNext = async (values: any) => {
@@ -50,7 +48,6 @@ export default function Username() {
       .single();
 
     if (status === 200) {
-      console.log("Actualizacion existosa");
       handleUpdate({
         username: data.username,
       });
