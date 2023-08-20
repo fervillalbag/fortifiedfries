@@ -31,31 +31,19 @@ const headerImages = [
   },
 ];
 
-const categories = [
-  {
-    id: "1",
-    text: "Todos",
-  },
-  {
-    id: "2",
-    text: "Informatica",
-  },
-  {
-    id: "3",
-    text: "Muebles",
-  },
-  {
-    id: "4",
-    text: "Prendas",
-  },
-];
-
 const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const { isAuthenticated } = useContext(AuthenticatedContext);
 
+  const [categorySelected, setCategorySelected] = useState<number>(7);
+  const { windowSize } = useContext(WindowSizeContext);
+
   const [products, setProducts] = useState<any | null>(null);
   const [errorProduct, setErrorProduct] = useState<any | null>(null);
+  const [categories, setCategories] = useState<any | null>(null);
+  const [errorCategories, setErrorCategories] = useState<any | null>(
+    null
+  );
 
   const [showModalLogin, setShowModalLogin] = useState<boolean>(
     !isAuthenticated
@@ -72,14 +60,23 @@ const Home: React.FC = () => {
         return;
       }
 
+      const { data: categories, error: errorCategories } =
+        await client
+          .from("CategoryProduct")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+      if (errorCategories) {
+        console.log("Categoria no encontrados");
+        setErrorCategories(errorCategories);
+        return;
+      }
+
+      setCategories(categories);
       setErrorProduct(errorProducts);
       setProducts(products);
     })();
   }, []);
-
-  const [categorySelected, setCategorySelected] =
-    useState<string>("1");
-  const { windowSize } = useContext(WindowSizeContext);
 
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -102,32 +99,44 @@ const Home: React.FC = () => {
         <HeaderGallery data={headerImages} />
       </div>
 
-      <div
-        className={`${
-          scrollY > 300 && "shadow-lg"
-        } sticky top-0 z-20 bg-white py-3 flex w-[${
-          windowSize - 20
-        }px] overflow-x-auto pl-5 gap-3 hide-scrollbar`}
-      >
-        {categories.map((category, index: number) => (
-          <Button
-            key={category.id}
-            onClick={() => setCategorySelected(category.id)}
-            className={buttonVariants({
-              variant: `${
-                category.id === categorySelected
-                  ? "default"
-                  : "outline"
-              }`,
-              className: `h-12 flex-1 px-7 focus:outline-none focus:ring-opacity-0 focus:ring-0 ${
-                index === categories.length - 1 ? "mr-5" : "mr-0"
-              }`,
-            })}
-          >
-            {category.text}
-          </Button>
-        ))}
-      </div>
+      {!errorCategories && !categories ? (
+        <div className="px-5 py-3 flex gap-x-3 overflow-x-auto hide-scrollbar">
+          <Line rounded="md" width={32} height={12}></Line>
+          <Line rounded="md" width={32} height={12}></Line>
+          <Line rounded="md" width={32} height={12}></Line>
+          <Line rounded="md" width={32} height={12}></Line>
+          <Line rounded="md" width={32} height={12}></Line>
+        </div>
+      ) : errorCategories ? (
+        <div>error</div>
+      ) : (
+        <div
+          className={`${
+            scrollY > 300 && "shadow-lg"
+          } sticky top-0 z-20 bg-white py-3 flex w-[${
+            windowSize - 20
+          }px] overflow-x-auto pl-5 gap-3 hide-scrollbar`}
+        >
+          {categories.map((category: any, index: number) => (
+            <Button
+              key={category.id}
+              onClick={() => setCategorySelected(category.id)}
+              className={buttonVariants({
+                variant: `${
+                  category.id === categorySelected
+                    ? "default"
+                    : "outline"
+                }`,
+                className: `h-12 flex-1 px-7 focus:outline-none focus:ring-opacity-0 focus:ring-0 ${
+                  index === categories.length - 1 ? "mr-5" : "mr-0"
+                }`,
+              })}
+            >
+              {category.name}
+            </Button>
+          ))}
+        </div>
+      )}
 
       {!products && !errorProduct ? (
         <div className="p-5 pt-2 grid grid-cols-2 gap-x-5 gap-y-6">

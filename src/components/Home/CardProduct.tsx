@@ -59,6 +59,7 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
             </div>
           ) : (
             <NumericFormat
+              className="w-32"
               prefix={`${currencyProduct?.name.toString()} `}
               value={product.price}
               thousandSeparator={true}
