@@ -1,3 +1,4 @@
+import { useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { NumericFormat } from "react-number-format";
@@ -8,11 +9,10 @@ import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
 import { Button, Input, Text, buttonVariants } from "../../ui";
 import { Layout } from "../../components/CreatePost";
+import { client } from "../../../supabase/client";
 
 import CreatePostHeader from "../../assets/images/create-post-price.png";
-import { useState } from "react";
 import { SURA_CREATE_POST_INFO } from "../../utils/constants";
-import { client } from "../../../supabase/client";
 
 const validationSchemaPrice = yup.object().shape({
   price: yup.string().required("El campo es obligatorio"),
@@ -21,6 +21,7 @@ const validationSchemaPrice = yup.object().shape({
 export default function Hashtag() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
+
   const [currency] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -28,12 +29,17 @@ export default function Hashtag() {
     null
   );
 
-  const [value] = useLocalStorageState({
+  const [value, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
   });
 
   const handleNext = async (values: any) => {
     setLoading(true);
+
+    const priceValue = +values.price
+      .split("Gs. ")[1]
+      .replaceAll(",", "");
+    handleUpdate({ price: values.price });
 
     const { data, error } = await client.auth.getUser();
     if (error) return;
@@ -45,12 +51,7 @@ export default function Hashtag() {
       .single();
     if (errorUser) return;
 
-    const price =
-      typeof values.price === "number"
-        ? values.price
-        : +values.price.split("Gs. ")[1].replace(",", "");
-
-    if (price < 5000) {
+    if (priceValue < 5000) {
       setErrorMessage(
         "El precio es muy bajo. Debe ser superior a Gs. 5.000"
       );
@@ -60,7 +61,7 @@ export default function Hashtag() {
     const productData = {
       title: value.name,
       description: value.details,
-      price,
+      price: priceValue,
       category: +value.category,
       images: value.images,
       tags: value.tags,
