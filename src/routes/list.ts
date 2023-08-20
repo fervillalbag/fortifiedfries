@@ -27,6 +27,7 @@ import {
   CreatePostPrice,
   CreatePostStatus,
 } from "../screens/CreatePost";
+import { DetailsProduct } from "../screens/Product";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
@@ -151,5 +152,10 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: CreatePostPrice,
     path: "/create-post-price",
+  },
+  {
+    id: nanoid(3),
+    component: DetailsProduct,
+    path: "/product/:id",
   },
 ];
