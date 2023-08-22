@@ -90,3 +90,11 @@
   border-radius: 6px;
   overflow: hidden;
 }
+
+.product-description p {
+  margin-bottom: 15px;
+}
+
+.product-description p:last-child {
+  margin-bottom: 0;
+}
