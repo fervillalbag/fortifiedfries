@@ -75,7 +75,7 @@ const Select: React.FC<SelectProps> = ({
       </m.div>
 
       <div
-        className={`border-2 border-b-4 border-@sura-border ${
+        className={`border-2 border-b-4 border-@sura-primary-100 ${
           !showOptions
             ? "h-0 overflow-hidden opacity-0"
             : "h-max overflow-visible opacity-100"
