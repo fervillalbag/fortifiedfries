@@ -37,8 +37,6 @@ export default function Hashtag() {
   };
 
   const handleNext = () => {
-    console.log("hello");
-
     if (tags.length === 0)
       return setMessageError("Al menos debe tener una etiqueta");
 

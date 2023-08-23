@@ -1,42 +1,26 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Text, buttonVariants } from "../ui";
+import { Text } from "../ui";
 import { useHeight } from "../hooks";
 import { AuthenticatedContext } from "../context";
 
 const NotFound: React.FC = () => {
   const { isAuthenticated } = useContext(AuthenticatedContext);
+  const navigate = useNavigate();
 
   const stylesHeight = useHeight();
 
+  useEffect(() => {
+    setTimeout(() => {
+      const path = isAuthenticated ? "/home" : "/";
+      navigate(path);
+    }, 2000);
+  }, []);
+
   return (
-    <div
-      style={stylesHeight}
-      className={`overflow-hidden grid grid-rows-[1fr_88px]`}
-    >
-      <div className="h-full grid content-center place-items-center">
-        <img src="/icons/404.svg" alt="" />
-        <div className="px-5">
-          <Text className="text-2xl text-center text-@sura-primary-900">
-            No se encontraron resultados
-          </Text>
-          <Text className="text-@sura-primary-700 text-center mt-2">
-            La página que buscas no ha sido encontrada. Te sugerimos
-            revisar la URL o volver a la página de inicio.
-          </Text>
-        </div>
-      </div>
-      <div className="px-5 h-full">
-        <Link
-          to={isAuthenticated ? "/home" : "/"}
-          className={buttonVariants({
-            variant: "outline",
-          })}
-        >
-          Volver al inicio
-        </Link>
-      </div>
+    <div style={stylesHeight} className="grid place-items-center">
+      <Text>Cargando..</Text>
     </div>
   );
 };

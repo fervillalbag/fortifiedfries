@@ -15,8 +15,13 @@ export default function Details() {
 
   const [product, setProduct] = useState<any>(null);
   const [owner, setOwner] = useState<any>(null);
+  const [listStatusProduct, setListStatusProduct] =
+    useState<any>(null);
+
   const [errorOwner, setErrorOwner] = useState<any>(null);
   const [errorProduct, setErrorProduct] = useState<any>(null);
+  const [errorListStatusProduct, setErrorListStatusProduct] =
+    useState<any>(null);
 
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
@@ -30,13 +35,22 @@ export default function Details() {
 
       const { data: product, error } = await client
         .from("Product")
-        .select("*")
+        .select("images, title, description, owner, status")
         .eq("id", +id)
         .single();
 
       if (error) {
         console.log("No se encontro el producto con id", id);
         setErrorProduct(error);
+        return;
+      }
+
+      const { data: statusProduct, error: errorStatusProduct } =
+        await client.from("StatusProduct").select("*");
+
+      if (errorStatusProduct) {
+        console.log("Ocurrio un problema");
+        setErrorListStatusProduct(errorStatusProduct);
         return;
       }
 
@@ -54,12 +68,21 @@ export default function Details() {
       }
 
       setProduct(product);
+      setListStatusProduct(statusProduct);
       setOwner(ownerProduct);
       setPrincipalImageSelected(product.images[0]);
     })();
   }, []);
 
-  if ((!product && !errorProduct) || (!owner && !errorOwner)) {
+  const statusProduct = listStatusProduct?.find(
+    (status: any) => status.id === product.status
+  );
+
+  if (
+    (!product && !errorProduct) ||
+    (!owner && !errorOwner) ||
+    (listStatusProduct && errorListStatusProduct)
+  ) {
     return <div className="p-5">cargando..</div>;
   }
 
@@ -158,7 +181,13 @@ export default function Details() {
                 </Text>
               </div>
               <Text className="mt-1">
-                El producto se encuentra usado.
+                El producto se encuentra{" "}
+                {statusProduct?.name === "new"
+                  ? "nuevo"
+                  : statusProduct?.name === "used"
+                  ? "usado"
+                  : "semi nuevo"}
+                .
               </Text>
             </div>
 

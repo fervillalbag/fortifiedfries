@@ -6,10 +6,18 @@ import { Text } from "../../ui";
 import Line from "../Loader/Line";
 
 interface CardProductProps {
-  product: any;
+  title: string;
+  images: string[];
+  price: number;
+  currency: number;
 }
 
-const CardProduct: React.FC<CardProductProps> = ({ product }) => {
+const CardProduct: React.FC<CardProductProps> = ({
+  title,
+  images,
+  price,
+  currency,
+}: CardProductProps) => {
   const [currencies, setCurrencies] = useState<any | null>(null);
 
   useEffect(() => {
@@ -27,7 +35,7 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
   }, []);
 
   const currencyProduct = currencies?.find(
-    (currency: any) => currency.id === product.currency
+    (currencyData: any) => currencyData.id === currency
   );
 
   return (
@@ -42,7 +50,7 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
 
       <div>
         <img
-          src={product.images[0]}
+          src={images[0]}
           alt=""
           className="w-full h-40 object-cover rounded-md"
         />
@@ -50,9 +58,7 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
 
       <div>
         <Text className="text-@sura-primary-900 mt-1">
-          {product.title.length >= 16
-            ? `${product.title.slice(0, 16)}..`
-            : product.title}
+          {title.length >= 16 ? `${title.slice(0, 16)}..` : title}
         </Text>
         <span className="font-extrabold mt-[2px] text-@sura-primary-700">
           {!currencyProduct || !currencies ? (
@@ -65,7 +71,7 @@ const CardProduct: React.FC<CardProductProps> = ({ product }) => {
               <NumericFormat
                 className="w-32"
                 prefix={`${currencyProduct?.name.toString()} `}
-                value={product.price}
+                value={price}
                 thousandSeparator={true}
               />
             </div>
