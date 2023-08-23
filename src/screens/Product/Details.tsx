@@ -7,12 +7,15 @@ import BtnBack from "../../components/BtnBack";
 import { Text, textVariants } from "../../ui";
 import { client } from "../../../supabase/client";
 import { transitionLayoutPage } from "../../utils/animation";
+import { DetailsSeller } from "../../components/Product";
 
 export default function Details() {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const [product, setProduct] = useState<any>(null);
+  const [owner, setOwner] = useState<any>(null);
+  const [errorOwner, setErrorOwner] = useState<any>(null);
   const [errorProduct, setErrorProduct] = useState<any>(null);
 
   const [principalImageSelected, setPrincipalImageSelected] =
@@ -37,16 +40,28 @@ export default function Details() {
         return;
       }
 
+      const { data: ownerProduct, error: errorOwnerProduct } =
+        await client
+          .from("Personal")
+          .select("avatar, fullname, username")
+          .eq("id", product.owner)
+          .single();
+
+      if (errorOwnerProduct) {
+        console.log("No se encontro el producto con id", id);
+        setErrorOwner(error);
+        return;
+      }
+
       setProduct(product);
+      setOwner(ownerProduct);
       setPrincipalImageSelected(product.images[0]);
     })();
   }, []);
 
-  if (!product && !errorProduct) {
+  if ((!product && !errorProduct) || (!owner && !errorOwner)) {
     return <div className="p-5">cargando..</div>;
   }
-
-  console.log({ product });
 
   return (
     <m.div
@@ -197,16 +212,11 @@ export default function Details() {
           </div>
         </div>
 
-        <div className="py-5">
-          <Text
-            className={textVariants({
-              variant: "subtitle",
-              className: "mb-2 text-2xl border-b pb-1",
-            })}
-          >
-            Vendedor
-          </Text>
-        </div>
+        <DetailsSeller
+          fullname={owner.fullname}
+          username={owner.username}
+          avatar={owner.avatar}
+        />
       </div>
     </m.div>
   );
