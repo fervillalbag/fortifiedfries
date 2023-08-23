@@ -58,7 +58,7 @@ const Home: React.FC = () => {
     (async () => {
       const { data: products, error: errorProducts } = await client
         .from("Product")
-        .select("*")
+        .select("id, images, title, price, currency")
         .eq(
           categorySelected !== null ? "category" : "",
           categorySelected
@@ -187,7 +187,12 @@ const Home: React.FC = () => {
         <div className="p-5 pt-2 grid grid-cols-2 gap-5">
           {products.map((product: any) => (
             <Link key={product.id} to={`/product/${product.id}`}>
-              <CardProduct product={product} />
+              <CardProduct
+                title={product.title}
+                images={product.images}
+                currency={product.currency}
+                price={product.price}
+              />
             </Link>
           ))}
         </div>
