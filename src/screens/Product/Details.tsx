@@ -8,6 +8,7 @@ import { Text, textVariants } from "../../ui";
 import { client } from "../../../supabase/client";
 import { transitionLayoutPage } from "../../utils/animation";
 import { DetailsSeller } from "../../components/Product";
+import Loader from "../../components/Product/Details/Loader";
 
 export default function Details() {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ export default function Details() {
     (listStatusProduct && errorListStatusProduct) ||
     (userVerified === null && !errorUserVerified)
   ) {
-    return <div className="p-5">cargando..</div>;
+    return <Loader />;
   }
 
   return (
