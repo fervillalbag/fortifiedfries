@@ -186,14 +186,14 @@ const Home: React.FC = () => {
       ) : (
         <div className="p-5 pt-2 grid grid-cols-2 gap-5">
           {products.map((product: any) => (
-            <Link key={product.id} to={`/product/${product.id}`}>
-              <CardProduct
-                title={product.title}
-                images={product.images}
-                currency={product.currency}
-                price={product.price}
-              />
-            </Link>
+            <CardProduct
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              images={product.images}
+              currency={product.currency}
+              price={product.price}
+            />
           ))}
         </div>
       )}
