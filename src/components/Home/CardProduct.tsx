@@ -44,7 +44,7 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   return (
     <div className="relative">
-      <button className="z-50 absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
+      <button className="z-10 absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
         <img
           src="/icons/heart-no-like.svg"
           alt=""
@@ -53,7 +53,7 @@ const CardProduct: React.FC<CardProductProps> = ({
       </button>
 
       <div onClick={() => navigate(`/product/${id}`)}>
-        <div className="relative z-10">
+        <div>
           <img
             src={images[0]}
             alt=""
@@ -68,7 +68,7 @@ const CardProduct: React.FC<CardProductProps> = ({
           <span className="font-extrabold mt-[2px] text-@sura-primary-700">
             {!currencyProduct || !currencies ? (
               <div>
-                <Line width="28" height={20} rounded="sm" />
+                <Line width={112} height={20} rounded="sm" />
               </div>
             ) : (
               <div className="relative">

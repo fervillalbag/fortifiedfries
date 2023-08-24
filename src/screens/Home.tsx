@@ -13,7 +13,6 @@ import { client } from "../../supabase/client";
 import Line from "../components/Loader/Line";
 
 import NotResultIcon from "../assets/images/not-result-icon.png";
-import { Link } from "react-router-dom";
 
 const headerImages = [
   {
@@ -114,11 +113,11 @@ const Home: React.FC = () => {
 
       {!errorCategories && !categories ? (
         <div className="px-5 py-3 flex gap-x-3 overflow-x-auto hide-scrollbar">
-          <Line rounded="md" width={32} height={48}></Line>
-          <Line rounded="md" width={32} height={48}></Line>
-          <Line rounded="md" width={32} height={48}></Line>
-          <Line rounded="md" width={32} height={48}></Line>
-          <Line rounded="md" width={32} height={48}></Line>
+          <Line rounded="md" width={128} height={48}></Line>
+          <Line rounded="md" width={128} height={48}></Line>
+          <Line rounded="md" width={128} height={48}></Line>
+          <Line rounded="md" width={128} height={48}></Line>
+          <Line rounded="md" width={128} height={48}></Line>
         </div>
       ) : errorCategories ? (
         <div>error</div>
@@ -164,10 +163,10 @@ const Home: React.FC = () => {
 
       {!products && !errorProduct ? (
         <div className="p-5 pt-2 grid grid-cols-2 gap-5">
-          <Line rounded="md" width="full" height={208} />
-          <Line rounded="md" width="full" height={208} />
-          <Line rounded="md" width="full" height={208} />
-          <Line rounded="md" width="full" height={208} />
+          <Line rounded="md" width="100%" height={208} />
+          <Line rounded="md" width="100%" height={208} />
+          <Line rounded="md" width="100%" height={208} />
+          <Line rounded="md" width="100%" height={208} />
         </div>
       ) : errorProduct ? (
         <div>error</div>
