@@ -72,7 +72,10 @@ const CardProduct: React.FC<CardProductProps> = ({
               </div>
             ) : (
               <div className="relative">
-                <div className="absolute top-0 left-0 bg-transparent z-10 w-full h-full" />
+                <div
+                  className="absolute top-0 left-0 bg-transparent z-10 w-full h-full"
+                  aria-hidden="true"
+                />
                 <NumericFormat
                   className="w-32"
                   prefix={`${currencyProduct?.name.toString()} `}

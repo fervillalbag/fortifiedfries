@@ -310,7 +310,7 @@ export default function Details() {
           avatar={owner.avatar}
         />
 
-        <div className="bg-transparent h-[94px]" />
+        <div className="bg-transparent h-[94px]" aria-hidden="true" />
       </div>
     </m.div>
   );
