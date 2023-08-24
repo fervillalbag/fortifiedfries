@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { m } from "framer-motion";
 
 import { Navbar } from "./";
@@ -17,28 +17,9 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const { isAuthenticated } = useContext(AuthenticatedContext);
 
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-
   const [_, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      const scrollingDown = currentScrollPos > prevScrollPos;
-
-      setIsVisible(scrollingDown);
-      setPrevScrollPos(currentScrollPos);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [prevScrollPos]);
 
   useEffect(() => {
     handleUpdateForm(authInitialValue);
@@ -53,9 +34,11 @@ export default function Layout({ children }: LayoutProps) {
         transition={transitionLayoutPage}
       >
         {children}
+
+        <div className="h-[70px] bg-transparent" aria-hidden="true" />
       </m.div>
 
-      {isAuthenticated ? <Navbar isVisible={isVisible} /> : null}
+      {isAuthenticated ? <Navbar /> : null}
     </div>
   );
 }
