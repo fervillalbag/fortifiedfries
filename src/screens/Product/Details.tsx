@@ -17,10 +17,15 @@ export default function Details() {
   const [owner, setOwner] = useState<any>(null);
   const [listStatusProduct, setListStatusProduct] =
     useState<any>(null);
+  const [userVerified, setUserVerified] = useState<boolean | null>(
+    null
+  );
 
   const [errorOwner, setErrorOwner] = useState<any>(null);
   const [errorProduct, setErrorProduct] = useState<any>(null);
   const [errorListStatusProduct, setErrorListStatusProduct] =
+    useState<any>(null);
+  const [errorUserVerified, setErrorUserVerified] =
     useState<any>(null);
 
   const [principalImageSelected, setPrincipalImageSelected] =
@@ -67,6 +72,23 @@ export default function Details() {
         return;
       }
 
+      const { data: verifiedUsers, error: errorVerifiedUsers } =
+        await client
+          .from("VerifiedUser")
+          .select("value")
+          .eq("user_id", +product.owner);
+
+      if (errorVerifiedUsers) {
+        console.log(
+          "Informacion de verificacion de usuario no encontrada"
+        );
+        setErrorUserVerified(errorVerifiedUsers);
+        return;
+      }
+
+      setUserVerified(
+        verifiedUsers?.length > 0 ? verifiedUsers[0]?.value : false
+      );
       setProduct(product);
       setListStatusProduct(statusProduct);
       setOwner(ownerProduct);
@@ -81,7 +103,8 @@ export default function Details() {
   if (
     (!product && !errorProduct) ||
     (!owner && !errorOwner) ||
-    (listStatusProduct && errorListStatusProduct)
+    (listStatusProduct && errorListStatusProduct) ||
+    (userVerified === null && !errorUserVerified)
   ) {
     return <div className="p-5">cargando..</div>;
   }
@@ -235,7 +258,11 @@ export default function Details() {
                 </Text>
               </div>
               <Text className="mt-1">
-                El vendedor no esta verificado.
+                El vendedor{" "}
+                <span className="font-bold text-@sura-primary-800">
+                  {userVerified ? "si" : "no"}
+                </span>{" "}
+                esta verificado.
               </Text>
             </div>
           </div>
