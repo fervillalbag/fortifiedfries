@@ -4,11 +4,12 @@ import ReactMarkdown from "react-markdown";
 import { m } from "framer-motion";
 
 import BtnBack from "../../components/BtnBack";
-import { Text, textVariants } from "../../ui";
+import { Button, Text, textVariants } from "../../ui";
 import { client } from "../../../supabase/client";
 import { transitionLayoutPage } from "../../utils/animation";
 import { DetailsSeller } from "../../components/Product";
 import Loader from "../../components/Product/Details/Loader";
+import { NumericFormat } from "react-number-format";
 
 export default function Details() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function Details() {
   const [userVerified, setUserVerified] = useState<boolean | null>(
     null
   );
+  const [currencies, setCurrencies] = useState<any | null>(null);
 
   const [errorOwner, setErrorOwner] = useState<any>(null);
   const [errorProduct, setErrorProduct] = useState<any>(null);
@@ -41,7 +43,9 @@ export default function Details() {
 
       const { data: product, error } = await client
         .from("Product")
-        .select("images, title, description, owner, status")
+        .select(
+          "images, title, description, owner, status, price, currency"
+        )
         .eq("id", +id)
         .single();
 
@@ -87,6 +91,15 @@ export default function Details() {
         return;
       }
 
+      const { data: currencies, error: errorCurrencies } =
+        await client.from("CurrencyProduct").select("*");
+
+      if (errorCurrencies) {
+        console.log("No se encontraron monedas");
+        return;
+      }
+
+      setCurrencies(currencies);
       setUserVerified(
         verifiedUsers?.length > 0 ? verifiedUsers[0]?.value : false
       );
@@ -99,6 +112,10 @@ export default function Details() {
 
   const statusProduct = listStatusProduct?.find(
     (status: any) => status.id === product.status
+  );
+
+  const currencyProduct = currencies?.find(
+    (currencyData: any) => currencyData.id === product?.currency
   );
 
   if (
@@ -118,6 +135,24 @@ export default function Details() {
       transition={transitionLayoutPage}
       className="p-5"
     >
+      <div className="flex items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-full fixed bottom-0 left-0 bg-white h-[94px]">
+        <Button className="h-12 w-[146px]">Comprar</Button>
+        <div>
+          <div className="relative">
+            <div className="absolute top-0 left-0 bg-transparent z-10 w-full h-full" />
+            <NumericFormat
+              className="text-right text-xl font-bold text-@sura-primary-800"
+              prefix={`${currencyProduct?.name.toString()}. `}
+              value={product.price}
+              thousandSeparator={true}
+            />
+          </div>
+          <Text className="text-right text-sm">
+            San Lorenzo, Sinalco
+          </Text>
+        </div>
+      </div>
+
       <div className="flex items-center gap-4">
         <BtnBack onClick={() => navigate(-1)} />
         <Text className="text-@sura-primary-900 text-[22px] font-medium">
@@ -274,6 +309,8 @@ export default function Details() {
           username={owner.username}
           avatar={owner.avatar}
         />
+
+        <div className="bg-transparent h-[94px]" />
       </div>
     </m.div>
   );

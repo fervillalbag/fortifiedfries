@@ -12,7 +12,7 @@ export default function Seller({
   avatar,
 }: SellerProps) {
   return (
-    <div className="py-5">
+    <div className="pt-5 pb-3">
       <Text
         className={textVariants({
           variant: "subtitle",
