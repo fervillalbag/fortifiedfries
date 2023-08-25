@@ -103,6 +103,7 @@ const Password: React.FC = () => {
                 onChange={handleChange("password")}
                 onBlur={handleBlur("password")}
                 placeholder="introduce la contrasena"
+                isLoading={loading}
               />
               {errors.password && (
                 <Text
