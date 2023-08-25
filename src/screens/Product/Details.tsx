@@ -135,13 +135,13 @@ export default function Details() {
       transition={transitionLayoutPage}
       className="p-5"
     >
-      <div className="grid grid-cols-2 items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-full fixed bottom-0 left-0 bg-white h-[94px]">
+      <div className="grid gap-x-4 grid-cols-[max-content_1fr] items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-screen fixed bottom-0 left-0 bg-white h-[94px]">
         <Button className="h-12 w-[146px]">Comprar</Button>
-        <div>
-          <div className="relative">
-            <div className="absolute top-0 left-0 bg-transparent z-10 w-full h-full" />
+        <div className="flex flex-col items-end">
+          <div className="relative w-full">
+            <div className="flex justify-end absolute top-0 right-0 bg-transparent z-10 w-full h-full" />
             <NumericFormat
-              className="text-right text-xl font-bold text-@sura-primary-800"
+              className="text-right text-xl w-full font-bold text-@sura-primary-800"
               prefix={`${currencyProduct?.name.toString()}. `}
               value={product.price}
               thousandSeparator={true}
