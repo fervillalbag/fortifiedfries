@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { m } from "framer-motion";
+import { toast } from "react-hot-toast";
 // @ts-ignore
 import argon2 from "argon2-wasm-esm";
 
@@ -30,27 +31,39 @@ const Password: React.FC = () => {
 
   const handleNext = async (values: any) => {
     setLoading(true);
+    toast.loading("Ingresando..");
 
     if (!state.user) {
-      console.log("Credenciales incorrectas");
+      toast.dismiss();
+      toast.success("Credenciales incorrectas");
       setLoading(false);
       return;
     }
 
-    const { data } = await client.auth.signInWithPassword({
+    const { error } = await client.auth.signInWithPassword({
       email: state.user.email,
       password: values.password,
     });
 
-    if (data) {
+    if (error?.message === "Invalid login credentials") {
+      toast.dismiss();
+      toast.error("Credenciales incorrectas");
+      setLoading(false);
+      return;
+    }
+
+    if (!error) {
       setIsAuthenticated(true);
+      toast.dismiss();
+      toast.success("Has iniciado sesion");
       navigate("/home");
       setLoading(false);
       return;
     }
 
     setLoading(false);
-    console.log("Ha ocurrido un problema");
+    toast.dismiss();
+    toast.error("Ha ocurrido un error");
   };
 
   return (
