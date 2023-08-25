@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 import { AuthenticatedContext } from "../../context";
 import { client } from "../../../supabase/client";
@@ -13,12 +14,14 @@ export default function Root() {
       const { error } = await client.auth.signOut();
 
       if (error) {
-        console.error("Error al cerrar sesión:", error.message);
+        toast.error("Error al cerrar sesión");
       } else {
-        console.log("Sesión cerrada exitosamente");
+        toast("Has cerrado sesion", {
+          icon: "👀",
+        });
       }
     } catch (error: any) {
-      console.error("Error:", error.message);
+      toast.error("Error al cerrar sesión");
     }
   };
 
