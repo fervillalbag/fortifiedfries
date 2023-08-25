@@ -10,17 +10,22 @@ export default function Root() {
   const { setIsAuthenticated } = useContext(AuthenticatedContext);
 
   const handleLogout = async () => {
+    toast.loading("Saliendo..");
+
     try {
       const { error } = await client.auth.signOut();
 
       if (error) {
+        toast.dismiss();
         toast.error("Error al cerrar sesión");
       } else {
+        toast.dismiss();
         toast("Has cerrado sesion", {
           icon: "👀",
         });
       }
     } catch (error: any) {
+      toast.dismiss();
       toast.error("Error al cerrar sesión");
     }
   };
