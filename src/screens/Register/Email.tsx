@@ -8,7 +8,7 @@ import {
   Footer as FooterAuth,
   Header as HeaderAuth,
 } from "../../components/Auth";
-import { Alert, Button, Input, Text, Toast } from "../../ui";
+import { Button, Input, Text } from "../../ui";
 import { mailformat } from "../../utils/regex";
 import {
   NURA_AUTH_REGISTER_INFO,
@@ -32,8 +32,6 @@ const Email: React.FC = () => {
   const navigate = useNavigate();
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
-  const [openToast, setOpenToast] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [userInfoValue] = useState<any>(authInitialValue);
 
@@ -57,25 +55,12 @@ const Email: React.FC = () => {
         return;
       }
 
-      setOpenToast(true);
-      setErrorMessage("El email ya existe");
       setLoading(false);
-      console.log("Correo no disponible");
+      toast.error("El email ya está registrado.");
     } catch (error: any) {
       console.log(error);
       setLoading(false);
-      return toast.custom(
-        (t) => (
-          <Alert
-            type="error"
-            title="Hubo un problema!"
-            description="El email ya está registrado."
-            t={t}
-            duration={2000}
-          />
-        ),
-        { duration: 4000 }
-      );
+      toast.error("El email ya está registrado.");
     }
   };
 
@@ -85,13 +70,6 @@ const Email: React.FC = () => {
         image="/images/bg-register-email.jpg"
         title=""
         subtitle={`Ingrese su correo electronico`}
-      />
-      <Toast
-        type="error"
-        open={openToast}
-        duration={3000}
-        setOpen={setOpenToast}
-        message={errorMessage}
       />
 
       <Formik

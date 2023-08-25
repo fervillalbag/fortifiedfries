@@ -19,6 +19,7 @@ import {
   authStepAnimationDelaySm,
 } from "../../utils/animation";
 import { client } from "../../../supabase/client";
+import { toast } from "react-hot-toast";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -51,6 +52,7 @@ const Password: React.FC = () => {
 
   const handleNext = async (values: any) => {
     const shortIdCustom = nanoid(5);
+    toast.loading("Ingresando..");
     setLoading(true);
     const typeUser = await typeOfUserFetch();
 
@@ -65,7 +67,8 @@ const Password: React.FC = () => {
     });
 
     if (error || data.user === null) {
-      console.log({ error });
+      toast.dismiss();
+      toast.error("Ha ocurrido un error");
       return;
     }
 
@@ -90,11 +93,14 @@ const Password: React.FC = () => {
       .single();
 
     if (status === 201) {
+      toast.dismiss();
+      toast.success("Has iniciado sesion");
       setShowModalEmail(true);
       setLoading(false);
     }
 
-    console.log("Hubo un problema");
+    toast.dismiss();
+    toast.error("Hubo un problema");
     setLoading(false);
   };
 

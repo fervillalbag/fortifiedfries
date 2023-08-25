@@ -13,6 +13,7 @@ import { client } from "../../../supabase/client";
 
 import CreatePostHeader from "../../assets/images/create-post-price.png";
 import { SURA_CREATE_POST_INFO } from "../../utils/constants";
+import { toast } from "react-hot-toast";
 
 const validationSchemaPrice = yup.object().shape({
   price: yup.string().required("El campo es obligatorio"),
@@ -42,19 +43,40 @@ export default function Hashtag() {
     handleUpdate({ price: values.price });
 
     if (priceValue >= 1000000000) {
-      console.log("El precio no puede ser mayor a 1.000.000.000");
+      setLoading(false);
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } w-10/12 flex items-center gap-4 bg-white p-3 rounded-md justify-center`}
+        >
+          <span className="block text-center text-@sura-primary-900">
+            ⚠️ El precio no puede ser mayor a{" "}
+            <span className="font-bold text-@sura-primary-700">
+              1.000.000.000
+            </span>
+          </span>
+        </div>
+      ));
       return;
     }
 
     const { data, error } = await client.auth.getUser();
-    if (error) return;
+    if (error) {
+      toast.error("Ha ocurrido un error");
+      return;
+    }
 
     const { data: dataUser, error: errorUser } = await client
       .from("Personal")
       .select("*")
       .eq("email", data.user.email)
       .single();
-    if (errorUser) return;
+
+    if (errorUser) {
+      toast.error("Ha ocurrido un error");
+      return;
+    }
 
     if (priceValue < 5000) {
       setErrorMessage(
@@ -84,7 +106,7 @@ export default function Hashtag() {
       .insert(productData);
 
     if (status === 201) {
-      console.log("Creado correctamente");
+      toast.success("Producto publicado correctamente");
       setErrorMessage(null);
       navigate("/home");
       setLoading(false);
