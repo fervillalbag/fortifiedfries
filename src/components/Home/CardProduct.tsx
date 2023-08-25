@@ -68,7 +68,7 @@ const CardProduct: React.FC<CardProductProps> = ({
           <span className="font-extrabold mt-[2px] text-@sura-primary-700">
             {!currencyProduct || !currencies ? (
               <div>
-                <Line width={112} height={20} rounded="sm" />
+                <Line width={112} height={24} rounded="sm" />
               </div>
             ) : (
               <div className="relative">
