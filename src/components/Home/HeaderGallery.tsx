@@ -1,16 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { client } from "../../../supabase/client";
+import Line from "../Loader/Line";
+import { useNavigate } from "react-router-dom";
 
-interface HeaderGalleryProps {
-  data: any[];
-}
+const HeaderGallery: React.FC = () => {
+  const navigate = useNavigate();
 
-const HeaderGallery: React.FC<HeaderGalleryProps> = ({ data }) => {
+  const [products, setProducts] = useState<any>(null);
+  const [errorProducts, setErrorProducts] = useState<any>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data: products, error: errorProducts } = await client
+        .from("Product")
+        .select("id, images")
+        .eq("typeAd", 4);
+
+      if (errorProducts) {
+        console.log("Ha ocurrido un error");
+        setErrorProducts(errorProducts);
+        return;
+      }
+
+      setProducts(products);
+    })();
+  }, []);
+
+  if (!errorProducts && !products) {
+    return (
+      <div className="grid grid-cols-2 gap-3">
+        <Line width="100%" height={192} rounded="md" />
+        <Line width="100%" height={192} rounded="md" />
+      </div>
+    );
+  }
+
   return (
     <Swiper
       slidesPerView={2}
@@ -22,11 +52,14 @@ const HeaderGallery: React.FC<HeaderGalleryProps> = ({ data }) => {
       modules={[Pagination, Autoplay]}
       className="mySwiper rounded-md"
     >
-      {data.map((item) => (
-        <SwiperSlide key={item.id}>
-          <div className="h-56">
+      {products.map((product: any) => (
+        <SwiperSlide
+          key={product.id}
+          onClick={() => navigate(`/product/${product.id}`)}
+        >
+          <div className="h-48">
             <img
-              src={item.image}
+              src={product.images[0]}
               alt=""
               className={`rounded-md w-full h-full object-cover`}
             />

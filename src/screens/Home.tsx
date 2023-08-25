@@ -14,25 +14,6 @@ import Line from "../components/Loader/Line";
 
 import NotResultIcon from "../assets/images/not-result-icon.png";
 
-const headerImages = [
-  {
-    id: "1",
-    image: "https://shorturl.at/xKRW3",
-  },
-  {
-    id: "2",
-    image: "https://shorturl.at/nxyV1",
-  },
-  {
-    id: "3",
-    image: "https://shorturl.at/FPX01",
-  },
-  {
-    id: "4",
-    image: "https://shorturl.at/abkpX",
-  },
-];
-
 const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const { isAuthenticated } = useContext(AuthenticatedContext);
@@ -108,7 +89,7 @@ const Home: React.FC = () => {
       <ModalLogin show={showModalLogin} setShow={setShowModalLogin} />
 
       <div className="p-5 pb-2">
-        <HeaderGallery data={headerImages} />
+        <HeaderGallery />
       </div>
 
       {!errorCategories && !categories ? (
