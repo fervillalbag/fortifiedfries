@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { m } from "framer-motion";
@@ -31,8 +31,15 @@ export default function Details() {
   const [errorUserVerified, setErrorUserVerified] =
     useState<any>(null);
 
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
+
+  useEffect(() => {
+    const contentElement = contentRef.current;
+    if (contentElement) contentElement.scrollTop = 0;
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -134,6 +141,7 @@ export default function Details() {
       exit={{ opacity: 0 }}
       transition={transitionLayoutPage}
       className="p-5"
+      ref={contentRef}
     >
       <div className="grid gap-x-4 grid-cols-[max-content_1fr] items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-screen fixed bottom-0 left-0 bg-white h-[94px]">
         <Button className="h-12 w-[146px]">Comprar</Button>
