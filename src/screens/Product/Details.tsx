@@ -135,7 +135,7 @@ export default function Details() {
       transition={transitionLayoutPage}
       className="p-5"
     >
-      <div className="flex items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-full fixed bottom-0 left-0 bg-white h-[94px]">
+      <div className="grid grid-cols-2 items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-full fixed bottom-0 left-0 bg-white h-[94px]">
         <Button className="h-12 w-[146px]">Comprar</Button>
         <div>
           <div className="relative">
