@@ -41,6 +41,11 @@ export default function Hashtag() {
       .replaceAll(",", "");
     handleUpdate({ price: values.price });
 
+    if (priceValue >= 1000000000) {
+      console.log("El precio no puede ser mayor a 1.000.000.000");
+      return;
+    }
+
     const { data, error } = await client.auth.getUser();
     if (error) return;
 
