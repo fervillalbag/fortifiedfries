@@ -1,6 +1,7 @@
 import React from "react";
-import { Text, textVariants } from "../../ui";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import { Text, textVariants } from "../../ui";
 
 interface HeaderProps {
   image: string;
