@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
+
+import Line from "../Loader/Line";
+import { client } from "../../../supabase/client";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { client } from "../../../supabase/client";
-import Line from "../Loader/Line";
-import { useNavigate } from "react-router-dom";
 
 const HeaderGallery: React.FC = () => {
   const navigate = useNavigate();
@@ -52,20 +53,25 @@ const HeaderGallery: React.FC = () => {
       modules={[Pagination, Autoplay]}
       className="mySwiper rounded-md"
     >
-      {products.map((product: any) => (
-        <SwiperSlide
-          key={product.id}
-          onClick={() => navigate(`/product/${product.id}`)}
-        >
-          <div className="h-48">
-            <img
-              src={product.images[0]}
-              alt=""
-              className={`rounded-md w-full h-full object-cover`}
-            />
-          </div>
-        </SwiperSlide>
-      ))}
+      {products.map((product: any) => {
+        const urlImage1 = product?.images[0]?.split("upload");
+        const urlImage2 = `${urlImage1[0]}upload/w_1400,h_1400,c_crop${urlImage1[1]}`;
+
+        return (
+          <SwiperSlide
+            key={product.id}
+            onClick={() => navigate(`/product/${product.id}`)}
+          >
+            <div className="h-48">
+              <img
+                src={urlImage2}
+                alt=""
+                className={`rounded-md w-full h-full object-cover`}
+              />
+            </div>
+          </SwiperSlide>
+        );
+      })}
     </Swiper>
   );
 };
