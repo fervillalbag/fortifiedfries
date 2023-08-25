@@ -42,6 +42,9 @@ const CardProduct: React.FC<CardProductProps> = ({
     (currencyData: any) => currencyData.id === currency
   );
 
+  const urlImage1 = images[0]?.split("upload");
+  const urlImage2 = `${urlImage1[0]}upload/w_1400,h_1400,c_crop${urlImage1[1]}`;
+
   return (
     <div className="relative">
       <button className="z-10 absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
@@ -55,7 +58,7 @@ const CardProduct: React.FC<CardProductProps> = ({
       <div onClick={() => navigate(`/product/${id}`)}>
         <div>
           <img
-            src={images[0]}
+            src={urlImage2}
             alt=""
             className="w-full h-40 object-cover rounded-md"
           />

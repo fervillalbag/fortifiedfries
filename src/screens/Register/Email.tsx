@@ -101,6 +101,7 @@ const Email: React.FC = () => {
                 value={values.email}
                 onChange={handleChange("email")}
                 onBlur={handleBlur("email")}
+                isLoading={loading}
               />
 
               {errors.email && (
