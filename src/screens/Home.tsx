@@ -14,6 +14,18 @@ import Line from "../components/Loader/Line";
 
 import NotResultIcon from "../assets/images/not-result-icon.png";
 
+const VALUE_AD = 3;
+
+function compararPorTypeAd(a: any, b: any): number {
+  if (a.typeAd === VALUE_AD && b.typeAd !== VALUE_AD) {
+    return -1;
+  } else if (a.typeAd !== VALUE_AD && b.typeAd === VALUE_AD) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const { isAuthenticated } = useContext(AuthenticatedContext);
@@ -38,11 +50,12 @@ const Home: React.FC = () => {
     (async () => {
       const { data: products, error: errorProducts } = await client
         .from("Product")
-        .select("id, images, title, price, currency")
+        .select("id, images, title, price, currency, typeAd")
         .eq(
           categorySelected !== null ? "category" : "",
           categorySelected
-        );
+        )
+        .order("created_at", { ascending: false });
 
       if (errorProducts) {
         console.log("Productos no encontrados");
@@ -83,6 +96,8 @@ const Home: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  products?.sort(compararPorTypeAd);
 
   return (
     <Layout>
@@ -173,6 +188,7 @@ const Home: React.FC = () => {
               images={product.images}
               currency={product.currency}
               price={product.price}
+              typeAd={product.typeAd}
             />
           ))}
         </div>

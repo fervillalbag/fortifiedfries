@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import Line from "../Loader/Line";
 import { client } from "../../../supabase/client";
+import { Text } from "../../ui";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -53,25 +54,31 @@ const HeaderGallery: React.FC = () => {
       modules={[Pagination, Autoplay]}
       className="mySwiper rounded-md"
     >
-      {products.map((product: any) => {
-        const urlImage1 = product?.images[0]?.split("upload");
-        const urlImage2 = `${urlImage1[0]}upload/w_1400,h_1400,c_crop${urlImage1[1]}`;
+      {products.length === 0 ? (
+        <div className="h-48 bg-gray-300 grid place-items-center">
+          <Text>No hay contenido</Text>
+        </div>
+      ) : (
+        products.map((product: any) => {
+          const urlImage1 = product?.images[0]?.split("upload");
+          const urlImage2 = `${urlImage1[0]}upload/w_1400,h_1400,c_crop${urlImage1[1]}`;
 
-        return (
-          <SwiperSlide
-            key={product.id}
-            onClick={() => navigate(`/product/${product.id}`)}
-          >
-            <div className="h-48">
-              <img
-                src={urlImage2}
-                alt=""
-                className={`rounded-md w-full h-full object-cover`}
-              />
-            </div>
-          </SwiperSlide>
-        );
-      })}
+          return (
+            <SwiperSlide
+              key={product.id}
+              onClick={() => navigate(`/product/${product.id}`)}
+            >
+              <div className="h-48">
+                <img
+                  src={urlImage2}
+                  alt=""
+                  className={`rounded-md w-full h-full object-cover`}
+                />
+              </div>
+            </SwiperSlide>
+          );
+        })
+      )}
     </Swiper>
   );
 };
