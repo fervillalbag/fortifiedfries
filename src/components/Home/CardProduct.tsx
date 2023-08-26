@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
+import { useNavigate } from "react-router-dom";
+import { StarIcon } from "@heroicons/react/24/solid";
+import * as Dialog from "@radix-ui/react-dialog";
 
 import { client } from "../../../supabase/client";
-import { Text } from "../../ui";
+import { Text, Button } from "../../ui";
 import Line from "../Loader/Line";
-import { useNavigate } from "react-router-dom";
 
 interface CardProductProps {
   id: number;
@@ -12,6 +14,7 @@ interface CardProductProps {
   images: string[];
   price: number;
   currency: number;
+  typeAd: number;
 }
 
 const CardProduct: React.FC<CardProductProps> = ({
@@ -20,9 +23,12 @@ const CardProduct: React.FC<CardProductProps> = ({
   images,
   price,
   currency,
+  typeAd,
 }: CardProductProps) => {
   const navigate = useNavigate();
   const [currencies, setCurrencies] = useState<any | null>(null);
+  const [showModalRecommended, setShowModalRecommended] =
+    useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -47,6 +53,41 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   return (
     <div className="relative">
+      {typeAd === 3 && (
+        <div
+          className="absolute grid place-items-center top-2 left-2 w-8 h-8 bg-white rounded-md shadow-@sura-primary-400 shadow-sm overflow-hidden"
+          onClick={() => setShowModalRecommended(true)}
+        >
+          <StarIcon className="w-5 h-5 text-@sura-primary-900" />
+        </div>
+      )}
+
+      <Dialog.Root open={showModalRecommended}>
+        <Dialog.Portal>
+          <Dialog.Overlay
+            onClick={() => setShowModalRecommended(false)}
+            className="z-[1500] bg-black data-[state=open]:animate-overlayShow fixed inset-0 opacity-50"
+          />
+          <Dialog.Content className="z-[2000] data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-4 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+            <Text className="leading-7">
+              Este producto es destacado por un anunciante. Esto
+              significa que ha sido promocionado por un socio
+              comercial y no constituye una recomendación
+              independiente de nuestra parte
+            </Text>
+
+            <div className="flex justify-end mt-4">
+              <Button
+                className="w-max px-8 h-[46px]"
+                onClick={() => setShowModalRecommended(false)}
+              >
+                Cerrar
+              </Button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
       <button className="z-10 absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
         <img
           src="/icons/heart-no-like.svg"
