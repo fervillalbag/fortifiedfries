@@ -1,21 +1,22 @@
-import { useContext, useEffect } from "react";
+// import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { m } from "framer-motion";
 
-import { Navbar } from "./";
+// import { Navbar } from "./";
 import {
   NURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../utils/constants/auth";
 import { useLocalStorageState } from "../hooks";
 import { transitionLayoutPage } from "../utils/animation";
-import { AuthenticatedContext } from "../context";
+// import { AuthenticatedContext } from "../context";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { isAuthenticated } = useContext(AuthenticatedContext);
+  // const { isAuthenticated } = useContext(AuthenticatedContext);
 
   const [_, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
@@ -38,7 +39,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="h-[70px] bg-transparent" aria-hidden="true" />
       </m.div>
 
-      {isAuthenticated ? <Navbar /> : null}
+      {/* {isAuthenticated ? <Navbar /> : null} */}
     </div>
   );
 }
