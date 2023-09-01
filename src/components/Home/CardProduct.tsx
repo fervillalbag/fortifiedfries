@@ -52,7 +52,7 @@ const CardProduct: React.FC<CardProductProps> = ({
   const urlImage2 = `${urlImage1[0]}upload/w_1400,h_1400,c_crop${urlImage1[1]}`;
 
   return (
-    <div className="relative">
+    <div className="relative w-[150px]">
       {typeAd === 3 && (
         <div
           className="absolute grid place-items-center top-2 left-2 w-8 h-8 bg-white rounded-md shadow-@sura-primary-400 shadow-sm overflow-hidden"
