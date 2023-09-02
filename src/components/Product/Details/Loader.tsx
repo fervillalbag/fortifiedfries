@@ -2,7 +2,7 @@ import Line from "../../Loader/Line";
 
 export default function Loader() {
   return (
-    <div className="p-5 overflow-hidden h-screen">
+    <div className="p-5 overflow-hidden h-screen fixed top-0 left-0 w-screen">
       <div className="flex items-center gap-3">
         <div>
           <Line width={45} height={45} rounded="md" />
