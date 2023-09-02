@@ -17,18 +17,10 @@ export default function Details() {
 
   const [product, setProduct] = useState<any>(null);
   const [owner, setOwner] = useState<any>(null);
-  const [listStatusProduct, setListStatusProduct] =
-    useState<any>(null);
-  const [userVerified, setUserVerified] = useState<boolean | null>(
-    null
-  );
-  const [currencies, setCurrencies] = useState<any | null>(null);
   const [images, setImages] = useState<string[] | null>(null);
 
   const [errorOwner, setErrorOwner] = useState<any>(null);
   const [errorProduct, setErrorProduct] = useState<any>(null);
-  const [errorUserVerified, setErrorUserVerified] =
-    useState<any>(null);
   const [errorImages, setErrorImages] = useState<any>(null);
 
   const [principalImageSelected, setPrincipalImageSelected] =
@@ -69,18 +61,10 @@ export default function Details() {
         return;
       }
 
-      const { data: statusProduct, error: errorStatusProduct } =
-        await client.from("StatusProduct").select("*");
-
-      if (errorStatusProduct) {
-        console.log("Ocurrio un problema");
-        return;
-      }
-
       const { data: ownerProduct, error: errorOwnerProduct } =
         await client
           .from("Personal")
-          .select("avatar, fullname, username")
+          .select("avatar, fullname, username, affiliated")
           .eq("id", product.owner)
           .single();
 
@@ -90,47 +74,12 @@ export default function Details() {
         return;
       }
 
-      const { data: verifiedUsers, error: errorVerifiedUsers } =
-        await client
-          .from("VerifiedUser")
-          .select("value")
-          .eq("user_id", +product.owner);
-
-      if (errorVerifiedUsers) {
-        console.log(
-          "Informacion de verificacion de usuario no encontrada"
-        );
-        setErrorUserVerified(errorVerifiedUsers);
-        return;
-      }
-
-      const { data: currencies, error: errorCurrencies } =
-        await client.from("CurrencyProduct").select("*");
-
-      if (errorCurrencies) {
-        console.log("No se encontraron monedas");
-        return;
-      }
-
       setImages(images.images);
-      setCurrencies(currencies);
-      setUserVerified(
-        verifiedUsers?.length > 0 ? verifiedUsers[0]?.value : false
-      );
       setProduct(product);
-      setListStatusProduct(statusProduct);
       setOwner(ownerProduct);
       setPrincipalImageSelected(images.images[0]);
     })();
   }, []);
-
-  const statusProduct = listStatusProduct?.find(
-    (status: any) => status.id === product.status
-  );
-
-  const currencyProduct = currencies?.find(
-    (currencyData: any) => currencyData.id === product?.currency
-  );
 
   if (!product && !errorProduct) {
     return <Loader />;
@@ -151,7 +100,7 @@ export default function Details() {
             <div className="flex justify-end absolute top-0 right-0 bg-transparent z-10 w-full h-full" />
             <NumericFormat
               className="text-right text-xl w-full font-bold text-@sura-primary-800"
-              prefix={`${currencyProduct?.name.toString()}. `}
+              prefix={`${product?.currency.toString()}. `}
               value={product.price}
               thousandSeparator={true}
             />
@@ -256,9 +205,9 @@ export default function Details() {
               </div>
               <Text className="mt-1">
                 El producto se encuentra{" "}
-                {statusProduct?.name === "new"
+                {product?.status === "new"
                   ? "nuevo"
-                  : statusProduct?.name === "used"
+                  : product?.status === "used"
                   ? "usado"
                   : "semi nuevo"}
                 .
@@ -316,11 +265,7 @@ export default function Details() {
                 <Text className="mt-1">
                   El vendedor{" "}
                   <span className="font-bold text-@sura-primary-800">
-                    {userVerified === null && !errorUserVerified ? (
-                      <div></div>
-                    ) : (
-                      "si" && "no"
-                    )}
+                    {!owner?.affiliated ? "no" : "si"}
                   </span>{" "}
                   esta verificado.
                 </Text>
