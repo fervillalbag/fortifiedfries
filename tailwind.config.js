@@ -23,7 +23,7 @@ export default {
         "@sura-primary-300": "#A9ABB0",
         "@sura-primary-200": "#D2D2D4",
         "@sura-primary-100": "#E0E1E1",
-        "@sura-primary-100": "#f2f2f2",
+        "@sura-primary-50": "#f5f5f5",
         "@sura-light": "#bebebe",
         "@sura-text": "#999999",
       },
