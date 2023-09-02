@@ -4,15 +4,13 @@ import { client } from "../../../supabase/client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
+import { Pagination } from "swiper/modules";
+import { CardProduct } from "./index";
+
 import "swiper/css";
 import "swiper/css/pagination";
 
-// import required modules
-import { Pagination } from "swiper/modules";
-import { CardProduct } from ".";
-
-export default function Promotions() {
+export default function Recents() {
   const [products, setProducts] = useState<any | null>(null);
   const [errorProduct, setErrorProduct] = useState<any | null>(null);
 
@@ -35,7 +33,7 @@ export default function Promotions() {
   return (
     <div>
       <Text className="pl-5 text-[22px] font-medium text-@sura-primary-900">
-        Promociones
+        Recientes
       </Text>
 
       <div className="mt-3">
