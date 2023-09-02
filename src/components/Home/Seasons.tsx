@@ -4,15 +4,13 @@ import { client } from "../../../supabase/client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
+import { Pagination } from "swiper/modules";
+import { CardProduct } from "./index";
+
 import "swiper/css";
 import "swiper/css/pagination";
 
-// import required modules
-import { Pagination } from "swiper/modules";
-import { CardProduct } from ".";
-
-export default function Promotions() {
+export default function Seasons() {
   const [products, setProducts] = useState<any | null>(null);
   const [errorProduct, setErrorProduct] = useState<any | null>(null);
 
@@ -33,9 +31,9 @@ export default function Promotions() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-white py-4">
       <Text className="pl-5 text-[22px] font-medium text-@sura-primary-900">
-        Promociones
+        Primavera
       </Text>
 
       <div className="mt-3">
