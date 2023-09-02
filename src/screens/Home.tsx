@@ -1,5 +1,5 @@
 // import React, { useContext, useEffect, useState } from "react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   InputHome,
@@ -14,7 +14,7 @@ import { HeaderHome, Layout } from "../components";
 // import { Button, Text, buttonVariants } from "../ui";
 // import { AuthenticatedContext, WindowSizeContext } from "../context";
 import { AuthenticatedContext } from "../context";
-// import { SURA_CREATE_POST_INFO } from "../utils/constants";
+import { SURA_CREATE_POST_INFO } from "../utils/constants";
 // import { client } from "../../supabase/client";
 // import Line from "../components/Loader/Line";
 
@@ -33,7 +33,6 @@ import { AuthenticatedContext } from "../context";
 // }
 
 const Home: React.FC = () => {
-  // const [scrollY, setScrollY] = useState(0);
   const { isAuthenticated } = useContext(AuthenticatedContext);
 
   // const [categorySelected, setCategorySelected] = useState<
@@ -90,18 +89,10 @@ const Home: React.FC = () => {
   //   })();
   // }, []);
 
-  // const handleScroll = () => {
-  //   setScrollY(window.scrollY);
-  // };
-
-  // useEffect(() => {
-  //   localStorage.setItem(SURA_CREATE_POST_INFO, "");
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+  useEffect(() => {
+    localStorage.setItem(SURA_CREATE_POST_INFO, "");
+    window.scrollTo(0, 0);
+  }, []);
 
   // products?.sort(compararPorTypeAd);
 
