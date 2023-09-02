@@ -4,7 +4,7 @@ export default function Search() {
   const inputRef = useRef<any>(null);
 
   return (
-    <div className="px-5">
+    <div className="px-5 mt-2">
       <div className="relative">
         <input
           ref={inputRef}
