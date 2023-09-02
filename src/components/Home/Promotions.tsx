@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination } from "swiper/modules";
-import { CardProduct } from ".";
+import { CardProduct, LoaderHome } from ".";
 
 export default function Promotions() {
   const [products, setProducts] = useState<any | null>(null);
@@ -40,7 +40,7 @@ export default function Promotions() {
 
       <div className="mt-3">
         {!errorProduct && !products ? (
-          <div>Cargando..</div>
+          <LoaderHome />
         ) : products ? (
           <Swiper
             slidesPerView={"auto"}

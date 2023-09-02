@@ -5,7 +5,7 @@ import { client } from "../../../supabase/client";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Pagination } from "swiper/modules";
-import { CardProduct } from "./index";
+import { CardProduct, LoaderHome } from "./index";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -38,7 +38,7 @@ export default function Seasons() {
 
       <div className="mt-3">
         {!errorProduct && !products ? (
-          <div>Cargando..</div>
+          <LoaderHome />
         ) : products ? (
           <Swiper
             slidesPerView={"auto"}
@@ -54,8 +54,8 @@ export default function Seasons() {
                 <CardProduct
                   typeAd={0}
                   title={product.title}
-                  currency={product.currency}
                   id={product.id}
+                  currency={product.currency}
                   images={product.images}
                   price={product.price}
                 />
