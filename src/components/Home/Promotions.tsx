@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
+
 import { Text } from "../../ui";
 import { client } from "../../../supabase/client";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-
-// import required modules
-import { Pagination } from "swiper/modules";
-import { CardProduct, LoaderHome } from ".";
+import { CardProduct, LoaderHome } from "./index";
 
 export default function Promotions() {
   const [products, setProducts] = useState<any | null>(null);
@@ -42,14 +34,9 @@ export default function Promotions() {
         {!errorProduct && !products ? (
           <LoaderHome />
         ) : products ? (
-          <Swiper
-            slidesPerView={"auto"}
-            spaceBetween={12}
-            modules={[Pagination]}
-            className="mySwiper pr-5"
-          >
+          <div className="flex overflow-x-auto gap-x-3 hide-scrollbar pr-5">
             {products?.map((product: any, index: number) => (
-              <SwiperSlide
+              <div
                 className={`w-min ${index === 0 ? "pl-5" : "pl-0"}`}
                 key={product.id}
               >
@@ -61,9 +48,9 @@ export default function Promotions() {
                   images={product.images}
                   price={product.price}
                 />
-              </SwiperSlide>
+              </div>
             ))}
-          </Swiper>
+          </div>
         ) : (
           <div>error</div>
         )}
