@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { useNavigate } from "react-router-dom";
 import { StarIcon } from "@heroicons/react/24/solid";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { client } from "../../../supabase/client";
 import { Text, Button } from "../../ui";
-import Line from "../Loader/Line";
 
 interface CardProductProps {
   id: number;
   title: string;
   images: string[];
   price: number;
-  currency: number;
+  currency: string;
   typeAd: number;
 }
 
@@ -26,27 +24,8 @@ const CardProduct: React.FC<CardProductProps> = ({
   typeAd,
 }: CardProductProps) => {
   const navigate = useNavigate();
-  const [currencies, setCurrencies] = useState<any | null>(null);
   const [showModalRecommended, setShowModalRecommended] =
     useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      const { data: currencies, error: errorCurrencies } =
-        await client.from("CurrencyProduct").select("*");
-
-      if (errorCurrencies) {
-        console.log("No se encontraron monedas");
-        return;
-      }
-
-      setCurrencies(currencies);
-    })();
-  }, []);
-
-  const currencyProduct = currencies?.find(
-    (currencyData: any) => currencyData.id === currency
-  );
 
   const urlImage1 = images[0]?.split("upload");
   const urlImage2 = `${urlImage1[0]}upload/w_1400,h_1400,c_crop${urlImage1[1]}`;
@@ -110,24 +89,18 @@ const CardProduct: React.FC<CardProductProps> = ({
             {title.length >= 16 ? `${title.slice(0, 16)}..` : title}
           </Text>
           <span className="font-extrabold mt-[2px] text-@sura-primary-700">
-            {!currencyProduct || !currencies ? (
-              <div>
-                <Line width={112} height={24} rounded="sm" />
-              </div>
-            ) : (
-              <div className="relative">
-                <div
-                  className="absolute top-0 left-0 bg-transparent z-10 w-full h-full"
-                  aria-hidden="true"
-                />
-                <NumericFormat
-                  className="w-32 bg-transparent"
-                  prefix={`${currencyProduct?.name.toString()} `}
-                  value={price}
-                  thousandSeparator={true}
-                />
-              </div>
-            )}
+            <div className="relative">
+              <div
+                className="absolute top-0 left-0 bg-transparent z-10 w-full h-full"
+                aria-hidden="true"
+              />
+              <NumericFormat
+                className="w-32 bg-transparent"
+                prefix={`${currency.toString()} `}
+                value={price}
+                thousandSeparator={true}
+              />
+            </div>
           </span>
         </div>
       </div>
