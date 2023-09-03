@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 
 import { Text } from "../ui";
 import { useNavigate } from "react-router-dom";
+import { NavbarContext } from "../context";
 
 export default function Header() {
   const navigate = useNavigate();
+  const { setShowNavbar } = useContext(NavbarContext);
+
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const { scrollY } = useScroll();
 
@@ -47,7 +50,10 @@ export default function Header() {
           <Text className="text-2xl uppercase font-bold text-@sura-primary-900">
             Sura
           </Text>
-          <button className="grid place-items-center h-11 w-11 rounded-md bg-@sura-primary-50 border border-@sura-primary-300">
+          <button
+            onClick={() => setShowNavbar(true)}
+            className="grid place-items-center h-11 w-11 rounded-md bg-@sura-primary-50 border border-@sura-primary-300"
+          >
             <svg
               width="32"
               height="32"
