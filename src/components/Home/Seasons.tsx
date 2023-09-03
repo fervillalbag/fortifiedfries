@@ -1,28 +1,9 @@
-import { useEffect, useState } from "react";
-
-import { Text } from "../../ui";
-import { client } from "../../../supabase/client";
+import { useProducts } from "../../hooks/products";
 import { CardProduct, LoaderHome } from "./index";
+import { Text } from "../../ui";
 
 export default function Seasons() {
-  const [products, setProducts] = useState<any | null>(null);
-  const [errorProduct, setErrorProduct] = useState<any | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      const { data: products, error: errorProducts } = await client
-        .from("Product")
-        .select("id, images, title, price, currency, typeAd")
-        .order("created_at", { ascending: false });
-
-      if (errorProducts) {
-        console.log("Productos no encontrados");
-        return;
-      }
-      setErrorProduct(errorProducts);
-      setProducts(products);
-    })();
-  }, []);
+  const { queryProduct } = useProducts();
 
   return (
     <div className="bg-white py-4">
@@ -31,11 +12,11 @@ export default function Seasons() {
       </Text>
 
       <div className="mt-3">
-        {!errorProduct && !products ? (
+        {queryProduct.isLoading ? (
           <LoaderHome />
-        ) : products ? (
+        ) : queryProduct.data ? (
           <div className="flex overflow-x-auto gap-x-3 hide-scrollbar pr-5">
-            {products?.map((product: any, index: number) => (
+            {queryProduct.data.map((product: any, index: number) => (
               <div
                 className={`w-min ${index === 0 ? "pl-5" : "pl-0"}`}
                 key={product.id}

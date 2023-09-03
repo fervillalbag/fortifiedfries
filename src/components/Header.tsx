@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 
 import { Text } from "../ui";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const { scrollY } = useScroll();
 
@@ -24,7 +26,10 @@ export default function Header() {
       >
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center gap-x-2">
-            <button className="h-11 w-11 rounded-md bg-transparent border border-@sura-primary-600 grid place-items-center">
+            <button
+              className="h-11 w-11 rounded-md bg-transparent border border-@sura-primary-600 grid place-items-center"
+              onClick={() => navigate("/profile")}
+            >
               <svg
                 width="16"
                 height="23"
