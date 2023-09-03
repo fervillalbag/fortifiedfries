@@ -23,7 +23,7 @@ export default function Header() {
         }`}
       >
         <div className="w-full flex items-center justify-between">
-          <Text className="text-[26px] uppercase font-bold text-@sura-primary-900">
+          <Text className="text-[26px] uppercase font-medium text-@sura-primary-900">
             Sura
           </Text>
           <button className="border p-2 rounded-md border-@sura-primary-800">
