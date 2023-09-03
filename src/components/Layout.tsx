@@ -37,7 +37,7 @@ export default function Layout({ children }: LayoutProps) {
 
       <Navbar />
 
-      <div className="h-16"></div>
+      <div className="h-14"></div>
     </div>
   );
 }
