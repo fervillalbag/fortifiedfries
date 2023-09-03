@@ -24,7 +24,7 @@ export default function Layout({ children }: LayoutProps) {
   }, []);
 
   return (
-    <div className="bg-@sura-primary-50">
+    <div className="bg-@sura-primary-50 min-h-screen">
       <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
