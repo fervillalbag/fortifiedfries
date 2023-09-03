@@ -1,88 +1,35 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import { useNavigate, useParams } from "react-router-dom";
 import { m } from "framer-motion";
+import { NumericFormat } from "react-number-format";
 
 import BtnBack from "../../components/BtnBack";
-import { Button, Text, textVariants } from "../../ui";
-import { client } from "../../../supabase/client";
-import { transitionLayoutPage } from "../../utils/animation";
-import { DetailsSeller } from "../../components/Product";
 import Loader from "../../components/Product/Details/Loader";
-import { NumericFormat } from "react-number-format";
+import { DetailsSeller } from "../../components/Product";
+import { transitionLayoutPage } from "../../utils/animation";
+import { useProductDetail } from "../../hooks/products";
+import { Button, Text, textVariants } from "../../ui";
 
 export default function Details() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [product, setProduct] = useState<any>(null);
-  const [owner, setOwner] = useState<any>(null);
-  const [images, setImages] = useState<string[] | null>(null);
-
-  const [errorOwner, setErrorOwner] = useState<any>(null);
-  const [errorProduct, setErrorProduct] = useState<any>(null);
-  const [errorImages, setErrorImages] = useState<any>(null);
-
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
+
+  const { queryProduct } = useProductDetail(id!);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      if (!id) {
-        console.log("Pagina no encontrada");
-        return;
-      }
-
-      const { data: product, error } = await client
-        .from("Product")
-        .select("title, description, owner, status, price, currency")
-        .eq("id", +id)
-        .single();
-
-      if (error) {
-        console.log("No se encontro el producto con id", id);
-        setErrorProduct(error);
-        return;
-      }
-
-      const { data: images, error: errorImages } = await client
-        .from("Product")
-        .select("images")
-        .eq("id", id)
-        .single();
-
-      if (errorImages) {
-        console.log("No se pudieron obtener las imagenes");
-        setErrorImages(errorImages);
-        return;
-      }
-
-      const { data: ownerProduct, error: errorOwnerProduct } =
-        await client
-          .from("Personal")
-          .select("avatar, fullname, username, affiliated")
-          .eq("id", product.owner)
-          .single();
-
-      if (errorOwnerProduct) {
-        console.log("No se encontro el producto con id", id);
-        setErrorOwner(error);
-        return;
-      }
-
-      setImages(images.images);
-      setProduct(product);
-      setOwner(ownerProduct);
-      setPrincipalImageSelected(images.images[0]);
-    })();
-  }, []);
-
-  if (!product && !errorProduct) {
+  if (queryProduct.isLoading) {
     return <Loader />;
+  }
+
+  if (queryProduct.isError) {
+    return <div>error</div>;
   }
 
   return (
@@ -100,8 +47,8 @@ export default function Details() {
             <div className="flex justify-end absolute top-0 right-0 bg-transparent z-10 w-full h-full" />
             <NumericFormat
               className="text-right text-xl w-full font-bold text-@sura-primary-800"
-              prefix={`${product?.currency.toString()}. `}
-              value={product.price}
+              prefix={`${queryProduct.data.product.currency.toString()}. `}
+              value={queryProduct.data.product.price}
               thousandSeparator={true}
             />
           </div>
@@ -114,27 +61,21 @@ export default function Details() {
       <div className="flex items-center gap-4">
         <BtnBack onClick={() => navigate(-1)} />
         <Text className="text-@sura-primary-900 text-[22px] font-medium">
-          {product.title}
+          {queryProduct.data.product.title}
         </Text>
       </div>
 
       <div className="mt-5">
         <div className="relative">
-          {!images && !errorImages ? (
-            <div className="h-[300px] absolute top-0 left-0 w-full bg-@sura-primary-200 animate-pulse"></div>
-          ) : errorImages ? (
-            <div></div>
-          ) : (
-            <img
-              src={principalImageSelected}
-              alt=""
-              className="h-[300px] w-full object-cover object-center rounded-sm"
-            />
-          )}
+          <img
+            src={queryProduct.data.product.images[0]}
+            alt=""
+            className="h-[300px] w-full object-cover object-center rounded-sm"
+          />
         </div>
 
         <div className="flex mt-2 gap-1">
-          {images?.map((image: string) => (
+          {queryProduct.data.product.images.map((image: string) => (
             <div
               key={image}
               onClick={() => setPrincipalImageSelected(image)}
@@ -164,7 +105,7 @@ export default function Details() {
           </Text>
 
           <ReactMarkdown className="product-description text-@sura-primary-400">
-            {product.description}
+            {queryProduct.data.product.description}
           </ReactMarkdown>
         </div>
 
@@ -205,9 +146,9 @@ export default function Details() {
               </div>
               <Text className="mt-1">
                 El producto se encuentra{" "}
-                {product?.status === "new"
+                {queryProduct.data.product.status === "new"
                   ? "nuevo"
-                  : product?.status === "used"
+                  : queryProduct.data.product.status === "used"
                   ? "usado"
                   : "semi nuevo"}
                 .
@@ -238,46 +179,40 @@ export default function Details() {
               </Text>
             </div>
 
-            {!owner && !errorOwner ? (
-              <div>Cargando..</div>
-            ) : errorOwner ? (
-              <div>error al mostrar el vendedor</div>
-            ) : (
-              <div>
-                <div className="flex items-center gap-2">
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 22 22"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6.6 12.1H15.4C15.7117 12.1 15.9731 11.9944 16.1843 11.7832C16.3955 11.572 16.5007 11.3109 16.5 11C16.5 10.6883 16.3944 10.4269 16.1832 10.2157C15.972 10.0045 15.7109 9.89927 15.4 9.9H6.6C6.28833 9.9 6.0269 10.0056 5.8157 10.2168C5.6045 10.428 5.49927 10.6891 5.5 11C5.5 11.3117 5.6056 11.5731 5.8168 11.7843C6.028 11.9955 6.28907 12.1007 6.6 12.1ZM11 22C9.47833 22 8.04833 21.7111 6.71 21.1332C5.37167 20.5553 4.2075 19.7718 3.2175 18.7825C2.2275 17.7925 1.44393 16.6283 0.8668 15.29C0.289667 13.9517 0.000733333 12.5217 0 11C0 9.47833 0.288933 8.04833 0.8668 6.71C1.44467 5.37167 2.22823 4.2075 3.2175 3.2175C4.2075 2.2275 5.37167 1.44393 6.71 0.8668C8.04833 0.289667 9.47833 0.000733333 11 0C12.5217 0 13.9517 0.288933 15.29 0.8668C16.6283 1.44467 17.7925 2.22823 18.7825 3.2175C19.7725 4.2075 20.5564 5.37167 21.1343 6.71C21.7122 8.04833 22.0007 9.47833 22 11C22 12.5217 21.7111 13.9517 21.1332 15.29C20.5553 16.6283 19.7718 17.7925 18.7825 18.7825C17.7925 19.7725 16.6283 20.5564 15.29 21.1343C13.9517 21.7122 12.5217 22.0007 11 22Z"
-                      fill="#6D7179"
-                    />
-                  </svg>
+            <div>
+              <div className="flex items-center gap-2">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.6 12.1H15.4C15.7117 12.1 15.9731 11.9944 16.1843 11.7832C16.3955 11.572 16.5007 11.3109 16.5 11C16.5 10.6883 16.3944 10.4269 16.1832 10.2157C15.972 10.0045 15.7109 9.89927 15.4 9.9H6.6C6.28833 9.9 6.0269 10.0056 5.8157 10.2168C5.6045 10.428 5.49927 10.6891 5.5 11C5.5 11.3117 5.6056 11.5731 5.8168 11.7843C6.028 11.9955 6.28907 12.1007 6.6 12.1ZM11 22C9.47833 22 8.04833 21.7111 6.71 21.1332C5.37167 20.5553 4.2075 19.7718 3.2175 18.7825C2.2275 17.7925 1.44393 16.6283 0.8668 15.29C0.289667 13.9517 0.000733333 12.5217 0 11C0 9.47833 0.288933 8.04833 0.8668 6.71C1.44467 5.37167 2.22823 4.2075 3.2175 3.2175C4.2075 2.2275 5.37167 1.44393 6.71 0.8668C8.04833 0.289667 9.47833 0.000733333 11 0C12.5217 0 13.9517 0.288933 15.29 0.8668C16.6283 1.44467 17.7925 2.22823 18.7825 3.2175C19.7725 4.2075 20.5564 5.37167 21.1343 6.71C21.7122 8.04833 22.0007 9.47833 22 11C22 12.5217 21.7111 13.9517 21.1332 15.29C20.5553 16.6283 19.7718 17.7925 18.7825 18.7825C17.7925 19.7725 16.6283 20.5564 15.29 21.1343C13.9517 21.7122 12.5217 22.0007 11 22Z"
+                    fill="#6D7179"
+                  />
+                </svg>
 
-                  <Text className="font-bold text-@sura-primary-900">
-                    Vendedor
-                  </Text>
-                </div>
-                <Text className="mt-1">
-                  El vendedor{" "}
-                  <span className="font-bold text-@sura-primary-800">
-                    {!owner?.affiliated ? "no" : "si"}
-                  </span>{" "}
-                  esta verificado.
+                <Text className="font-bold text-@sura-primary-900">
+                  Vendedor
                 </Text>
               </div>
-            )}
+              <Text className="mt-1">
+                El vendedor{" "}
+                <span className="font-bold text-@sura-primary-800">
+                  {queryProduct.data.user?.affiliated ? "no" : "si"}
+                </span>{" "}
+                esta verificado.
+              </Text>
+            </div>
           </div>
         </div>
 
         <DetailsSeller
-          fullname={owner.fullname}
-          username={owner.username}
-          avatar={owner.avatar}
+          fullname={queryProduct.data.user?.fullname}
+          username={queryProduct.data.user?.username}
+          avatar={queryProduct.data.user?.avatar}
         />
 
         <div className="bg-transparent h-[94px]" aria-hidden="true" />
