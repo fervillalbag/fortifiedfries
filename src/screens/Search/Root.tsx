@@ -1,8 +1,6 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-
 import { Layout } from "../../components";
 import { ButtonCategory } from "../../components/Search";
-import { Button, Input, Text, inputVariants } from "../../ui";
+import { Button, Text } from "../../ui";
 
 export default function Root() {
   return (
@@ -13,13 +11,9 @@ export default function Root() {
         </Text>
 
         <div className="mt-4 relative">
-          <MagnifyingGlassIcon className="w-6 absolute text-@sura-primary-300 top-1/2 left-4 -translate-y-1/2" />
-          <Input
-            placeholder="busca por nombre el producto"
-            className={inputVariants({
-              variant: "md",
-              className: "h-12 pl-12",
-            })}
+          <input
+            placeholder="Buscar"
+            className="pl-4 border-2 border-@sura-primary-100 rounded-md shadow-[0px_4px_10px_0px_rgba(0,_0,_0,_0.08)] bg-white h-[54px] w-full focus-visible:outline-@sura-primary-700"
           />
         </div>
 
