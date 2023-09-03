@@ -7,6 +7,7 @@ import {
 } from "../utils/constants/auth";
 import { useLocalStorageState } from "../hooks";
 import { transitionLayoutPage } from "../utils/animation";
+import Navbar from "../components/Navbar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ export default function Layout({ children }: LayoutProps) {
   }, []);
 
   return (
-    <div className="bg-@sura-primary-50 min-h-screen">
+    <div className="min-h-screen">
       <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -33,6 +34,10 @@ export default function Layout({ children }: LayoutProps) {
       >
         {children}
       </m.div>
+
+      <Navbar />
+
+      <div className="h-16"></div>
     </div>
   );
 }

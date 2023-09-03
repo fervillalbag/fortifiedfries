@@ -6,16 +6,21 @@ import {
 
 import App from "./App";
 import "./index.css";
-import { AuthenticatedProvider } from "./context";
+import { AuthenticatedProvider, NavbarProvider } from "./context";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { AnimatePresence } from "framer-motion";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
-    <AuthenticatedProvider>
-      <App />
-    </AuthenticatedProvider>
+    <AnimatePresence>
+      <NavbarProvider>
+        <AuthenticatedProvider>
+          <App />
+        </AuthenticatedProvider>
+      </NavbarProvider>
+    </AnimatePresence>
   </QueryClientProvider>
 );
