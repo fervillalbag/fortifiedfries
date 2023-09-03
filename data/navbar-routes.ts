@@ -1,10 +1,10 @@
 import {
   HomeIcon,
+  PlusCircleIcon,
   ChatBubbleLeftIcon,
   UserCircleIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/solid";
-import { BsFillPlusSquareFill } from "react-icons/bs";
 
 export const NAVBAR_ROUTES = [
   {
@@ -19,7 +19,7 @@ export const NAVBAR_ROUTES = [
   },
   {
     id: 3,
-    icon: BsFillPlusSquareFill,
+    icon: PlusCircleIcon,
     route: "/actions",
   },
   {
