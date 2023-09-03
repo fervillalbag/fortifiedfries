@@ -9,7 +9,7 @@ export default function Search() {
         <input
           ref={inputRef}
           placeholder="Buscar"
-          className="pl-12 rounded-md shadow-[0px_4px_10px_0px_rgba(0,_0,_0,_0.08)] bg-white h-[54px] w-full focus-visible:outline-@sura-primary-700"
+          className="pl-12 border-2 border-@sura-primary-100 rounded-md shadow-[0px_4px_10px_0px_rgba(0,_0,_0,_0.08)] bg-white h-[54px] w-full focus-visible:outline-@sura-primary-700"
         />
 
         <button
