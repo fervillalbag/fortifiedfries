@@ -23,10 +23,10 @@ export default function Header() {
         }`}
       >
         <div className="w-full flex items-center justify-between">
-          <Text className="text-[26px] uppercase font-medium text-@sura-primary-900">
+          <Text className="tracking-wider text-[26px] uppercase font-semibold text-@sura-primary-900">
             Sura
           </Text>
-          <button className="border p-2 rounded-md border-@sura-primary-800">
+          <button className="border p-2 rounded-md bg-@sura-primary-50">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

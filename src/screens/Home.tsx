@@ -29,7 +29,11 @@ const Home: React.FC = () => {
       <HeaderHome />
 
       <div className="px-5 mt-1">
-        <img src="/images/banner-promo.png" alt="" />
+        <img
+          src="/images/banner-promo.png"
+          alt=""
+          className="w-full object-cover h-40 rounded-md"
+        />
       </div>
 
       <main className="py-5 flex flex-col gap-y-5">
