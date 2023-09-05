@@ -7,7 +7,6 @@ const getProducts = async () => {
       .from("Product")
       .select("id, images, title, price, currency")
       .is("typeAd", "null");
-    console.log({ data });
     return data;
   } catch (error: any) {
     throw new Error(error);

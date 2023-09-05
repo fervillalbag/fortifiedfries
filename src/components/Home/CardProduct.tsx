@@ -12,7 +12,8 @@ interface CardProductProps {
   images: string[];
   price: number;
   currency: string;
-  typeAd: number;
+  typeAd?: number;
+  width?: string;
 }
 
 const CardProduct: React.FC<CardProductProps> = ({
@@ -22,6 +23,7 @@ const CardProduct: React.FC<CardProductProps> = ({
   price,
   currency,
   typeAd,
+  width,
 }: CardProductProps) => {
   const navigate = useNavigate();
   const [showModalRecommended, setShowModalRecommended] =
@@ -31,7 +33,11 @@ const CardProduct: React.FC<CardProductProps> = ({
   const urlImage2 = `${urlImage1[0]}upload/w_1400,h_1400,c_crop${urlImage1[1]}`;
 
   return (
-    <div className="relative w-[150px]">
+    <div
+      className={`relative ${
+        width === "full" ? "w-full" : "w-[150px]"
+      }`}
+    >
       {typeAd === 3 && (
         <div
           className="absolute grid place-items-center top-2 left-2 w-8 h-8 bg-white rounded-md shadow-@sura-primary-400 shadow-sm overflow-hidden"
