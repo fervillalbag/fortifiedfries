@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Layout } from "../../components";
 import { ButtonCategory } from "../../components/Search";
@@ -14,6 +14,16 @@ export default function Root() {
   const lengthOfProducts = queryProduct?.data
     ? queryProduct.data.length
     : 0;
+
+  useEffect(() => {
+    if (searchText === "") return;
+    localStorage.setItem("@SURA_VALUE_SEARCH", searchText);
+  }, [searchText]);
+
+  useEffect(() => {
+    const valueOfSearch = localStorage.getItem("@SURA_VALUE_SEARCH");
+    setSearchText(valueOfSearch || "");
+  }, []);
 
   return (
     <Layout>
@@ -35,6 +45,7 @@ export default function Root() {
             <button
               className="absolute top-1/2 -translate-y-1/2 right-3"
               onClick={() => {
+                localStorage.setItem("@SURA_VALUE_SEARCH", "");
                 inputRef.current.focus();
                 setSearchText("");
               }}
