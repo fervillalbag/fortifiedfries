@@ -19,29 +19,33 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem(SURA_CREATE_POST_INFO, "");
-    window.scrollTo(0, 0);
   }, []);
 
   return (
-    <Layout>
-      <ModalLogin show={showModalLogin} setShow={setShowModalLogin} />
-
-      <HeaderHome />
-
-      <div className="px-5 mt-1">
-        <img
-          src="/images/banner-promo.png"
-          alt=""
-          className="w-full object-cover h-40 rounded-md"
+    <div>
+      <Layout>
+        <ModalLogin
+          show={showModalLogin}
+          setShow={setShowModalLogin}
         />
-      </div>
 
-      <main className="py-5 flex flex-col gap-y-5">
-        <PromotionSection />
-        <RecentsSection />
-        <SeasonsSection />
-      </main>
-    </Layout>
+        <HeaderHome />
+
+        <div className="px-5 mt-1">
+          <img
+            src="/images/banner-promo.png"
+            alt=""
+            className="w-full object-cover h-40 rounded-md"
+          />
+        </div>
+
+        <main className="py-5 flex flex-col gap-y-5">
+          <PromotionSection />
+          <RecentsSection />
+          <SeasonsSection />
+        </main>
+      </Layout>
+    </div>
   );
 };
 
