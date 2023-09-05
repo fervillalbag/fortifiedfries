@@ -4,6 +4,9 @@ import { Text } from "../../ui";
 
 export default function Recents() {
   const { queryProduct } = useProducts();
+  const productLastPosition = queryProduct?.data
+    ? queryProduct?.data.length - 1
+    : 0;
 
   return (
     <div>
@@ -15,10 +18,12 @@ export default function Recents() {
         {queryProduct.isLoading ? (
           <LoaderHome />
         ) : queryProduct.data ? (
-          <div className="flex overflow-x-auto gap-x-3 hide-scrollbar pr-5">
+          <div className="flex overflow-x-auto hide-scrollbar">
             {queryProduct.data.map((product: any, index: number) => (
               <div
-                className={`w-min ${index === 0 ? "pl-5" : "pl-0"}`}
+                className={`w-min ${index === 0 ? "pl-5" : "pl-0"} ${
+                  index === productLastPosition ? "pr-5" : "pr-3"
+                }`}
                 key={product.id}
               >
                 <CardProduct

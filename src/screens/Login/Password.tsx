@@ -35,7 +35,7 @@ const Password: React.FC = () => {
 
     if (!state.user) {
       toast.dismiss();
-      toast.success("Credenciales incorrectas");
+      toast.error("Credenciales incorrectas");
       setLoading(false);
       return;
     }
