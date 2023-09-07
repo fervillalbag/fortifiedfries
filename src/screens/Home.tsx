@@ -39,7 +39,7 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <main className="py-5 flex flex-col gap-y-5">
+        <main className="pt-5 flex flex-col gap-y-5">
           <PromotionSection />
           <RecentsSection />
           <SeasonsSection />
