@@ -11,7 +11,7 @@ export default function Seasons() {
     : [];
 
   return (
-    <div className="bg-@sura-primary-200/40 py-5">
+    <div className="bg-neutral-300/20 py-5">
       <div className="px-5 flex items-center justify-between">
         <Text className="text-[22px] font-medium text-@sura-primary-900">
           Primavera

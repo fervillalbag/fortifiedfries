@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import {
+  CategorySection,
   ModalLogin,
   PromotionSection,
   RecentsSection,
@@ -43,6 +44,7 @@ const Home: React.FC = () => {
           <PromotionSection />
           <RecentsSection />
           <SeasonsSection />
+          <CategorySection />
         </main>
       </Layout>
     </div>
