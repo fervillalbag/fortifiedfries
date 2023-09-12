@@ -29,8 +29,9 @@ export default function Recents() {
           <LoaderHome />
         ) : productLimit ? (
           <div className="px-5 grid grid-cols-2 gap-5 overflow-x-auto hide-scrollbar">
-            {productLimit.map((product: any) => (
+            {productLimit.map((product: any, index: number) => (
               <CardProduct
+                index={index}
                 key={product.id}
                 width="full"
                 typeAd={0}

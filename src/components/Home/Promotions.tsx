@@ -27,6 +27,7 @@ export default function Promotions() {
                 key={product.id}
               >
                 <CardProduct
+                  index={index}
                   typeAd={3}
                   title={product.title}
                   currency={product.currency}
