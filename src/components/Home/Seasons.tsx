@@ -17,7 +17,9 @@ export default function Seasons({ isPromo }: SeasonsProps) {
   return (
     <div>
       <div className="px-5 mb-5 flex items-center justify-between">
-        <Text className={`text-3xl font-bold text-@sura-primary-900`}>
+        <Text
+          className={`text-3xl font-medium text-@sura-primary-900`}
+        >
           Primavera
         </Text>
         <Link
@@ -32,7 +34,7 @@ export default function Seasons({ isPromo }: SeasonsProps) {
         {queryProduct.isLoading ? (
           <LoaderHome />
         ) : productLimit ? (
-          <div className="px-5 grid grid-cols-2 gap-5 overflow-x-auto hide-scrollbar">
+          <div className="px-5 grid grid-cols-2 gap-3 overflow-x-auto hide-scrollbar">
             {productLimit
               .slice(0, 3)
               .map((product: any, index: number) => (

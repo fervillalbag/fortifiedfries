@@ -24,21 +24,9 @@ export default function Header() {
       >
         <div className="w-full flex items-center justify-between">
           <button className="flex items-center">
-            <Text className="tracking-wider text-[26px] uppercase font-semibold text-@sura-primary-900">
-              Sura
+            <Text className="font-[Cantarell] text-[26px] uppercase font-bold text-@sura-primary-900">
+              Sura<span className="font-normal lowercase">.sh</span>
             </Text>
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12.0002 15.1211C11.8689 15.1212 11.7388 15.0954 11.6175 15.0451C11.4962 14.9948 11.386 14.9211 11.2932 14.8281L7.05024 10.5861C6.86809 10.3975 6.76729 10.1449 6.76957 9.88267C6.77185 9.62047 6.87702 9.36966 7.06242 9.18425C7.24783 8.99884 7.49865 8.89367 7.76084 8.8914C8.02304 8.88912 8.27564 8.98991 8.46424 9.17207L12.0002 12.7071L15.5362 9.17207C15.7248 8.98991 15.9774 8.88912 16.2396 8.8914C16.5018 8.89367 16.7527 8.99884 16.9381 9.18425C17.1235 9.36966 17.2286 9.62047 17.2309 9.88267C17.2332 10.1449 17.1324 10.3975 16.9502 10.5861L12.7072 14.8281C12.6145 14.9211 12.5043 14.9948 12.383 15.0451C12.2616 15.0954 12.1316 15.1212 12.0002 15.1211Z"
-                fill="black"
-              />
-            </svg>
           </button>
           <button className="border p-2 rounded-md bg-@sura-primary-50">
             <svg

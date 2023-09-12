@@ -42,7 +42,7 @@ export default function Category() {
 
   return (
     <div className="pb-5">
-      <Text className="pl-5 text-3xl mb-5 font-bold text-@sura-primary-900">
+      <Text className="pl-5 text-3xl mb-5 font-medium text-@sura-primary-900">
         Categorias
       </Text>
 
