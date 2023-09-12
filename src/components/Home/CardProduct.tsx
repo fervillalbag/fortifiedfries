@@ -87,13 +87,16 @@ const CardProduct: React.FC<CardProductProps> = ({
         </button>
       )}
 
-      <div onClick={() => navigate(`/product/${id}`)}>
-        <div>
+      <div
+        className={`${isPromo && index === 1 ? "h-full" : "h-auto"}`}
+        onClick={() => navigate(`/product/${id}`)}
+      >
+        <div className="h-full">
           <img
             src={urlImage2}
             alt=""
             className={`${
-              isPromo && index === 1 ? "h-[340px]" : "h-40"
+              isPromo && index === 1 ? "h-full" : "h-40"
             } w-full object-cover rounded-md`}
           />
         </div>
