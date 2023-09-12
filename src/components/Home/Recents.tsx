@@ -12,8 +12,8 @@ export default function Recents() {
 
   return (
     <div>
-      <div className="px-5 flex items-center justify-between">
-        <Text className="text-[22px] font-medium text-@sura-primary-900">
+      <div className="px-5 flex mb-5 items-center justify-between">
+        <Text className="text-3xl font-bold text-@sura-primary-900">
           Recientes
         </Text>
         <Link

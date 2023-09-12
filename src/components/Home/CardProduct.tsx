@@ -40,7 +40,7 @@ const CardProduct: React.FC<CardProductProps> = ({
     <div
       className={`relative ${
         width === "full" ? "w-full" : "w-[150px]"
-      } ${index === 1 ? "row-span-2" : ""}`}
+      } ${index === 1 && isPromo ? "row-span-2" : ""}`}
     >
       {typeAd === 3 && (
         <div

@@ -10,7 +10,7 @@ export default function Promotions() {
 
   return (
     <div>
-      <Text className="pl-5 text-[22px] font-medium text-@sura-primary-900">
+      <Text className="pl-5 mb-5 text-3xl font-bold text-@sura-primary-900">
         Promociones
       </Text>
 

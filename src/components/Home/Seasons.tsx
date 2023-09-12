@@ -15,13 +15,9 @@ export default function Seasons({ isPromo }: SeasonsProps) {
     : [];
 
   return (
-    <div
-      className={`${isPromo ? "bg-white" : "bg-transparent"} py-5`}
-    >
-      <div className="px-5 flex items-center justify-between">
-        <Text
-          className={`text-[22px] font-medium text-@sura-primary-900`}
-        >
+    <div>
+      <div className="px-5 mb-5 flex items-center justify-between">
+        <Text className={`text-3xl font-bold text-@sura-primary-900`}>
           Primavera
         </Text>
         <Link
