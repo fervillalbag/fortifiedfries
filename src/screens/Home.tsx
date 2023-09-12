@@ -40,7 +40,7 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <main className="pt-5 flex flex-col gap-y-5">
+        <main className="pt-10 flex flex-col gap-y-10">
           <PromotionSection />
           <RecentsSection />
           <SeasonsSection isPromo />
