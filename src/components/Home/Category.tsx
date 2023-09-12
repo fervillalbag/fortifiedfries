@@ -1,35 +1,11 @@
 import { useCategories } from "../../hooks/categories";
 import { Text } from "../../ui";
 
-interface ButtonCategoryProps {
-  children?: React.ReactNode;
-  index: number;
-  length: number;
-}
-
 interface CategoryItemProps {
   category: any;
   index: number;
   length: number;
 }
-
-const Button: React.FC<ButtonCategoryProps> = ({
-  children,
-  index,
-  length,
-}) => {
-  return (
-    <div
-      className={`w-min mr-3 ${index === 0 ? "pl-5" : "pl-0"} ${
-        index === length ? "pr-5 mr-0" : "pr-0"
-      }`}
-    >
-      <button className="border w-32 flex flex-col justify-end p-[10px] h-32 border-@sura-primary-900 border-b-4 rounded-md">
-        {children}
-      </button>
-    </div>
-  );
-};
 
 const CategoryItem: React.FC<CategoryItemProps> = ({
   category,
@@ -37,14 +13,20 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
   length,
 }) => {
   return (
-    <Button index={index} length={length}>
-      <Text className="text-@sura-primary-900 font-semibold">
-        {category.name}
-      </Text>
-      <Text className="font-semibold text-@sura-primary-900">
-        12 <span className="font-normal">productos</span>
-      </Text>
-    </Button>
+    <div
+      className={`w-min ${index === 0 ? "pl-5" : "pl-0"} ${
+        index === length ? "pr-5 mr-0" : "pr-0 mr-3"
+      }`}
+    >
+      <button className="border w-32 flex flex-col justify-end p-[10px] h-32 border-@sura-primary-900 border-b-4 rounded-md bg-white">
+        <Text className="text-@sura-primary-900 font-semibold">
+          {category.name}
+        </Text>
+        <Text className="font-semibold text-@sura-primary-900">
+          12 <span className="font-normal">productos</span>
+        </Text>
+      </button>
+    </div>
   );
 };
 
@@ -64,7 +46,7 @@ export default function Category() {
         Categorias
       </Text>
 
-      <div className="mt-3 flex hide-scrollbar overflow-x-auto">
+      <div className="mt-3 flex hide-scrollbar overflow-x-auto w-full">
         {!queryCategory.data.data ? (
           <div>no hay categoria</div>
         ) : (

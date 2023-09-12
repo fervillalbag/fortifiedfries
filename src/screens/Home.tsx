@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         <main className="pt-5 flex flex-col gap-y-5">
           <PromotionSection />
           <RecentsSection />
-          <SeasonsSection />
+          <SeasonsSection isPromo />
           <CategorySection />
         </main>
       </Layout>

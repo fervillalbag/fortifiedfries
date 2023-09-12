@@ -14,6 +14,8 @@ interface CardProductProps {
   currency: string;
   typeAd?: number;
   width?: string;
+  isPromo?: boolean;
+  index: number;
 }
 
 const CardProduct: React.FC<CardProductProps> = ({
@@ -24,6 +26,8 @@ const CardProduct: React.FC<CardProductProps> = ({
   currency,
   typeAd,
   width,
+  isPromo = false,
+  index,
 }: CardProductProps) => {
   const navigate = useNavigate();
   const [showModalRecommended, setShowModalRecommended] =
@@ -36,7 +40,7 @@ const CardProduct: React.FC<CardProductProps> = ({
     <div
       className={`relative ${
         width === "full" ? "w-full" : "w-[150px]"
-      }`}
+      } ${index === 1 ? "row-span-2" : ""}`}
     >
       {typeAd === 3 && (
         <div
@@ -73,28 +77,34 @@ const CardProduct: React.FC<CardProductProps> = ({
         </Dialog.Portal>
       </Dialog.Root>
 
-      <button className="z-10 absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
-        <img
-          src="/icons/heart-no-like.svg"
-          alt=""
-          className="object-contain"
-        />
-      </button>
+      {!isPromo && (
+        <button className="z-10 absolute top-2 right-2 w-8 h-8 rounded-full grid place-items-center bg-white shadow-xl">
+          <img
+            src="/icons/heart-no-like.svg"
+            alt=""
+            className="object-contain"
+          />
+        </button>
+      )}
 
       <div onClick={() => navigate(`/product/${id}`)}>
         <div>
           <img
             src={urlImage2}
             alt=""
-            className="w-full h-40 object-cover rounded-md"
+            className={`${
+              isPromo && index === 1 ? "h-[340px]" : "h-40"
+            } w-full object-cover rounded-md`}
           />
         </div>
 
-        <div>
-          <Text className="text-@sura-primary-900 mt-1">
+        <div className={isPromo ? "hidden" : "block"}>
+          <Text className={`text-@sura-primary-900 mt-1`}>
             {title.length >= 16 ? `${title.slice(0, 16)}..` : title}
           </Text>
-          <span className="font-extrabold mt-[2px] text-@sura-primary-700">
+          <span
+            className={`font-extrabold mt-[2px] text-@sura-primary-700`}
+          >
             <div className="relative">
               <div
                 className="absolute top-0 left-0 bg-transparent z-10 w-full h-full"

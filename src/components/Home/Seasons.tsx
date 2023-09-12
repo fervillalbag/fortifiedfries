@@ -4,21 +4,29 @@ import { useProducts } from "../../hooks/products";
 import { CardProduct, LoaderHome } from "./index";
 import { Text } from "../../ui";
 
-export default function Seasons() {
+interface SeasonsProps {
+  isPromo?: boolean;
+}
+
+export default function Seasons({ isPromo }: SeasonsProps) {
   const { queryProduct } = useProducts();
   const productLimit = queryProduct?.data
     ? queryProduct.data.slice(0, 4)
     : [];
 
   return (
-    <div className="bg-neutral-300/20 py-5">
+    <div
+      className={`${isPromo ? "bg-white" : "bg-transparent"} py-5`}
+    >
       <div className="px-5 flex items-center justify-between">
-        <Text className="text-[22px] font-medium text-@sura-primary-900">
+        <Text
+          className={`text-[22px] font-medium text-@sura-primary-900`}
+        >
           Primavera
         </Text>
         <Link
           to="/"
-          className="font-medium text-sm uppercase text-@sura-primary-500"
+          className={`font-medium text-sm uppercase text-@sura-primary-600`}
         >
           Ver mas
         </Link>
@@ -29,18 +37,22 @@ export default function Seasons() {
           <LoaderHome />
         ) : productLimit ? (
           <div className="px-5 grid grid-cols-2 gap-5 overflow-x-auto hide-scrollbar">
-            {productLimit.map((product: any) => (
-              <CardProduct
-                key={product.id}
-                width="full"
-                typeAd={0}
-                title={product.title}
-                currency={product.currency}
-                id={product.id}
-                images={product.images}
-                price={product.price}
-              />
-            ))}
+            {productLimit
+              .slice(0, 3)
+              .map((product: any, index: number) => (
+                <CardProduct
+                  index={index}
+                  isPromo={isPromo}
+                  key={product.id}
+                  width="full"
+                  typeAd={0}
+                  title={product.title}
+                  currency={product.currency}
+                  id={product.id}
+                  images={product.images}
+                  price={product.price}
+                />
+              ))}
           </div>
         ) : (
           <div>error</div>

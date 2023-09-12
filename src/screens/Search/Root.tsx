@@ -79,8 +79,9 @@ export default function Root() {
           <div className="py-5">No se encontraron resultados</div>
         ) : queryProduct.data ? (
           <div className="grid grid-cols-2 gap-4 mt-5">
-            {queryProduct.data.map((product) => (
+            {queryProduct.data.map((product, index: number) => (
               <CardProduct
+                index={index}
                 key={product.id}
                 width="full"
                 title={product.title}
