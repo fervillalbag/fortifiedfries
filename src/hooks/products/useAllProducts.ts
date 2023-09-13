@@ -18,7 +18,6 @@ const getAllProducts = async (text: string) => {
       descriptionQuery,
     ]);
 
-    // Combinar y filtrar los resultados para eliminar duplicados
     const combinedResults = [
       ...(titleResults.data || []),
       ...(descriptionResults.data || []),
@@ -30,8 +29,8 @@ const getAllProducts = async (text: string) => {
     );
 
     return uniqueResults || [];
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    throw new Error(error as string);
   }
 };
 

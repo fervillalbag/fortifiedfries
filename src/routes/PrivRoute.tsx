@@ -9,7 +9,8 @@ export default function PrivRoute({
   return (
     <Route
       {...rest}
-      render={(props: any) =>
+      // @ts-ignore
+      render={(props) =>
         isAuthenticated ? <Component {...props} /> : <Principal />
       }
     />

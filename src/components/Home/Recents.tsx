@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { CardProduct, LoaderHome } from "./index";
 import { useProducts } from "../../hooks/products";
+import type { ProductProps } from "../../hooks/products/useProduct";
 import { Text } from "../../ui";
 
 export default function Recents() {
@@ -29,19 +30,21 @@ export default function Recents() {
           <LoaderHome />
         ) : productLimit ? (
           <div className="px-5 grid grid-cols-2 gap-x-3 gap-y-4 overflow-x-auto hide-scrollbar">
-            {productLimit.map((product: any, index: number) => (
-              <CardProduct
-                index={index}
-                key={product.id}
-                width="full"
-                typeAd={0}
-                title={product.title}
-                currency={product.currency}
-                id={product.id}
-                images={product.images}
-                price={product.price}
-              />
-            ))}
+            {productLimit.map(
+              (product: ProductProps, index: number) => (
+                <CardProduct
+                  index={index}
+                  key={product.id}
+                  width="full"
+                  typeAd={0}
+                  title={product.title}
+                  currency={product.currency}
+                  id={product.id}
+                  images={product.images}
+                  price={product.price}
+                />
+              )
+            )}
           </div>
         ) : (
           <div>error</div>

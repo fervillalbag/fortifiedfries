@@ -1,3 +1,4 @@
+import type { ProductPromotionsProps } from "../../hooks/products/usePromotions";
 import { CardProduct, LoaderHome } from "./index";
 import { useProductsPromotions } from "../../hooks/products";
 import { Text } from "../../ui";
@@ -5,7 +6,7 @@ import { Text } from "../../ui";
 export default function Promotions() {
   const { queryProduct } = useProductsPromotions();
   const productLastPosition = queryProduct?.data
-    ? queryProduct?.data.length - 1
+    ? queryProduct.data.length - 1
     : 0;
 
   return (
@@ -19,24 +20,28 @@ export default function Promotions() {
           <LoaderHome />
         ) : queryProduct.data ? (
           <div className="flex overflow-x-auto hide-scrollbar pr-5">
-            {queryProduct.data.map((product: any, index: number) => (
-              <div
-                className={`w-min ${index === 0 ? "pl-5" : "pl-0"} ${
-                  index === productLastPosition ? "pr-5" : "pr-3"
-                }`}
-                key={product.id}
-              >
-                <CardProduct
-                  index={index}
-                  typeAd={3}
-                  title={product.title}
-                  currency={product.currency}
-                  id={product.id}
-                  images={product.images}
-                  price={product.price}
-                />
-              </div>
-            ))}
+            {queryProduct.data.map(
+              (product: ProductPromotionsProps, index: number) => (
+                <div
+                  className={`w-min ${
+                    index === 0 ? "pl-5" : "pl-0"
+                  } ${
+                    index === productLastPosition ? "pr-5" : "pr-3"
+                  }`}
+                  key={product.id}
+                >
+                  <CardProduct
+                    index={index}
+                    typeAd={3}
+                    title={product.title}
+                    currency={product.currency}
+                    id={product.id}
+                    images={product.images}
+                    price={product.price}
+                  />
+                </div>
+              )
+            )}
           </div>
         ) : (
           <div>error</div>

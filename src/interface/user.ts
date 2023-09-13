@@ -5,12 +5,12 @@ export interface UserProps {
   email: string;
   password: string;
   typeUserId: string;
-  affiliatedId: any;
+  affiliatedId: number | null;
   gender: number;
   avatar: string;
   banner: string;
-  verifiedUserId: any;
-  skinUserId: any;
+  verifiedUserId: number | null;
+  skinUserId: number | null;
   premiumUserId: string;
   createdAt: string;
   updatedAt: string;

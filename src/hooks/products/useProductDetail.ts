@@ -20,8 +20,8 @@ const getProductDetail = async (id: string) => {
       .single();
 
     return { product, user: ownerProduct };
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    throw new Error(error as string);
   }
 };
 
