@@ -14,8 +14,8 @@ const getUser = async () => {
       .single();
 
     return dataUser;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    throw new Error(error as string);
   }
 };
 

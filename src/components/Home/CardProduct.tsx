@@ -11,7 +11,7 @@ interface CardProductProps {
   title: string;
   images: string[];
   price: number;
-  currency: string;
+  currency: number;
   typeAd?: number;
   width?: string;
   isPromo?: boolean;

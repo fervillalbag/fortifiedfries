@@ -1,7 +1,7 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface HeaderLoaderProps {
-  imgCmp: any;
+  imgCmp: string;
 }
 
 export default function HeaderLoader({ imgCmp }: HeaderLoaderProps) {

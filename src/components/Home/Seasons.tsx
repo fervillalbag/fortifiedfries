@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+import type { ProductProps } from "../../hooks/products/useProduct";
 import { useProducts } from "../../hooks/products";
 import { CardProduct, LoaderHome } from "./index";
 import { Text } from "../../ui";
@@ -37,7 +38,7 @@ export default function Seasons({ isPromo }: SeasonsProps) {
           <div className="px-5 grid grid-cols-2 gap-3 overflow-x-auto hide-scrollbar">
             {productLimit
               .slice(0, 3)
-              .map((product: any, index: number) => (
+              .map((product: ProductProps, index: number) => (
                 <CardProduct
                   index={index}
                   isPromo={isPromo}

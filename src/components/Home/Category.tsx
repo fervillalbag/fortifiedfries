@@ -1,8 +1,9 @@
+import type { CategoryProps } from "../../hooks/categories/useCategories";
 import { useCategories } from "../../hooks/categories";
 import { Text } from "../../ui";
 
 interface CategoryItemProps {
-  category: any;
+  category: CategoryProps;
   index: number;
   length: number;
 }
@@ -50,16 +51,18 @@ export default function Category() {
         {!queryCategory.data.data ? (
           <div>no hay categoria</div>
         ) : (
-          queryCategory.data.data.map((category, index) => {
-            return (
-              <CategoryItem
-                key={category.id}
-                index={index}
-                category={category}
-                length={lengthCategoryArray}
-              />
-            );
-          })
+          queryCategory.data.data.map(
+            (category: CategoryProps, index: number) => {
+              return (
+                <CategoryItem
+                  key={category.id}
+                  index={index}
+                  category={category}
+                  length={lengthCategoryArray}
+                />
+              );
+            }
+          )
         )}
       </div>
     </div>

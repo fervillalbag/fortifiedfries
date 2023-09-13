@@ -1,8 +1,5 @@
 import React from "react";
 
-/* Resource to save data in Local Storage */
-/* https://frankmeszaros.medium.com/use-localstorage-and-formik-to-supercharge-your-form-experience-a175d68e5ecb */
-
 export const useLocalStorageState = ({ key, value }: any) => {
   const parsedLocalStorage = JSON.parse(
     localStorage.getItem(key) || "{}"
