@@ -1,4 +1,7 @@
 export { useProductsPromotions } from "./usePromotions";
-export { useProducts } from "./useProduct";
-export { useProductDetail } from "./useProductDetail";
+export {
+  useProducts,
+  useProductDetail,
+  useProductByCategory,
+} from "./useProduct";
 export { useAllProducts } from "./useAllProducts";

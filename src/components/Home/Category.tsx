@@ -1,6 +1,7 @@
 import type { CategoryProps } from "../../hooks/categories/useCategories";
 import { useCategories } from "../../hooks/categories";
 import { Text } from "../../ui";
+import { useProductByCategory } from "../../hooks/products";
 
 interface CategoryItemProps {
   category: CategoryProps;
@@ -13,6 +14,9 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
   index,
   length,
 }) => {
+  const { queryProduct } = useProductByCategory(category.id);
+  const qtyProducts = queryProduct.data?.length || 0;
+
   return (
     <div
       className={`w-min ${index === 0 ? "pl-5" : "pl-0"} ${
@@ -24,7 +28,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
           {category.name}
         </Text>
         <Text className="font-semibold text-@sura-primary-900">
-          12 <span className="font-normal">productos</span>
+          {qtyProducts} <span className="font-normal">productos</span>
         </Text>
       </button>
     </div>
