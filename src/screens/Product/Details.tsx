@@ -18,17 +18,17 @@ export default function Details() {
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
 
-  const { queryProduct } = useProductDetail(id!);
+  const { queryProduct: queryProductDetail } = useProductDetail(+id!);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (queryProduct.isLoading) {
+  if (queryProductDetail.isLoading) {
     return <Loader />;
   }
 
-  if (queryProduct.isError) {
+  if (queryProductDetail.isError) {
     return <div>error</div>;
   }
 
@@ -47,8 +47,8 @@ export default function Details() {
             <div className="flex justify-end absolute top-0 right-0 bg-transparent z-10 w-full h-full" />
             <NumericFormat
               className="text-right text-xl w-full font-bold text-@sura-primary-800"
-              prefix={`${queryProduct.data.product.currency.toString()}. `}
-              value={queryProduct.data.product.price}
+              prefix={`${queryProductDetail.data.product.currency.toString()}. `}
+              value={queryProductDetail.data.product.price}
               thousandSeparator={true}
             />
           </div>
@@ -61,37 +61,39 @@ export default function Details() {
       <div className="flex items-center gap-4">
         <BtnBack onClick={() => navigate(-1)} />
         <Text className="text-@sura-primary-900 text-[22px] font-medium">
-          {queryProduct.data.product.title}
+          {queryProductDetail.data.product.title}
         </Text>
       </div>
 
       <div className="mt-5">
         <div className="relative">
           <img
-            src={queryProduct.data.product.images[0]}
+            src={queryProductDetail.data.product.images[0]}
             alt=""
             className="h-[300px] w-full object-cover object-center rounded-sm"
           />
         </div>
 
         <div className="flex mt-2 gap-1">
-          {queryProduct.data.product.images.map((image: string) => (
-            <div
-              key={image}
-              onClick={() => setPrincipalImageSelected(image)}
-              className={`rounded-sm overflow-hidden p-[3px] border-[3px] ${
-                principalImageSelected === image
-                  ? "border-@sura-primary-800"
-                  : "border-transparent"
-              }`}
-            >
-              <img
-                src={image}
-                alt=""
-                className="w-[100px] h-[100px] object-cover rounded-sm"
-              />
-            </div>
-          ))}
+          {queryProductDetail.data.product.images.map(
+            (image: string) => (
+              <div
+                key={image}
+                onClick={() => setPrincipalImageSelected(image)}
+                className={`rounded-sm overflow-hidden p-[3px] border-[3px] ${
+                  principalImageSelected === image
+                    ? "border-@sura-primary-800"
+                    : "border-transparent"
+                }`}
+              >
+                <img
+                  src={image}
+                  alt=""
+                  className="w-[100px] h-[100px] object-cover rounded-sm"
+                />
+              </div>
+            )
+          )}
         </div>
 
         <div className="py-5">
@@ -105,7 +107,7 @@ export default function Details() {
           </Text>
 
           <ReactMarkdown className="product-description text-@sura-primary-400">
-            {queryProduct.data.product.description}
+            {queryProductDetail.data.product.description}
           </ReactMarkdown>
         </div>
 
@@ -146,9 +148,9 @@ export default function Details() {
               </div>
               <Text className="mt-1">
                 El producto se encuentra{" "}
-                {queryProduct.data.product.status === "new"
+                {queryProductDetail.data.product.status === "new"
                   ? "nuevo"
-                  : queryProduct.data.product.status === "used"
+                  : queryProductDetail.data.product.status === "used"
                   ? "usado"
                   : "semi nuevo"}
                 .
@@ -201,7 +203,9 @@ export default function Details() {
               <Text className="mt-1">
                 El vendedor{" "}
                 <span className="font-bold text-@sura-primary-800">
-                  {queryProduct.data.user?.affiliated ? "no" : "si"}
+                  {queryProductDetail.data.user?.affiliated
+                    ? "no"
+                    : "si"}
                 </span>{" "}
                 esta verificado.
               </Text>
@@ -210,9 +214,9 @@ export default function Details() {
         </div>
 
         <DetailsSeller
-          fullname={queryProduct.data.user?.fullname}
-          username={queryProduct.data.user?.username}
-          avatar={queryProduct.data.user?.avatar}
+          fullname={queryProductDetail.data.user?.fullname}
+          username={queryProductDetail.data.user?.username}
+          avatar={queryProductDetail.data.user?.avatar}
         />
 
         <div className="bg-transparent h-[94px]" aria-hidden="true" />
