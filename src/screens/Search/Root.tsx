@@ -27,12 +27,14 @@ export default function Root() {
 
   return (
     <Layout>
-      <div className="p-5">
-        <Text className="text-2xl text-@sura-primary-900">
+      <div className="h-[68px] flex px-5 items-center">
+        <Text className="text-[26px] text-@sura-primary-900">
           Buscar
         </Text>
+      </div>
 
-        <div className="mt-4 relative">
+      <div className="px-5">
+        <div className="relative">
           <input
             ref={inputRef}
             value={searchText}

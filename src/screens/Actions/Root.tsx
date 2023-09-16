@@ -16,21 +16,21 @@ export default function Root() {
 
   return (
     <Layout>
-      <div className="p-5">
-        <Text className="text-2xl text-@sura-primary-900">
+      <div className="px-5 h-[68px] flex items-center">
+        <Text className="text-[26px] text-@sura-primary-900">
           Acciones
         </Text>
+      </div>
 
-        <div className="mt-4">
-          {ACTIONS.map((action) => (
-            <ButtonAction
-              key={action.id}
-              title={action.title}
-              description={action.description}
-              onClick={() => navigate(action.route)}
-            />
-          ))}
-        </div>
+      <div className="px-5">
+        {ACTIONS.map((action) => (
+          <ButtonAction
+            key={action.id}
+            title={action.title}
+            description={action.description}
+            onClick={() => navigate(action.route)}
+          />
+        ))}
       </div>
     </Layout>
   );
