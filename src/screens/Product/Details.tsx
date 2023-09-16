@@ -12,13 +12,18 @@ import { useProductDetail } from "../../hooks/products";
 import { Button, Text, textVariants } from "../../ui";
 
 export default function Details() {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const { queryProduct: queryProductDetail } = useProductDetail(+id!);
+  const navigate = useNavigate();
 
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
 
-  const { queryProduct: queryProductDetail } = useProductDetail(+id!);
+  useEffect(() => {
+    setPrincipalImageSelected(
+      queryProductDetail.data?.product.images[0]
+    );
+  }, [queryProductDetail.isSuccess]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,7 +52,7 @@ export default function Details() {
             <div className="flex justify-end absolute top-0 right-0 bg-transparent z-10 w-full h-full" />
             <NumericFormat
               className="text-right text-xl w-full font-bold text-@sura-primary-800"
-              prefix={`${queryProductDetail.data.product.currency.toString()}. `}
+              prefix={`${queryProductDetail.data?.product.currency.toString()}. `}
               value={queryProductDetail.data.product.price}
               thousandSeparator={true}
             />
@@ -67,11 +72,15 @@ export default function Details() {
 
       <div className="mt-5">
         <div className="relative">
-          <img
-            src={queryProductDetail.data.product.images[0]}
-            alt=""
-            className="h-[300px] w-full object-cover object-center rounded-sm"
-          />
+          {principalImageSelected !== "" ? (
+            <img
+              src={principalImageSelected}
+              alt=""
+              className="h-[300px] w-full object-cover object-center rounded-sm"
+            />
+          ) : (
+            <div></div>
+          )}
         </div>
 
         <div className="flex mt-2 gap-1">

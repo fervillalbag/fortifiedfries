@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-import { LineLoader } from "../../components/Loader";
+// import { LineLoader } from "../../components/Loader";
 import { Layout } from "../../components";
 import { useUser } from "../../hooks/user";
 
 import SettingIcon from "../../assets/icons/settings-icon.svg";
-import VerifiedIcon from "../../assets/icons/verified-icon.svg";
+// import VerifiedIcon from "../../assets/icons/verified-icon.svg";
+import { Text } from "../../ui";
 
 export default function Root() {
   const navigate = useNavigate();
@@ -13,16 +14,37 @@ export default function Root() {
 
   return (
     <Layout>
-      <div className="relative h-[120px] bg-[url('https://shorturl.at/xzJU2')]"></div>
+      <div className="p-5">
+        <div className="flex py-5 items-center justify-between">
+          <div>
+            <Text className="text-4xl text-@sura-primary-900">
+              {queryUser.data?.fullname ? (
+                <>
+                  <span className="block mb-2">
+                    {queryUser.data.fullname.split(" ")[0]}
+                  </span>
+                  <span className="block">
+                    {queryUser.data.fullname.split(" ")[1]}
+                  </span>
+                </>
+              ) : (
+                <div></div>
+              )}
+            </Text>
+          </div>
+
+          <button
+            onClick={() => navigate("/settings")}
+            className="self-start z-20 top-5 focus:ring-1 focus:ring-offset-2 right-5 w-12 h-12 bg-transparent border-@sura-primary-900 border rounded-md grid place-items-center"
+          >
+            <img src={SettingIcon} alt="" />
+          </button>
+        </div>
+      </div>
+
+      {/* <div className="relative h-[120px] bg-[url('https://shorturl.at/xzJU2')]"></div>
 
       <div className="relative">
-        <button
-          onClick={() => navigate("/settings")}
-          className="z-20 absolute top-5 focus:ring-1 focus:ring-offset-2 right-5 w-12 h-12 bg-transparent border-@sura-primary-900 border rounded-md grid place-items-center"
-        >
-          <img src={SettingIcon} alt="" />
-        </button>
-
         <div className="px-5 pb-5 -translate-y-[45px]">
           <button className="mb-2 w-[90px] h-[90px] shadow-md shadow-@sura-primary-500/10 bg-white rounded-md grid place-items-center">
             <svg
@@ -67,7 +89,7 @@ export default function Root() {
             </p>
           )}
         </div>
-      </div>
+      </div> */}
     </Layout>
   );
 }

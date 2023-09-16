@@ -16,10 +16,10 @@ export default function Header() {
       <div className="h-[68px]" />
 
       <div
-        className={`p-5 py-3 fixed w-screen top-0 z-50 ${
-          scrollPosition > 10
-            ? "bg-white shadow-md shadow-neutral-500/10"
-            : ""
+        className={`fixed w-screen bg-white  top-0 z-50 h-[68px] px-5 flex items-center ${
+          scrollPosition < 60
+            ? "border-b border-b-@sura-primary-100/50"
+            : "shadow-md shadow-neutral-500/10"
         }`}
       >
         <div className="w-full flex items-center justify-between">

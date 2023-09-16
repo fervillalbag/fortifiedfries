@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
         <HeaderHome />
 
-        <div className="px-5 mt-1">
+        <div className="mt-5 px-5">
           <img
             src="/images/banner-promo.png"
             alt=""
