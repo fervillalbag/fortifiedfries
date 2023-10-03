@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import {
   LoaderHome,
@@ -14,7 +15,6 @@ import { HeaderHome, Layout } from "../components";
 import { AuthenticatedContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
 import { axios } from "../config";
-import { useQuery } from "@tanstack/react-query";
 
 export const getTypeAd = async () => {
   try {
@@ -28,6 +28,7 @@ export const getTypeAd = async () => {
 };
 
 const Home: React.FC = () => {
+  const location = useLocation();
   const { data: typeAd, isLoading: typeAdLoading } = useQuery(
     ["typeAd"],
     getTypeAd
@@ -67,12 +68,23 @@ const Home: React.FC = () => {
           }`}
         >
           <Link
-            to="/"
-            className="font-medium text-lg text-@sura-primary-900"
+            to="/home"
+            className={`${
+              location.pathname === "/home"
+                ? "font-medium text-lg text-@sura-primary-900"
+                : "font-normal text-@sura-primary-300"
+            }`}
           >
             Productos
           </Link>
-          <Link to="/" className="text-@sura-primary-300">
+          <Link
+            to="/services"
+            className={`${
+              location.pathname === "/services"
+                ? "font-medium text-lg text-@sura-primary-900"
+                : "font-normal text-@sura-primary-300"
+            }`}
+          >
             Servicios
           </Link>
           <Link to="/" className="text-@sura-primary-300">

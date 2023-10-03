@@ -14,8 +14,6 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  // const { isAuthenticated } = useContext(AuthenticatedContext);
-
   const [_, handleUpdateForm] = useLocalStorageState({
     key: NURA_AUTH_REGISTER_INFO,
   });
@@ -24,12 +22,25 @@ export default function Layout({ children }: LayoutProps) {
     handleUpdateForm(authInitialValue);
   }, []);
 
+  const initialAnimation =
+    location.pathname === "/services" || location.pathname === "/home"
+      ? {}
+      : { opacity: 0 };
+  const animateAnimation =
+    location.pathname === "/services" || location.pathname === "/home"
+      ? {}
+      : { opacity: 1 };
+  const exitAnimation =
+    location.pathname === "/services" || location.pathname === "/home"
+      ? {}
+      : { opacity: 0 };
+
   return (
     <div className="min-h-screen">
       <m.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        initial={initialAnimation}
+        animate={animateAnimation}
+        exit={exitAnimation}
         transition={transitionLayoutPage}
       >
         {children}
