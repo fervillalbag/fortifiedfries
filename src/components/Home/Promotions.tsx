@@ -4,8 +4,11 @@ import { useProductsPromotions } from "../../hooks/products";
 import { Text } from "../../ui";
 
 export default function Promotions() {
-  const { queryProduct } = useProductsPromotions();
-  const productLastPosition = queryProduct?.data
+  const { queryProduct } = useProductsPromotions(
+    "651b604698dcc56cec23dc89"
+  );
+  const products = queryProduct?.data;
+  const productLastPosition = products
     ? queryProduct.data.length - 1
     : 0;
 
@@ -18,9 +21,9 @@ export default function Promotions() {
       <div className="mt-3">
         {queryProduct.isLoading ? (
           <LoaderHome />
-        ) : queryProduct.data ? (
+        ) : products.data ? (
           <div className="flex overflow-x-auto hide-scrollbar pr-5">
-            {queryProduct.data.map(
+            {products.data.map(
               (product: ProductPromotionsProps, index: number) => (
                 <div
                   className={`w-min ${
@@ -28,14 +31,14 @@ export default function Promotions() {
                   } ${
                     index === productLastPosition ? "pr-5" : "pr-3"
                   }`}
-                  key={product.id}
+                  key={product._id}
                 >
                   <CardProduct
+                    id={product._id}
                     index={index}
                     typeAd={3}
                     title={product.title}
-                    currency={product.currency}
-                    id={product.id}
+                    currency={product.currency.value}
                     images={product.images}
                     price={product.price}
                   />

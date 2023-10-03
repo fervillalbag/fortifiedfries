@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { Link } from "react-router-dom";
 
 import {
-  CategorySection,
+  // CategorySection,
   ModalLogin,
   PromotionSection,
-  RecentsSection,
-  SeasonsSection,
+  // RecentsSection,
+  // SeasonsSection,
 } from "../components/Home";
 import { HeaderHome, Layout } from "../components";
 import { AuthenticatedContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
-import { Link } from "react-router-dom";
-import { useMotionValueEvent, useScroll } from "framer-motion";
 
 const Home: React.FC = () => {
   const { isAuthenticated } = useContext(AuthenticatedContext);
@@ -71,9 +71,9 @@ const Home: React.FC = () => {
 
         <main className="pt-6 flex flex-col gap-y-10">
           <PromotionSection />
-          <RecentsSection />
-          <SeasonsSection isPromo />
-          <CategorySection />
+          {/* <RecentsSection /> */}
+          {/* <SeasonsSection isPromo /> */}
+          {/* <CategorySection /> */}
         </main>
       </Layout>
     </div>
