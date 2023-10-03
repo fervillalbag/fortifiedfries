@@ -17,9 +17,9 @@ export default function Seasons({ isPromo }: SeasonsProps) {
 
   return (
     <div>
-      <div className="px-5 mb-5 flex items-center justify-between">
+      <div className="px-5 mb-2 flex items-center justify-between">
         <Text
-          className={`text-3xl font-medium text-@sura-primary-900`}
+          className={`text-[22px] font-medium text-@sura-primary-900`}
         >
           Primavera
         </Text>
