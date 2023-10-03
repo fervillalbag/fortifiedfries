@@ -1,46 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { client } from "../../../supabase/client";
+import { axios } from "../../config";
 
-const getAllProducts = async (text: string) => {
+const getAllProducts = async () => {
   try {
-    const titleQuery = await client
-      .from("Product")
-      .select("*")
-      .ilike("title", `%${text}%`);
-
-    const descriptionQuery = await client
-      .from("Product")
-      .select("*")
-      .ilike("description", `%${text}%`);
-
-    const [titleResults, descriptionResults] = await Promise.all([
-      titleQuery,
-      descriptionQuery,
-    ]);
-
-    const combinedResults = [
-      ...(titleResults.data || []),
-      ...(descriptionResults.data || []),
-    ];
-
-    const uniqueResults = combinedResults.filter(
-      (value, index, self) =>
-        self.findIndex((item) => item.id === value.id) === index
-    );
-
-    return uniqueResults || [];
+    const products = await axios.get("/product/card");
+    return products;
   } catch (error) {
     throw new Error(error as string);
   }
 };
 
-export const useAllProducts = (text: string) => {
-  const queryProduct = useQuery(
-    ["products", text],
-    () => getAllProducts(text),
-    {
-      enabled: !!text,
-    }
-  );
+export const useAllProducts = () => {
+  const queryProduct = useQuery(["products-by-card"], getAllProducts);
   return { queryProduct };
 };

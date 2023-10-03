@@ -1,20 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import {
   LoaderHome,
   // CategorySection,
   ModalLogin,
   PromotionSection,
-  // RecentsSection,
+  RecentsSection,
   // SeasonsSection,
 } from "../components/Home";
 import { HeaderHome, Layout } from "../components";
 import { AuthenticatedContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
 import { axios } from "../config";
-import { useQuery } from "@tanstack/react-query";
 
 export const getTypeAd = async () => {
   try {
@@ -28,6 +28,7 @@ export const getTypeAd = async () => {
 };
 
 const Home: React.FC = () => {
+  const location = useLocation();
   const { data: typeAd, isLoading: typeAdLoading } = useQuery(
     ["typeAd"],
     getTypeAd
@@ -67,12 +68,23 @@ const Home: React.FC = () => {
           }`}
         >
           <Link
-            to="/"
-            className="font-medium text-lg text-@sura-primary-900"
+            to="/home"
+            className={`${
+              location.pathname === "/home"
+                ? "font-medium text-lg text-@sura-primary-900"
+                : "font-normal text-@sura-primary-300"
+            }`}
           >
             Productos
           </Link>
-          <Link to="/" className="text-@sura-primary-300">
+          <Link
+            to="/services"
+            className={`${
+              location.pathname === "/services"
+                ? "font-medium text-lg text-@sura-primary-900"
+                : "font-normal text-@sura-primary-300"
+            }`}
+          >
             Servicios
           </Link>
           <Link to="/" className="text-@sura-primary-300">
@@ -88,7 +100,7 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <main className="pt-6 flex flex-col gap-y-10">
+        <main className="py-6 flex flex-col gap-y-10">
           {typeAdLoading ? (
             <div>
               <div className="mx-5 h-8 mb-5 rounded-md w-6/12 bg-neutral-300 animate-pulse"></div>
@@ -98,7 +110,7 @@ const Home: React.FC = () => {
             <PromotionSection typeAd={typeAd} />
           )}
 
-          {/* <RecentsSection /> */}
+          <RecentsSection />
           {/* <SeasonsSection isPromo /> */}
           {/* <CategorySection /> */}
         </main>
