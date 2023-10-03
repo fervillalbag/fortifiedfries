@@ -1,34 +1,18 @@
-import { useState } from "react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
-
 import { Text } from "../ui";
 
 export default function Header() {
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrollPosition(latest);
-  });
-
   return (
     <div>
-      <div className="h-[68px]" />
-
       <div
-        className={`fixed w-screen bg-white  top-0 z-50 h-[68px] px-5 flex items-center ${
-          scrollPosition < 60
-            ? "border-b border-b-@sura-primary-100/50"
-            : "shadow-md shadow-neutral-500/10"
-        }`}
+        className={`w-screen bg-white pt-4 px-5 flex items-center`}
       >
         <div className="w-full flex items-center justify-between">
           <button className="flex items-center">
-            <Text className="font-[Cantarell] text-[26px] uppercase font-bold text-@sura-primary-900">
+            <Text className="font-[Cantarell] text-2xl uppercase font-bold text-@sura-primary-900">
               Sura<span className="font-normal lowercase">.sh</span>
             </Text>
           </button>
-          <button className="border p-2 rounded-md bg-@sura-primary-50">
+          <button className="border p-2 rounded-md bg-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

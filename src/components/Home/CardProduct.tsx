@@ -1,17 +1,17 @@
 import React, { useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { NumericFormat } from "react-number-format";
 import { useNavigate } from "react-router-dom";
 import { StarIcon } from "@heroicons/react/24/solid";
-import * as Dialog from "@radix-ui/react-dialog";
 
 import { Text, Button } from "../../ui";
 
 interface CardProductProps {
-  id: number;
+  id: string;
   title: string;
   images: string[];
   price: number;
-  currency: number;
+  currency: string;
   typeAd?: number;
   width?: string;
   isPromo?: boolean;
