@@ -115,7 +115,7 @@ const CardProduct: React.FC<CardProductProps> = ({
               />
               <NumericFormat
                 className="w-32 bg-transparent"
-                prefix={`${currency.toString()} `}
+                prefix={`${currency} `}
                 value={price}
                 thousandSeparator={true}
               />

@@ -1,21 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { client } from "../../../supabase/client";
+import { axios } from "../../config";
 
 export type ProductProps = {
-  id: number;
+  _id: string;
   images: string[];
   title: string;
-  currency: number;
+  currency: {
+    value: string;
+  };
   price: number;
 };
 
-const getProducts = async (): Promise<ProductProps[] | null> => {
+const getProducts = async () => {
   try {
-    const { data } = await client
-      .from("Product")
-      .select("id, images, title, price, currency")
-      .is("typeAd", "null");
-    return data;
+    const products = await axios.get("/product/card");
+    return products;
   } catch (error) {
     throw new Error(error as string);
   }

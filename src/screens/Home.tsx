@@ -8,7 +8,7 @@ import {
   // CategorySection,
   ModalLogin,
   PromotionSection,
-  // RecentsSection,
+  RecentsSection,
   // SeasonsSection,
 } from "../components/Home";
 import { HeaderHome, Layout } from "../components";
@@ -100,7 +100,7 @@ const Home: React.FC = () => {
           />
         </div>
 
-        <main className="pt-6 flex flex-col gap-y-10">
+        <main className="py-6 flex flex-col gap-y-10">
           {typeAdLoading ? (
             <div>
               <div className="mx-5 h-8 mb-5 rounded-md w-6/12 bg-neutral-300 animate-pulse"></div>
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
             <PromotionSection typeAd={typeAd} />
           )}
 
-          {/* <RecentsSection /> */}
+          <RecentsSection />
           {/* <SeasonsSection isPromo /> */}
           {/* <CategorySection /> */}
         </main>
