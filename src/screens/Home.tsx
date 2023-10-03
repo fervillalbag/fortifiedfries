@@ -3,6 +3,7 @@ import { useMotionValueEvent, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
 
 import {
+  LoaderHome,
   // CategorySection,
   ModalLogin,
   PromotionSection,
@@ -12,8 +13,26 @@ import {
 import { HeaderHome, Layout } from "../components";
 import { AuthenticatedContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
+import { axios } from "../config";
+import { useQuery } from "@tanstack/react-query";
+
+export const getTypeAd = async () => {
+  try {
+    const typeAd = await axios.get(
+      "/type-ad/single?name=recommended"
+    );
+    return typeAd.data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
 
 const Home: React.FC = () => {
+  const { data: typeAd, isLoading: typeAdLoading } = useQuery(
+    ["typeAd"],
+    getTypeAd
+  );
+
   const { isAuthenticated } = useContext(AuthenticatedContext);
   const [showModalLogin, setShowModalLogin] = useState<boolean>(
     !isAuthenticated
@@ -70,7 +89,15 @@ const Home: React.FC = () => {
         </div>
 
         <main className="pt-6 flex flex-col gap-y-10">
-          <PromotionSection />
+          {typeAdLoading ? (
+            <div>
+              <div className="mx-5 h-8 mb-5 rounded-md w-6/12 bg-neutral-300 animate-pulse"></div>
+              <LoaderHome />
+            </div>
+          ) : (
+            <PromotionSection typeAd={typeAd} />
+          )}
+
           {/* <RecentsSection /> */}
           {/* <SeasonsSection isPromo /> */}
           {/* <CategorySection /> */}

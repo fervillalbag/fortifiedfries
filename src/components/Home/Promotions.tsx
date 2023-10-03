@@ -3,14 +3,11 @@ import { CardProduct, LoaderHome } from "./index";
 import { useProductsPromotions } from "../../hooks/products";
 import { Text } from "../../ui";
 
-export default function Promotions() {
-  const { queryProduct } = useProductsPromotions(
-    "651b604698dcc56cec23dc89"
-  );
+export default function Promotions({ typeAd }: any) {
+  const { queryProduct } = useProductsPromotions(typeAd?._id);
   const products = queryProduct?.data;
-  const productLastPosition = products
-    ? queryProduct.data.length - 1
-    : 0;
+
+  const productLastPosition = products ? products.length - 1 : 0;
 
   return (
     <div>
