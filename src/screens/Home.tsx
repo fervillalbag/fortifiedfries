@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -9,6 +7,7 @@ import {
   ModalLogin,
   PromotionSection,
   RecentsSection,
+  TabsHeader,
   // SeasonsSection,
 } from "../components/Home";
 import { HeaderHome, Layout } from "../components";
@@ -28,7 +27,6 @@ export const getTypeAd = async () => {
 };
 
 const Home: React.FC = () => {
-  const location = useLocation();
   const { data: typeAd, isLoading: typeAdLoading } = useQuery(
     ["typeAd"],
     getTypeAd
@@ -38,13 +36,6 @@ const Home: React.FC = () => {
   const [showModalLogin, setShowModalLogin] = useState<boolean>(
     !isAuthenticated
   );
-
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrollPosition(latest);
-  });
 
   useEffect(() => {
     localStorage.setItem(SURA_CREATE_POST_INFO, "");
@@ -59,38 +50,7 @@ const Home: React.FC = () => {
         />
 
         <HeaderHome />
-
-        <div
-          className={`sticky top-0 left-0 flex items-center gap-x-[22px] px-5 py-4 bg-white z-50 ${
-            scrollPosition < 60
-              ? ""
-              : "shadow-md shadow-neutral-500/10"
-          }`}
-        >
-          <Link
-            to="/home"
-            className={`${
-              location.pathname === "/home"
-                ? "font-medium text-lg text-@sura-primary-900"
-                : "font-normal text-@sura-primary-300"
-            }`}
-          >
-            Productos
-          </Link>
-          <Link
-            to="/services"
-            className={`${
-              location.pathname === "/services"
-                ? "font-medium text-lg text-@sura-primary-900"
-                : "font-normal text-@sura-primary-300"
-            }`}
-          >
-            Servicios
-          </Link>
-          <Link to="/" className="text-@sura-primary-300">
-            Comunidad
-          </Link>
-        </div>
+        <TabsHeader />
 
         <div className="mt-1 px-5">
           <img

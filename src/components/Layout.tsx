@@ -23,15 +23,21 @@ export default function Layout({ children }: LayoutProps) {
   }, []);
 
   const initialAnimation =
-    location.pathname === "/services" || location.pathname === "/home"
+    location.pathname === "/services" ||
+    location.pathname === "/home" ||
+    location.pathname === "/community"
       ? {}
       : { opacity: 0 };
   const animateAnimation =
-    location.pathname === "/services" || location.pathname === "/home"
+    location.pathname === "/services" ||
+    location.pathname === "/home" ||
+    location.pathname === "/community"
       ? {}
       : { opacity: 1 };
   const exitAnimation =
-    location.pathname === "/services" || location.pathname === "/home"
+    location.pathname === "/services" ||
+    location.pathname === "/home" ||
+    location.pathname === "/community"
       ? {}
       : { opacity: 0 };
 

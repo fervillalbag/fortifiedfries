@@ -39,25 +39,19 @@ const getProductsByCategory = async (category: number) => {
   }
 };
 
-const getProductDetail = async (id: number) => {
+const getProductDetail = async (id: string) => {
   try {
-    const { data: product } = await client
-      .from("Product")
-      .select(
-        "title, images, description, owner, status, price, currency"
-      )
-      .eq("id", +id)
-      .single();
+    const product = await axios.get(`product/single?_id=${id}`);
+    return product;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
 
-    if (!product?.owner) throw new Error("No se encontro producto");
-
-    const { data: ownerProduct } = await client
-      .from("Personal")
-      .select("avatar, fullname, username, affiliated")
-      .eq("id", product.owner)
-      .single();
-
-    return { product, user: ownerProduct };
+const getProductSearch = async (value: string) => {
+  try {
+    const product = await axios.get(`product/search?value=${value}`);
+    return product;
   } catch (error) {
     throw new Error(error as string);
   }
@@ -68,9 +62,16 @@ export const useProducts = () => {
   return { queryProduct };
 };
 
-export const useProductDetail = (id: number) => {
+export const useProductDetail = (id: string) => {
   const queryProduct = useQuery(["productDetail", id], () =>
     getProductDetail(id)
+  );
+  return { queryProduct };
+};
+
+export const useProductSearch = (value: string) => {
+  const queryProduct = useQuery(["productDetail", value], () =>
+    getProductSearch(value)
   );
   return { queryProduct };
 };
