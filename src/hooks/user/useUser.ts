@@ -1,25 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import { client } from "../../../supabase/client";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-const getUser = async () => {
-  try {
-    const { data } = await client.auth.getUser();
+import { getUser, register } from "../../services";
+import { RegisterUserProps } from "../../interface";
 
-    if (!data.user) throw new Error("No se encontro el usuario");
-
-    const { data: dataUser } = await client
-      .from("Personal")
-      .select("*")
-      .eq("email", data?.user.email)
-      .single();
-
-    return dataUser;
-  } catch (error) {
-    throw new Error(error as string);
-  }
+export const useGetUser = (param: string, value: string) => {
+  const queryUser = useQuery(["get-user", value], () =>
+    getUser(param, value)
+  );
+  return queryUser;
 };
 
-export const useUser = () => {
-  const queryUser = useQuery(["user"], getUser);
-  return { queryUser };
+export const useRegisterUser = (data: RegisterUserProps) => {
+  const queryRegister = useMutation(["register"], () =>
+    register(data)
+  );
+  return queryRegister;
 };

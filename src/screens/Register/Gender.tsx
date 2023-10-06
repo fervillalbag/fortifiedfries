@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import {
@@ -15,8 +15,7 @@ import {
 } from "../../components/Auth";
 import { Button, Text } from "../../ui";
 import { useHeight, useLocalStorageState } from "../../hooks";
-import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
-import { client } from "../../../supabase/client";
+import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import classNames from "classnames";
 import { GenderProps } from "../../interface/gender.interface";
 
@@ -53,51 +52,31 @@ const SelectItem: React.FC<SelectItemProps> = React.forwardRef(
 const Gender: React.FC = () => {
   const navigate = useNavigate();
   const styleHeight = useHeight();
-  const [allGenders, setAllGenderes] = useState<GenderProps[] | null>(
-    null
-  );
+
+  // @ts-ignore
+  const [allGenders, setAllGenderes] = useState<GenderProps[]>([
+    { _id: "1", name: "Hombre" },
+    { _id: "2", name: "Mujer" },
+  ]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const [value, handleUpdate] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
+    key: SURA_AUTH_REGISTER_INFO,
   });
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await client.from("GenderUser").select("*");
-      setAllGenderes(data);
-    })();
-  }, []);
-
-  const handleNext = async (values: any) => {
+  const handleNext = async (values: { gender: string }) => {
     setLoading(true);
-
-    const { data, status } = await client
-      .from("Personal")
-      .update({ gender: +values.gender })
-      .eq("email", value.email)
-      .select()
-      .single();
-
-    if (status === 200) {
-      handleUpdate({
-        gender: +data?.gender,
-      });
-      navigate("/register-photos", {
-        state: { fullname: data.fullname, username: data.username },
-      });
-      setLoading(false);
-      return;
-    }
-
-    console.log("Ha ocurrido un problema");
+    handleUpdate({
+      gender: values.gender,
+    });
+    navigate("/register-username");
     setLoading(false);
   };
 
   return (
     <Formik
-      initialValues={{ gender: +value.gender || 0 }}
+      initialValues={{ gender: value.gender }}
       validationSchema={validationGenderSchema}
       onSubmit={(values) => handleNext(values)}
     >
@@ -112,8 +91,8 @@ const Gender: React.FC = () => {
 
             <div className="p-5">
               <Select.Root
-                defaultValue={value.gender}
-                value={values.gender.toString()}
+                defaultValue={values.gender}
+                value={values.gender}
                 onValueChange={(value) => {
                   handleChange("gender")(value);
                 }}
@@ -141,10 +120,10 @@ const Gender: React.FC = () => {
                         >
                           Seleccione una categoria
                         </SelectItem>
-                        {allGenders?.map((gender) => (
+                        {allGenders.map((gender) => (
                           <SelectItem
-                            key={gender.id}
-                            value={gender.id.toString()}
+                            key={gender._id}
+                            value={gender._id.toString()}
                             className="text-lg text-@sura-primary-700"
                           >
                             {gender.name}
@@ -169,12 +148,12 @@ const Gender: React.FC = () => {
                 footerText="Ya tienes una cuenta?"
                 routeText="Inicia sesion"
                 routeLink="/login"
-                currentStep={3}
-                disableFooterText={false}
-                count={4}
+                currentStep={4}
+                count={6}
               >
                 <Button
-                  onClick={() => navigate("/register-username")}
+                  type="button"
+                  onClick={() => navigate("/register-fullname")}
                   variant="outline"
                 >
                   Volver

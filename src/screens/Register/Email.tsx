@@ -11,14 +11,13 @@ import {
 import { Button, Input, Text } from "../../ui";
 import { mailformat } from "../../utils/regex";
 import {
-  NURA_AUTH_REGISTER_INFO,
+  SURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../../utils/constants";
 import { useLocalStorageState } from "../../hooks/useAuth";
 import { authStepAnimation } from "../../utils/animation";
-import { toast } from "react-hot-toast";
 import { useHeight } from "../../hooks";
-import { client } from "../../../supabase/client";
+import { RegisterUserProps } from "../../interface";
 
 const registerValidationSchema = yup.object().shape({
   email: yup
@@ -33,35 +32,23 @@ const Email: React.FC = () => {
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [userInfoValue] = useState<any>(authInitialValue);
+  const [userInfoValue] =
+    useState<RegisterUserProps>(authInitialValue);
 
-  const [initialValues, handleUpdateForm] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
+  const [initialValues, handleUpdate] = useLocalStorageState({
+    key: SURA_AUTH_REGISTER_INFO,
     value: userInfoValue,
   });
 
-  const handleNext = async (values: any) => {
-    handleUpdateForm(values);
+  const handleNext = async (values: { email: string }) => {
     setLoading(true);
+    // TODO: validation if exist email in db
+    setLoading(false);
 
-    try {
-      const { data } = await client
-        .from("Personal")
-        .select("*")
-        .eq("email", values.email);
-
-      if (data?.length === 0) {
-        navigate("/register-password");
-        return;
-      }
-
-      setLoading(false);
-      toast.error("El email ya está registrado.");
-    } catch (error: any) {
-      console.log(error);
-      setLoading(false);
-      toast.error("El email ya está registrado.");
-    }
+    handleUpdate({
+      email: values.email,
+    });
+    navigate("/register-password");
   };
 
   return (
@@ -78,7 +65,7 @@ const Email: React.FC = () => {
         initialValues={{
           email: initialValues.email || "",
         }}
-        onSubmit={(values: any) => handleNext(values)}
+        onSubmit={(values: { email: string }) => handleNext(values)}
       >
         {({
           handleBlur,
@@ -119,7 +106,7 @@ const Email: React.FC = () => {
               routeText="Inicia sesion"
               routeLink="/login"
               currentStep={1}
-              count={2}
+              count={6}
             >
               <Button
                 type="button"

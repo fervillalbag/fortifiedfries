@@ -2,11 +2,16 @@ import { useEffect } from "react";
 import { m } from "framer-motion";
 
 import {
-  NURA_AUTH_REGISTER_INFO,
+  SURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../utils/constants/auth";
 import { useLocalStorageState } from "../hooks";
-import { transitionLayoutPage } from "../utils/animation";
+import {
+  animateAnimation,
+  exitAnimation,
+  initialAnimation,
+  transitionLayoutPage,
+} from "../utils/animation";
 import Navbar from "../components/Navbar";
 
 interface LayoutProps {
@@ -15,31 +20,12 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [_, handleUpdateForm] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
+    key: SURA_AUTH_REGISTER_INFO,
   });
 
   useEffect(() => {
     handleUpdateForm(authInitialValue);
   }, []);
-
-  const initialAnimation =
-    location.pathname === "/services" ||
-    location.pathname === "/home" ||
-    location.pathname === "/community"
-      ? {}
-      : { opacity: 0 };
-  const animateAnimation =
-    location.pathname === "/services" ||
-    location.pathname === "/home" ||
-    location.pathname === "/community"
-      ? {}
-      : { opacity: 1 };
-  const exitAnimation =
-    location.pathname === "/services" ||
-    location.pathname === "/home" ||
-    location.pathname === "/community"
-      ? {}
-      : { opacity: 0 };
 
   return (
     <div className="min-h-screen">

@@ -1,5 +1,4 @@
 export interface GenderProps {
-  id: number;
+  _id: string;
   name: string;
-  created_at: Date;
 }

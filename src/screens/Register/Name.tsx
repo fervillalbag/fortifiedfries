@@ -1,4 +1,3 @@
-import { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -10,13 +9,8 @@ import {
 } from "../../components/Auth";
 import { Button, Input, Text } from "../../ui";
 import { useHeight, useLocalStorageState } from "../../hooks";
-import {
-  NURA_AUTH_REGISTER_INFO,
-  authInitialValue,
-} from "../../utils/constants";
+import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { authStepAnimation } from "../../utils/animation";
-import { client } from "../../../supabase/client";
-import { AuthenticatedContext } from "../../context";
 
 const registerValidationSchema = yup.object().shape({
   fullname: yup
@@ -26,65 +20,18 @@ const registerValidationSchema = yup.object().shape({
 
 export default function Name() {
   const navigate = useNavigate();
-  const [userInfoValue] = useState<any>(authInitialValue);
   const styleHeight = useHeight();
-  const { isAuthenticated } = useContext(AuthenticatedContext);
 
   const [value, handleUpdate] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
-    value: userInfoValue,
+    key: SURA_AUTH_REGISTER_INFO,
   });
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loadingPage, setLoadingPage] = useState<boolean>(
-    value.fullname ? false : true
-  );
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoadingPage(false);
-    }, 1500);
-  }, []);
-
-  const handleNext = async (values: any) => {
-    setLoading(true);
-    const { data: dataUser } = await client.auth.getUser();
-
-    if (dataUser.user === null) {
-      console.log("No se ha encontrado el usuario");
-      return;
-    }
-
-    const { data, status } = await client
-      .from("Personal")
-      .update({ fullname: values.fullname })
-      .eq("user", dataUser.user.id)
-      .select("*")
-      .single();
-
-    if (status === 200) {
-      console.log("Actualizacion existosa");
-      handleUpdate({
-        username: data.username,
-        fullname: data.fullname,
-      });
-      navigate("/register-username");
-      setLoading(false);
-      return;
-    }
-
-    console.log("Ha ocurrido un problema");
-    setLoading(false);
+  const handleNext = async (values: { fullname: string }) => {
+    handleUpdate({
+      fullname: values.fullname,
+    });
+    navigate("/register-gender");
   };
-
-  if (isAuthenticated === null) return;
-
-  if (loadingPage)
-    return (
-      <div className="bg-white fixed top-0 left-0 w-screen h-screen grid place-items-center">
-        <p className="text-xl">Cargando..</p>
-      </div>
-    );
 
   return (
     <div style={styleHeight}>
@@ -98,7 +45,7 @@ export default function Name() {
         validationSchema={registerValidationSchema}
         validator={() => ({})}
         initialValues={{
-          fullname: value?.fullname || "",
+          fullname: value.fullname || "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >
@@ -135,19 +82,20 @@ export default function Name() {
             </m.div>
 
             <FooterAuth
-              footerText=""
-              routeText=""
+              footerText="Ya tienes una cuenta?"
+              routeText="Inicia sesion"
               routeLink="/login"
-              disableFooterText={false}
-              currentStep={1}
-              count={4}
+              currentStep={3}
+              count={6}
             >
-              <div />
               <Button
-                data-test="register-button-submit"
-                type="submit"
-                isLoading={loading}
+                type="button"
+                variant="outline"
+                onClick={() => navigate("/register-password")}
               >
+                Volver
+              </Button>
+              <Button data-test="register-button-submit">
                 Siguiente
               </Button>
             </FooterAuth>

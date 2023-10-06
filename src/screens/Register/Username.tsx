@@ -8,11 +8,10 @@ import {
   Header as HeaderAuth,
   Footer as FooterAuth,
 } from "../../components/Auth";
-import { Button, Input, Text, buttonVariants } from "../../ui";
+import { Button, Input, Text } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
-import { client } from "../../../supabase/client";
-import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 
 const registerValidationSchema = yup.object().shape({
   username: yup
@@ -25,39 +24,14 @@ export default function Username() {
   const styleHeight = useHeight();
 
   const [value, handleUpdate] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
+    key: SURA_AUTH_REGISTER_INFO,
   });
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleNext = async (values: any) => {
+  const handleNext = async (values: { username: string }) => {
     setLoading(true);
-    const { data: dataUser } = await client.auth.getUser();
-
-    if (!dataUser.user) {
-      console.log("No se pudo obtener usuario");
-      return;
-    }
-
-    const { data, status } = await client
-      .from("Personal")
-      .update({ username: values.username })
-      .eq("user", dataUser.user.id)
-      .select("*")
-      .single();
-
-    if (status === 200) {
-      handleUpdate({
-        username: data.username,
-      });
-      navigate("/register-gender", {
-        state: { fullname: data.fullname, username: data.username },
-      });
-      setLoading(false);
-      return;
-    }
-
-    console.log("Ha ocurrido un problema");
+    handleUpdate({ username: values.username });
     setLoading(false);
   };
 
@@ -113,16 +87,13 @@ export default function Username() {
               footerText="Ya tienes una cuenta?"
               routeText="Inicia sesion"
               routeLink="/login"
-              currentStep={2}
-              disableFooterText={false}
-              count={4}
+              currentStep={5}
+              count={6}
             >
               <Button
                 type="button"
-                className={buttonVariants({
-                  variant: "outline",
-                })}
-                onClick={() => navigate("/register-name")}
+                variant="outline"
+                onClick={() => navigate("/register-gender")}
               >
                 Volver
               </Button>

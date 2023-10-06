@@ -1,6 +1,6 @@
 export const saveLocalStorage = (data: {}) => {
   localStorage.setItem(
-    "@NURA-AUTH-REGISTER-INFO",
+    "@SURA-AUTH-REGISTER-INFO",
     JSON.stringify(data)
   );
 };

@@ -15,3 +15,16 @@ export interface UserProps {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface RegisterUserProps {
+  email: string;
+  fullname: string;
+  password: string;
+  username: string;
+  gender: string;
+  skin?: string;
+  banner?: string;
+  avatar?: string;
+  roles?: string[];
+  topics?: string[];
+}
