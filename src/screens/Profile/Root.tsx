@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 // import { LineLoader } from "../../components/Loader";
 import { Layout } from "../../components";
-import { useUser } from "../../hooks/user";
+// import { useUser } from "../../hooks/user";
 
 import SettingIcon from "../../assets/icons/settings-icon.svg";
 // import VerifiedIcon from "../../assets/icons/verified-icon.svg";
@@ -10,7 +10,7 @@ import { Text } from "../../ui";
 
 export default function Root() {
   const navigate = useNavigate();
-  const { queryUser } = useUser();
+  // const { queryUser } = useUser();
 
   return (
     <Layout>
@@ -18,7 +18,7 @@ export default function Root() {
         <div className="flex py-5 items-center justify-between">
           <div>
             <Text className="text-4xl text-@sura-primary-900">
-              {queryUser.data?.fullname ? (
+              {/* {queryUser.data?.fullname ? (
                 <>
                   <span className="block mb-2">
                     {queryUser.data.fullname.split(" ")[0]}
@@ -29,7 +29,7 @@ export default function Root() {
                 </>
               ) : (
                 <div></div>
-              )}
+              )} */}
             </Text>
           </div>
 

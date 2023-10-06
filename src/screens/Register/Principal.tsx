@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Button, Text, buttonVariants, textVariants } from "../../ui";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  NURA_AUTH_REGISTER_INFO,
+  SURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../../utils/constants";
 import { useHeight, useLocalStorageState } from "../../hooks";
@@ -12,7 +12,7 @@ const RegisterPrincipal = () => {
   const stylesHeight = useHeight();
 
   const [_, handleUpdateForm] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
+    key: SURA_AUTH_REGISTER_INFO,
   });
 
   useEffect(() => {

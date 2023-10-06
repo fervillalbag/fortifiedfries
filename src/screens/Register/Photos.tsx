@@ -7,7 +7,7 @@ import { Footer as FooterAuth } from "../../components/Auth";
 import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { AuthenticatedContext } from "../../context";
-import { NURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 
 export default function Photos() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function Photos() {
 
   const { setIsLogged } = useContext(AuthenticatedContext);
   const [] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
+    key: SURA_AUTH_REGISTER_INFO,
   });
 
   const handleComplete = async () => {

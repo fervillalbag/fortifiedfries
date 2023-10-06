@@ -1,17 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import {
   LoaderHome,
   // CategorySection,
-  ModalLogin,
+  // ModalLogin,
   PromotionSection,
   RecentsSection,
   TabsHeader,
   // SeasonsSection,
 } from "../components/Home";
 import { HeaderHome, Layout } from "../components";
-import { AuthenticatedContext } from "../context";
 import { SURA_CREATE_POST_INFO } from "../utils/constants";
 import { axios } from "../config";
 
@@ -32,11 +31,6 @@ const Home: React.FC = () => {
     getTypeAd
   );
 
-  const { isAuthenticated } = useContext(AuthenticatedContext);
-  const [showModalLogin, setShowModalLogin] = useState<boolean>(
-    !isAuthenticated
-  );
-
   useEffect(() => {
     localStorage.setItem(SURA_CREATE_POST_INFO, "");
   }, []);
@@ -44,10 +38,10 @@ const Home: React.FC = () => {
   return (
     <div>
       <Layout>
-        <ModalLogin
+        {/* <ModalLogin
           show={showModalLogin}
           setShow={setShowModalLogin}
-        />
+        /> */}
 
         <HeaderHome />
         <TabsHeader />

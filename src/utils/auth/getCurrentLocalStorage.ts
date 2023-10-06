@@ -14,7 +14,7 @@ export const getCurrentLocalStorage = () => {
   useEffect(() => {
     setCurrentLocalStorage(
       JSON.parse(
-        localStorage.getItem("@NURA-AUTH-REGISTER-INFO") as string
+        localStorage.getItem("@SURA-AUTH-REGISTER-INFO") as string
       )
     );
   }, []);

@@ -5,7 +5,7 @@ import { m } from "framer-motion";
 
 import { useHeight, useLocalStorageState } from "../../hooks";
 import {
-  NURA_AUTH_REGISTER_INFO,
+  SURA_AUTH_REGISTER_INFO,
   authInitialValue,
 } from "../../utils/constants";
 import {
@@ -32,7 +32,7 @@ export default function Email() {
   const navigate = useNavigate();
 
   const [initialValue, handleUpdateForm] = useLocalStorageState({
-    key: NURA_AUTH_REGISTER_INFO,
+    key: SURA_AUTH_REGISTER_INFO,
   });
 
   useEffect(() => {
