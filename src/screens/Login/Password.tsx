@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { m } from "framer-motion";
 import { toast } from "react-hot-toast";
@@ -12,10 +12,10 @@ import {
   Footer as FooterAuth,
 } from "../../components/Auth";
 import { Button, Input, Text } from "../../ui";
-import { useHeight } from "../../hooks";
+import { useHeight, useLocalStorageState } from "../../hooks";
 import { authStepAnimation } from "../../utils/animation";
-import { client } from "../../../supabase/client";
-import { AuthenticatedContext } from "../../context";
+import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { login } from "../../services/user";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -23,47 +23,41 @@ const registerValidationSchema = yup.object().shape({
 
 const Password: React.FC = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const { setIsAuthenticated } = useContext(AuthenticatedContext);
+
+  const [value] = useLocalStorageState({
+    key: SURA_AUTH_REGISTER_INFO,
+  });
 
   const styleHeight = useHeight();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleNext = async (values: any) => {
     setLoading(true);
-    toast.loading("Ingresando..");
 
-    if (!state.user) {
-      toast.dismiss();
-      toast.error("Credenciales incorrectas");
-      setLoading(false);
-      return;
-    }
-
-    const { error } = await client.auth.signInWithPassword({
-      email: state.user.email,
-      password: values.password,
+    const hashedPassword = await argon2.hash({
+      pass: values.password,
+      salt: "somesalt",
     });
 
-    if (error?.message === "Invalid login credentials") {
-      toast.dismiss();
+    const userCredentials = {
+      email: value.email,
+      password: hashedPassword.encoded,
+    };
+
+    try {
+      const response = await login(userCredentials);
+
+      if (response.token) {
+        navigate("/home");
+        toast.success("Cuenta creada correctamente");
+        return;
+      }
+    } catch (error) {
       toast.error("Credenciales incorrectas");
+      console.log(error);
+    } finally {
       setLoading(false);
-      return;
     }
-
-    if (!error) {
-      setIsAuthenticated(true);
-      toast.dismiss();
-      toast.success("Has iniciado sesion");
-      navigate("/home");
-      setLoading(false);
-      return;
-    }
-
-    setLoading(false);
-    toast.dismiss();
-    toast.error("Ha ocurrido un error");
   };
 
   return (

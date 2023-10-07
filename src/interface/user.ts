@@ -28,3 +28,8 @@ export interface RegisterUserProps {
   roles?: string[];
   topics?: string[];
 }
+
+export interface LoginProps {
+  email: string;
+  password: string;
+}
