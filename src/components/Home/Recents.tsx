@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { CardProduct, LoaderHome } from "./index";
 import { useProducts } from "../../hooks/products";
 import { Text } from "../../ui";
-import type { ProductProps } from "../../hooks/products/useProduct";
+import type { ProductProps } from "../../interface";
 
 export default function Recents() {
   const { queryProduct: query } = useProducts();

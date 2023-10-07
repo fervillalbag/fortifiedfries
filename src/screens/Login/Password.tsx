@@ -16,6 +16,7 @@ import { useHeight, useLocalStorageState } from "../../hooks";
 import { authStepAnimation } from "../../utils/animation";
 import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { login } from "../../services/user";
+import { SURA_AUTH_TOKEN } from "../../utils/constants/auth";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -48,6 +49,8 @@ const Password: React.FC = () => {
       const response = await login(userCredentials);
 
       if (response.token) {
+        const token = JSON.stringify({ token: response.token });
+        localStorage.setItem(SURA_AUTH_TOKEN, token);
         navigate("/home");
         toast.success("Cuenta creada correctamente");
         return;

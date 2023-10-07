@@ -7,7 +7,6 @@ import {
   Gender,
   Password,
   Username,
-  Photos,
 } from "../screens/Register";
 
 import { Root as RootRegister } from "../screens";
@@ -87,11 +86,6 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: Home,
     path: "/home",
-  },
-  {
-    id: nanoid(3),
-    component: Photos,
-    path: "/register-photos",
   },
   {
     id: nanoid(3),

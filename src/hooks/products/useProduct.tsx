@@ -1,26 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { client } from "../../../supabase/client";
-import { axios } from "../../config";
-
-export type ProductProps = {
-  _id: string;
-  images: string[];
-  title: string;
-  currency: {
-    value: string;
-  };
-  price: number;
-};
-
-const getProducts = async () => {
-  try {
-    const products = await axios.get("/product/card");
-    return products;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-};
+import {
+  getProductDetail,
+  getProductSearch,
+  getProducts,
+  getProductsPromotions,
+} from "../../services";
 
 const getProductsByCategory = async (category: number) => {
   try {
@@ -34,24 +20,6 @@ const getProductsByCategory = async (category: number) => {
       .eq("category", category);
 
     return data;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-};
-
-const getProductDetail = async (id: string) => {
-  try {
-    const product = await axios.get(`product/single?_id=${id}`);
-    return product;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-};
-
-const getProductSearch = async (value: string) => {
-  try {
-    const product = await axios.get(`product/search?value=${value}`);
-    return product;
   } catch (error) {
     throw new Error(error as string);
   }
@@ -79,6 +47,13 @@ export const useProductSearch = (value: string) => {
 export const useProductByCategory = (id: number) => {
   const queryProduct = useQuery(["productDetail", id], () =>
     getProductsByCategory(id)
+  );
+  return { queryProduct };
+};
+
+export const useProductsPromotions = (ad: string) => {
+  const queryProduct = useQuery(["productsPromotions", ad], () =>
+    getProductsPromotions(ad)
   );
   return { queryProduct };
 };

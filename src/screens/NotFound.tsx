@@ -1,19 +1,21 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Text } from "../ui";
-import { useHeight } from "../hooks";
-import { AuthenticatedContext } from "../context";
+import { useHeight, useLocalStorageState } from "../hooks";
+import { SURA_AUTH_TOKEN } from "../utils/constants/auth";
 
 const NotFound: React.FC = () => {
-  const { isAuthenticated } = useContext(AuthenticatedContext);
+  const [value] = useLocalStorageState({
+    key: SURA_AUTH_TOKEN,
+  });
   const navigate = useNavigate();
 
   const stylesHeight = useHeight();
 
   useEffect(() => {
     setTimeout(() => {
-      const path = isAuthenticated ? "/home" : "/";
+      const path = value.token ? "/home" : "/";
       navigate(path);
     }, 2000);
   }, []);

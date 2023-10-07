@@ -7,7 +7,7 @@ function App() {
   return (
     <LazyMotion strict features={domAnimation}>
       <WindowSizeProvider>
-        <AppRoute isAuthenticated={false} isLogged={true} />
+        <AppRoute />
       </WindowSizeProvider>
     </LazyMotion>
   );

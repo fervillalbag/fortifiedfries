@@ -42,7 +42,7 @@ export default function Status() {
 
               <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
                 <Layout>
-                  <h3 className="mb-3 text-lg text-@sura-primary-900">
+                  <h3 className="mb-3 text-@sura-primary-500">
                     Estado del producto
                   </h3>
 
