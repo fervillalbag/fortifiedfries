@@ -127,7 +127,7 @@ const Password: React.FC = () => {
               routeText="Inicia sesion"
               routeLink="/login"
               currentStep={2}
-              count={6}
+              count={5}
             >
               <Button
                 type="button"

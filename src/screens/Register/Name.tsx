@@ -86,7 +86,7 @@ export default function Name() {
               routeText="Inicia sesion"
               routeLink="/login"
               currentStep={3}
-              count={6}
+              count={5}
             >
               <Button
                 type="button"
