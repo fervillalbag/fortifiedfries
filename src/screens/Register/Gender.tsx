@@ -17,7 +17,8 @@ import { Button, Text } from "../../ui";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import classNames from "classnames";
-import { GenderProps } from "../../interface/gender.interface";
+import { GenderProps } from "../../interface";
+import { useGender } from "../../hooks/gender";
 
 const validationGenderSchema = yup.object().shape({
   gender: yup.string().required("El campo es obligatorio"),
@@ -53,11 +54,7 @@ const Gender: React.FC = () => {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  // @ts-ignore
-  const [allGenders, setAllGenderes] = useState<GenderProps[]>([
-    { _id: "1", name: "Hombre" },
-    { _id: "2", name: "Mujer" },
-  ]);
+  const genders = useGender();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -120,15 +117,19 @@ const Gender: React.FC = () => {
                         >
                           Seleccione una categoria
                         </SelectItem>
-                        {allGenders.map((gender) => (
-                          <SelectItem
-                            key={gender._id}
-                            value={gender._id.toString()}
-                            className="text-lg text-@sura-primary-700"
-                          >
-                            {gender.name}
-                          </SelectItem>
-                        ))}
+                        {genders.isLoading
+                          ? null
+                          : genders.data.map(
+                              (gender: GenderProps) => (
+                                <SelectItem
+                                  key={gender._id}
+                                  value={gender._id.toString()}
+                                  className="text-lg text-@sura-primary-700"
+                                >
+                                  {gender.name}
+                                </SelectItem>
+                              )
+                            )}
                       </Select.Group>
                     </Select.Viewport>
                   </Select.Content>
@@ -149,7 +150,7 @@ const Gender: React.FC = () => {
                 routeText="Inicia sesion"
                 routeLink="/login"
                 currentStep={4}
-                count={6}
+                count={5}
               >
                 <Button
                   type="button"

@@ -2,7 +2,6 @@ export const authInitialValue = {
   fullname: "",
   email: "",
   gender: "",
-  username: "",
   password: "",
 };
 

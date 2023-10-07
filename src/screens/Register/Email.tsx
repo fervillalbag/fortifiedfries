@@ -18,6 +18,8 @@ import { useLocalStorageState } from "../../hooks/useAuth";
 import { authStepAnimation } from "../../utils/animation";
 import { useHeight } from "../../hooks";
 import { RegisterUserProps } from "../../interface";
+import { getUser } from "../../services";
+import toast from "react-hot-toast";
 
 const registerValidationSchema = yup.object().shape({
   email: yup
@@ -42,13 +44,18 @@ const Email: React.FC = () => {
 
   const handleNext = async (values: { email: string }) => {
     setLoading(true);
-    // TODO: validation if exist email in db
-    setLoading(false);
 
-    handleUpdate({
-      email: values.email,
-    });
-    navigate("/register-password");
+    try {
+      await getUser("email", values.email);
+      toast.error("Este correo ya existe");
+    } catch (error) {
+      handleUpdate({
+        email: values.email,
+      });
+      navigate("/register-password");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,7 +113,7 @@ const Email: React.FC = () => {
               routeText="Inicia sesion"
               routeLink="/login"
               currentStep={1}
-              count={6}
+              count={5}
             >
               <Button
                 type="button"

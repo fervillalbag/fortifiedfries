@@ -12,6 +12,8 @@ import { Button, Input, Text } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
 import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
+import { getUser, register } from "../../services";
+import toast from "react-hot-toast";
 
 const registerValidationSchema = yup.object().shape({
   username: yup
@@ -23,7 +25,7 @@ export default function Username() {
   const navigate = useNavigate();
   const styleHeight = useHeight();
 
-  const [value, handleUpdate] = useLocalStorageState({
+  const [value] = useLocalStorageState({
     key: SURA_AUTH_REGISTER_INFO,
   });
 
@@ -31,7 +33,27 @@ export default function Username() {
 
   const handleNext = async (values: { username: string }) => {
     setLoading(true);
-    handleUpdate({ username: values.username });
+    try {
+      await getUser("username", values.username);
+      toast.error("El nombre de usuario ya existe");
+    } catch (error) {
+      const userCreated = {
+        ...value,
+        username: values.username,
+      };
+
+      const response = await register(userCreated);
+
+      if (response.status === 201) {
+        navigate("/home");
+        toast.success("Cuenta creada correctamente");
+        return;
+      }
+
+      toast.error("Ha ocurrido un error. Intentelo de nuevo");
+    } finally {
+      setLoading(false);
+    }
     setLoading(false);
   };
 
@@ -88,7 +110,7 @@ export default function Username() {
               routeText="Inicia sesion"
               routeLink="/login"
               currentStep={5}
-              count={6}
+              count={5}
             >
               <Button
                 type="button"

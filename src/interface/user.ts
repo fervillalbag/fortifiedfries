@@ -20,7 +20,7 @@ export interface RegisterUserProps {
   email: string;
   fullname: string;
   password: string;
-  username: string;
+  username?: string;
   gender: string;
   skin?: string;
   banner?: string;
