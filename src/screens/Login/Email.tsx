@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { m } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 import { useHeight, useLocalStorageState } from "../../hooks";
 import {
@@ -13,10 +14,10 @@ import {
   Header as HeaderAuth,
 } from "../../components/Auth";
 import { mailformat } from "../../utils/regex";
-import { client } from "../../../supabase/client";
-import { useNavigate } from "react-router-dom";
 import { Button, Input, Text } from "../../ui";
 import { authStepAnimation } from "../../utils/animation";
+import { getUser } from "../../services";
+import toast from "react-hot-toast";
 
 const loginValidationSchema = yup.object().shape({
   email: yup
@@ -31,31 +32,27 @@ export default function Email() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const [initialValue, handleUpdateForm] = useLocalStorageState({
+  const [value, handleUpdate] = useLocalStorageState({
     key: SURA_AUTH_REGISTER_INFO,
   });
 
   useEffect(() => {
-    handleUpdateForm(authInitialValue);
+    handleUpdate(authInitialValue);
   }, []);
 
   const handleNext = async (values: any) => {
-    handleUpdateForm(values);
     setLoading(true);
 
     try {
-      const { data: dataUser } = await client
-        .from("Personal")
-        .select("*")
-        .eq("email", values.email);
-
-      setLoading(false);
-      navigate("/login-password", {
-        state: { user: dataUser![0] },
+      await getUser("email", values.email);
+      handleUpdate({
+        email: values.email,
       });
-    } catch (error: any) {
+      navigate("/login-password");
+    } catch (error) {
+      toast.error("El usuario no existe");
+    } finally {
       setLoading(false);
-      throw new Error(error);
     }
   };
 
@@ -71,7 +68,7 @@ export default function Email() {
         validationSchema={loginValidationSchema}
         validator={() => ({})}
         initialValues={{
-          email: initialValue?.email || "",
+          email: value?.email || "",
         }}
         onSubmit={(values: any) => handleNext(values)}
       >

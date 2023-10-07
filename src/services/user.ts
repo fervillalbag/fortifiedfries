@@ -1,5 +1,5 @@
 import { axios } from "../config";
-import { RegisterUserProps } from "../interface";
+import { LoginProps, RegisterUserProps } from "../interface";
 
 export const register = async (data: RegisterUserProps) => {
   try {
@@ -13,6 +13,15 @@ export const register = async (data: RegisterUserProps) => {
     console.log(error);
     throw new Error(error);
   }
+};
+
+export const login = async (data: LoginProps) => {
+  const response = await axios({
+    method: "POST",
+    url: "/auth/login",
+    data: JSON.stringify(data),
+  });
+  return response.data;
 };
 
 export const getUser = async (param: string, value: string) => {
