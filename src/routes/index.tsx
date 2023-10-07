@@ -5,38 +5,35 @@ import {
   LIST_ROUTES_AUTHENTICATED,
   LIST_ROUTES_UNAUTHENTICATED,
 } from "./list";
+import { useLocalStorageState } from "../hooks";
+import { SURA_AUTH_TOKEN } from "../utils/constants/auth";
 
-interface AppRouteProps {
-  isAuthenticated: boolean | null;
-  isLogged: boolean | null;
-}
-
-export default function AppRoute({ isAuthenticated }: AppRouteProps) {
-  if (isAuthenticated === null) return null;
+export default function AppRoute() {
+  const [value] = useLocalStorageState({
+    key: SURA_AUTH_TOKEN,
+  });
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          {!isAuthenticated
-            ? LIST_ROUTES_UNAUTHENTICATED.map((route) => (
-                <Route
-                  key={route.id}
-                  path={route.path}
-                  element={<route.component />}
-                />
-              ))
-            : LIST_ROUTES_AUTHENTICATED.map((route) => (
-                <Route
-                  key={route.id}
-                  path={route.path}
-                  element={<route.component />}
-                />
-              ))}
+    <BrowserRouter>
+      <Routes>
+        {!value.token
+          ? LIST_ROUTES_UNAUTHENTICATED.map((route) => (
+              <Route
+                key={route.id}
+                path={route.path}
+                element={<route.component />}
+              />
+            ))
+          : LIST_ROUTES_AUTHENTICATED.map((route) => (
+              <Route
+                key={route.id}
+                path={route.path}
+                element={<route.component />}
+              />
+            ))}
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

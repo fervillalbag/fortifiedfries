@@ -91,6 +91,10 @@ export default function Category() {
 
               <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
                 <Layout>
+                  <h3 className="mb-3 text-@sura-primary-500">
+                    Categoria
+                  </h3>
+
                   <Select.Root
                     value={values.category}
                     onValueChange={(value) => {
@@ -143,6 +147,54 @@ export default function Category() {
                       {errors.category as string}
                     </Text>
                   )}
+
+                  <h3 className="mt-5 mb-3 text-@sura-primary-500">
+                    Sub-categoria
+                  </h3>
+
+                  <Select.Root
+                    value={values.category}
+                    onValueChange={(value) => {
+                      handleChange("category")(value);
+                    }}
+                  >
+                    <Select.Trigger
+                      className="text-@sura-primary-600 w-full inline-flex items-center justify-between rounded px-[15px] text-lg leading-none h-14 gap-[5px] bg-white text-violet11 border-2 border-@sura-primary-200 hover:bg-mauve3 data-[placeholder]:text-violet9 outline-none"
+                      aria-label="Food"
+                    >
+                      <Select.Value placeholder="Seleccione una categoria" />
+                      <Select.Icon className="text-violet11">
+                        <ChevronDownIcon />
+                      </Select.Icon>
+                    </Select.Trigger>
+
+                    <Select.Portal>
+                      <Select.Content className="overflow-hidden pt-2 pb-1 bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+                        <Select.ScrollUpButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
+                          <ChevronUpIcon />
+                        </Select.ScrollUpButton>
+                        <Select.Viewport className="p-[5px]">
+                          <Select.Group>
+                            <SelectItem
+                              value=""
+                              className="text-@sura-primary-500"
+                            >
+                              Seleccione una categoria
+                            </SelectItem>
+                            {categoryList?.map((category) => (
+                              <SelectItem
+                                key={category.id}
+                                value={category.id.toString()}
+                                className="text-lg text-@sura-primary-700"
+                              >
+                                {category.name}
+                              </SelectItem>
+                            ))}
+                          </Select.Group>
+                        </Select.Viewport>
+                      </Select.Content>
+                    </Select.Portal>
+                  </Select.Root>
                 </Layout>
 
                 <div>

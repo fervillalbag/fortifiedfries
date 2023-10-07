@@ -1,7 +1,7 @@
-import type { ProductPromotionsProps } from "../../hooks/products/usePromotions";
+import type { ProductPromotionsProps } from "../../interface";
 import { CardProduct, LoaderHome } from "./index";
-import { useProductsPromotions } from "../../hooks/products";
 import { Text } from "../../ui";
+import { useProductsPromotions } from "../../hooks/products/useProduct";
 
 export default function Promotions({ typeAd }: any) {
   const { queryProduct } = useProductsPromotions(typeAd?._id);

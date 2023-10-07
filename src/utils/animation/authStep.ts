@@ -41,23 +41,3 @@ export const authStepAnimationDelaySm: Variants = {
     x: 2000,
   },
 };
-
-export const initialAnimation =
-  location.pathname === "/services" ||
-  location.pathname === "/home" ||
-  location.pathname === "/community"
-    ? {}
-    : { opacity: 0 };
-
-export const animateAnimation =
-  location.pathname === "/services" ||
-  location.pathname === "/home" ||
-  location.pathname === "/community"
-    ? {}
-    : { opacity: 1 };
-export const exitAnimation =
-  location.pathname === "/services" ||
-  location.pathname === "/home" ||
-  location.pathname === "/community"
-    ? {}
-    : { opacity: 0 };
