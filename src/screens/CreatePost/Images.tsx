@@ -97,8 +97,8 @@ export default function Images() {
       <div className="h-full">
         <HeaderLoader imgCmp={CreatePostHeader} />
 
-        <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <Layout>
+        <Layout>
+          <div>
             <h3 className="mb-3 text-lg text-@sura-primary-900">
               Imagenes
             </h3>
@@ -141,7 +141,7 @@ export default function Images() {
                   </div>
                 ))}
             </div>
-          </Layout>
+          </div>
 
           <div>
             <DotStep value={5} count={7} />
@@ -159,7 +159,7 @@ export default function Images() {
               </Button>
             </div>
           </div>
-        </div>
+        </Layout>
       </div>
     </div>
   );

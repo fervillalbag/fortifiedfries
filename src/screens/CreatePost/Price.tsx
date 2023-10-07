@@ -82,6 +82,7 @@ export default function Hashtag() {
       setErrorMessage(
         "El precio es muy bajo. Debe ser superior a Gs. 5.000"
       );
+      setLoading(false);
       return;
     }
 
@@ -135,8 +136,8 @@ export default function Hashtag() {
             <div className="h-full">
               <HeaderLoader imgCmp={CreatePostHeader} />
 
-              <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-                <Layout>
+              <Layout>
+                <div>
                   <NumericFormat
                     value={values.price}
                     onChange={handleChange("price")}
@@ -156,7 +157,7 @@ export default function Hashtag() {
                       {errors.price || errorMessage}
                     </Text>
                   ) : null}
-                </Layout>
+                </div>
 
                 <div>
                   <DotStep value={7} count={7} />
@@ -175,7 +176,7 @@ export default function Hashtag() {
                     </Button>
                   </div>
                 </div>
-              </div>
+              </Layout>
             </div>
           </div>
         </form>

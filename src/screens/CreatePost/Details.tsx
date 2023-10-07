@@ -43,8 +43,8 @@ export default function Details() {
             <div className="h-full">
               <HeaderLoader imgCmp={CreatePostHeader} />
 
-              <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-                <Layout>
+              <Layout>
+                <div>
                   <textarea
                     value={values.details}
                     placeholder="Detalles del producto"
@@ -62,7 +62,7 @@ export default function Details() {
                       {errors.details as string}
                     </Text>
                   )}
-                </Layout>
+                </div>
 
                 <div>
                   <DotStep value={4} count={7} />
@@ -79,7 +79,7 @@ export default function Details() {
                     <Button type="submit">Siguiente</Button>
                   </div>
                 </div>
-              </div>
+              </Layout>
             </div>
           </div>
         </Form>

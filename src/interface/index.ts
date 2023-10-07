@@ -8,3 +8,4 @@ export type {
   ProductPromotionsProps,
   ProductProps,
 } from "./product.interface";
+export type { CategoryProps } from "./category.interface";

@@ -12,6 +12,7 @@ export default function Layout({ children }: LayoutProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={transitionLayoutPage}
+      className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]"
     >
       {children}
     </m.div>

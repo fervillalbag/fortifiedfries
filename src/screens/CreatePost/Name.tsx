@@ -50,8 +50,8 @@ export default function Name() {
           <form className="h-full" onSubmit={handleSubmit}>
             <HeaderLoader imgCmp={CreatePostHeader} />
 
-            <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-              <Layout>
+            <Layout>
+              <div>
                 <div>
                   <Input
                     value={values.name}
@@ -69,7 +69,7 @@ export default function Name() {
                     </Text>
                   )}
                 </div>
-              </Layout>
+              </div>
 
               <div>
                 <DotStep value={1} count={7} />
@@ -86,7 +86,7 @@ export default function Name() {
                   <Button type="submit">Siguiente</Button>
                 </div>
               </div>
-            </div>
+            </Layout>
           </form>
         )}
       </Formik>

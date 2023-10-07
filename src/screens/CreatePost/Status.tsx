@@ -40,8 +40,8 @@ export default function Status() {
             <div className="h-full">
               <HeaderLoader imgCmp={CreatePostHeader} />
 
-              <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-                <Layout>
+              <Layout>
+                <div className="flex flex-col">
                   <h3 className="mb-3 text-@sura-primary-500">
                     Estado del producto
                   </h3>
@@ -80,17 +80,17 @@ export default function Status() {
                       />
                       Semi nuevo
                     </label>
-
-                    {errors.status && (
-                      <Text
-                        data-test="register-feedback-error"
-                        className="text-red-500 mt-2"
-                      >
-                        {errors.status as string}
-                      </Text>
-                    )}
                   </div>
-                </Layout>
+
+                  {errors.status && (
+                    <Text
+                      data-test="register-feedback-error"
+                      className="text-red-500 mt-2"
+                    >
+                      {errors.status as string}
+                    </Text>
+                  )}
+                </div>
 
                 <div>
                   <DotStep value={2} count={7} />
@@ -107,7 +107,7 @@ export default function Status() {
                     <Button type="submit">Siguiente</Button>
                   </div>
                 </div>
-              </div>
+              </Layout>
             </div>
           </div>
         </Form>

@@ -1,10 +1,17 @@
-import { client } from "../../supabase/client";
+import { axios } from "../config";
 
-export const getAllCategories = async () => {
-  try {
-    const response = await client.from("CategoryProduct").select("*");
-    return response;
-  } catch (error: any) {
-    throw new Error(error);
-  }
+export const getCategories = async () => {
+  const response = await axios({
+    method: "GET",
+    url: "/category",
+  });
+  return response.data;
+};
+
+export const getSubCategories = async (id: string) => {
+  const response = await axios({
+    method: "GET",
+    url: `/sub-category/category/${id}`,
+  });
+  return response.data;
 };

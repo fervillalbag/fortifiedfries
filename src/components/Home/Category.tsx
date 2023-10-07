@@ -1,7 +1,7 @@
-import type { CategoryProps } from "../../hooks/categories/useCategories";
+import type { CategoryProps } from "../../interface";
 import { useCategories } from "../../hooks/categories";
 import { Text } from "../../ui";
-import { useProductByCategory } from "../../hooks/products";
+// import { useProductByCategory } from "../../hooks/products";
 
 interface CategoryItemProps {
   category: CategoryProps;
@@ -14,9 +14,10 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
   index,
   length,
 }) => {
-  const { queryProduct } = useProductByCategory(category.id);
-  const qtyProducts = queryProduct.data?.length || 0;
+  // const { queryProduct } = useProductByCategory(category._id);
+  // const qtyProducts = queryProduct.data?.length || 0;
 
+  return <h1>hi</h1>;
   return (
     <div
       className={`w-min ${index === 0 ? "pl-5" : "pl-0"} ${
@@ -28,7 +29,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
           {category.name}
         </Text>
         <Text className="font-semibold text-@sura-primary-900">
-          {qtyProducts} <span className="font-normal">productos</span>
+          {/* {qtyProducts} <span className="font-normal">productos</span> */}
         </Text>
       </button>
     </div>
@@ -36,7 +37,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
 };
 
 export default function Category() {
-  const { queryCategory } = useCategories();
+  const queryCategory = useCategories();
 
   if (queryCategory.isLoading) return <div>loading..</div>;
   if (queryCategory.isError) return <div>error..</div>;
@@ -59,7 +60,7 @@ export default function Category() {
             (category: CategoryProps, index: number) => {
               return (
                 <CategoryItem
-                  key={category.id}
+                  key={category._id}
                   index={index}
                   category={category}
                   length={lengthCategoryArray}
