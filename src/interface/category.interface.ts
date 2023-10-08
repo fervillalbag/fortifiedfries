@@ -1,5 +1,17 @@
 export interface CategoryProps {
-  id: number;
+  _id: string;
   name: string;
-  created_at: Date;
+  description: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SubCategoryProps {
+  _id: string;
+  name: string;
+  category: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

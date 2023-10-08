@@ -50,8 +50,8 @@ export default function Hashtag() {
       <div className="h-full">
         <HeaderLoader imgCmp={CreatePostHeader} />
 
-        <div className="flex flex-col justify-between px-5 py-7 h-[calc(100%_-_200px)]">
-          <Layout>
+        <Layout>
+          <div>
             <h3 className="mb-3 text-lg text-@sura-primary-900">
               Etiquetas
             </h3>
@@ -95,7 +95,7 @@ export default function Hashtag() {
                 </div>
               ))}
             </div>
-          </Layout>
+          </div>
 
           <div>
             <DotStep value={6} count={7} />
@@ -111,7 +111,7 @@ export default function Hashtag() {
               <Button onClick={handleNext}>Siguiente</Button>
             </div>
           </div>
-        </div>
+        </Layout>
       </div>
     </div>
   );

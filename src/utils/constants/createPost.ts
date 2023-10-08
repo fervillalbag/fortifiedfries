@@ -4,6 +4,7 @@ export const initialValueCreatePost = {
   name: "",
   status: "",
   category: "",
+  subCategory: "",
   details: "",
   images: [],
   tags: [],

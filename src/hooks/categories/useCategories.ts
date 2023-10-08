@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "../../services/categories";
-
-export type CategoryProps = {
-  id: number;
-  name: string;
-};
+import { getCategories, getSubCategories } from "../../services";
 
 export const useCategories = () => {
-  const queryCategory = useQuery(["user"], getAllCategories);
-  return { queryCategory };
+  const queryCategory = useQuery(["categories"], getCategories);
+  return queryCategory;
+};
+
+export const useSubCategories = (id: string) => {
+  const querySubCategory = useQuery(["sub-categories", id], () =>
+    getSubCategories(id)
+  );
+  return querySubCategory;
 };
