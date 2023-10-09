@@ -56,6 +56,9 @@ dependencies:
   framer-motion:
     specifier: ^10.15.1
     version: 10.16.2(react-dom@18.2.0)(react@18.2.0)
+  jwt-decode:
+    specifier: ^3.1.2
+    version: 3.1.2
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -8399,6 +8402,10 @@ packages:
       json-schema: 0.4.0
       verror: 1.10.0
     dev: true
+
+  /jwt-decode@3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
+    dev: false
 
   /keyv@4.5.3:
     resolution: {integrity: sha512-QCiSav9WaX1PgETJ+SpNnx2PRRapJ/oRSXM4VO5OGYGSjrxbKPVFVhB3l2OCbLCk329N8qyAtsJjSjvVBWzEug==}

@@ -7,3 +7,5 @@ export {
   getProductsPromotions,
 } from "./product";
 export { getCategories, getSubCategories } from "./categories";
+export { getCurrency } from "./currency";
+export { getTypeProduct } from "./type-product";
