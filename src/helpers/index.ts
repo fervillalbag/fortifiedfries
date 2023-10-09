@@ -1,0 +1,1 @@
+export { getDataFromToken } from "./token";

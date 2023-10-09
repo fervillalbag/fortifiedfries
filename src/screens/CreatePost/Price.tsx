@@ -3,86 +3,78 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { NumericFormat } from "react-number-format";
 import { Formik } from "formik";
+import { toast } from "react-hot-toast";
 
 import { useHeight, useLocalStorageState } from "../../hooks";
+import { useSaleStatus } from "../../hooks/sale-status";
+import { useTypeProduct } from "../../hooks/type-product";
+import { useCurrency } from "../../hooks/currency";
 import { HeaderLoader } from "../../components";
 import { DotStep } from "../../components/Auth";
-import { Button, Input, Text, buttonVariants } from "../../ui";
 import { Layout } from "../../components/CreatePost";
-import { client } from "../../../supabase/client";
+import { Button, Input, Text, buttonVariants } from "../../ui";
+import { SURA_CREATE_POST_INFO } from "../../utils/constants";
+import { SURA_AUTH_TOKEN } from "../../utils/constants/auth";
+import { getDataFromToken } from "../../helpers";
 
 import CreatePostHeader from "../../assets/images/create-post-price.png";
-import { SURA_CREATE_POST_INFO } from "../../utils/constants";
-import { toast } from "react-hot-toast";
 
 const validationSchemaPrice = yup.object().shape({
   price: yup.string().required("El campo es obligatorio"),
 });
 
+const PRICE_LIMIT = 1000000000;
+const PRICE_MIN = 10000;
+
 export default function Hashtag() {
-  const navigate = useNavigate();
-  const styleHeight = useHeight();
-
-  const [currency] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const [errorMessage, setErrorMessage] = useState<null | string>(
-    null
-  );
+  const [{ token }] = useLocalStorageState({
+    key: SURA_AUTH_TOKEN,
+  });
 
   const [value, handleUpdate] = useLocalStorageState({
     key: SURA_CREATE_POST_INFO,
   });
 
+  const navigate = useNavigate();
+  const styleHeight = useHeight();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const querySaleStatus = useSaleStatus("available");
+  const queryCurrency = useCurrency("guaranies");
+  const queryTypeProduct = useTypeProduct("product");
+  const user: any = getDataFromToken(token);
+
+  // @ts-ignore
+  const [errorMessage, setErrorMessage] = useState<null | string>(
+    null
+  );
+
   const handleNext = async (values: any) => {
     setLoading(true);
+    if (!user || typeof user !== "object" || !user.id) {
+      toast.error("Usuario no encontrado");
+      return;
+    }
 
     const priceValue = +values.price
       .split("Gs. ")[1]
       .replaceAll(",", "");
     handleUpdate({ price: values.price });
 
-    if (priceValue >= 1000000000) {
+    if (priceValue >= PRICE_LIMIT) {
       setLoading(false);
-      toast.custom((t) => (
-        <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } w-10/12 flex items-center gap-4 bg-white p-3 rounded-md justify-center`}
-        >
-          <span className="block text-center text-@sura-primary-900">
-            ⚠️ El precio no puede ser mayor a{" "}
-            <span className="font-bold text-@sura-primary-700">
-              1.000.000.000
-            </span>
-          </span>
-        </div>
-      ));
+      toast("El precio no puede ser mayor a\nGs. 1.000.000.000", {
+        icon: "⚠️",
+      });
       return;
     }
 
-    const { data, error } = await client.auth.getUser();
-    if (error) {
-      toast.error("Ha ocurrido un error");
-      return;
-    }
-
-    const { data: dataUser, error: errorUser } = await client
-      .from("Personal")
-      .select("*")
-      .eq("email", data.user.email)
-      .single();
-
-    if (errorUser) {
-      toast.error("Ha ocurrido un error");
-      return;
-    }
-
-    if (priceValue < 5000) {
-      setErrorMessage(
-        "El precio es muy bajo. Debe ser superior a Gs. 5.000"
-      );
+    if (priceValue <= PRICE_MIN) {
       setLoading(false);
+      toast("El precio no puede ser menor a\nGs. 10.000", {
+        icon: "⚠️",
+      });
       return;
     }
 
@@ -90,32 +82,22 @@ export default function Hashtag() {
       title: value.name,
       description: value.details,
       price: priceValue,
-      category: +value.category,
+      category: value.category,
       images: value.images,
       tags: value.tags,
-      type: 3,
-      status: +value.status,
-      saleStatus: 2,
-      typeAd: null,
-      owner: dataUser.id,
+      type: queryTypeProduct.data._id,
+      status: value.status,
+      saleStatus: querySaleStatus.data._id,
+      typeAd: [],
+      owner: user.id,
       quantityType: 1,
-      currency,
+      currency: queryCurrency.data._id,
     };
 
-    const { status } = await client
-      .from("Product")
-      .insert(productData);
-
-    if (status === 201) {
-      toast.success("Producto publicado correctamente");
-      setErrorMessage(null);
-      navigate("/home");
-      setLoading(false);
-      return;
-    }
+    console.log(productData);
+    return;
 
     setLoading(false);
-    console.log("Hubo un problema");
   };
 
   return (

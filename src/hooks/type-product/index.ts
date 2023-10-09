@@ -1,0 +1,1 @@
+export { useTypeProduct } from "./useTypeProduct";

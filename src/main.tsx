@@ -20,7 +20,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <NavbarProvider>
         <AuthenticatedProvider>
           <App />
-          <Toaster position="top-center" reverseOrder={false} />
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            containerStyle={{
+              textAlign: "center",
+            }}
+          />
         </AuthenticatedProvider>
       </NavbarProvider>
     </AnimatePresence>
