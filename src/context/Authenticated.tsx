@@ -1,5 +1,6 @@
-import { useState, createContext, useEffect } from "react";
-import { client } from "../../supabase/client";
+import { useState, createContext } from "react";
+import { useLocalStorageState } from "../hooks";
+import { SURA_AUTH_TOKEN } from "../utils/constants/auth";
 
 export const AuthenticatedContext = createContext<any>(null);
 
@@ -10,29 +11,17 @@ interface AuthenticatedProps {
 export default function AuthenticatedProvider({
   children,
 }: AuthenticatedProps) {
+  const [value] = useLocalStorageState({
+    key: SURA_AUTH_TOKEN,
+  });
+
   const [isAuthenticated, setIsAuthenticated] = useState<
     boolean | null
-  >(null);
-  const [isLogged, setIsLogged] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await client.auth.getSession();
-
-      if (data.session?.access_token) {
-        setIsAuthenticated(true);
-        return;
-      }
-
-      setIsAuthenticated(false);
-    })();
-  }, []);
+  >(value.token ? true : false);
 
   return (
     <AuthenticatedContext.Provider
       value={{
-        isLogged,
-        setIsLogged,
         isAuthenticated,
         setIsAuthenticated,
       }}

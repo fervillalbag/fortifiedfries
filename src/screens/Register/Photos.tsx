@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { m } from "framer-motion";
 
@@ -6,7 +5,6 @@ import { Button, Text } from "../../ui";
 import { Footer as FooterAuth } from "../../components/Auth";
 import { authStepAnimation } from "../../utils/animation";
 import { useHeight, useLocalStorageState } from "../../hooks";
-import { AuthenticatedContext } from "../../context";
 import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 
 export default function Photos() {
@@ -14,7 +12,6 @@ export default function Photos() {
   const styleHeight = useHeight();
   const { state } = useLocation();
 
-  const { setIsLogged } = useContext(AuthenticatedContext);
   const [] = useLocalStorageState({
     key: SURA_AUTH_REGISTER_INFO,
   });
@@ -22,7 +19,6 @@ export default function Photos() {
   const handleComplete = async () => {
     try {
       localStorage.setItem("AUTH", true.toString());
-      setIsLogged(true);
       navigate("/home");
     } catch (error) {
       console.log(error);

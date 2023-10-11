@@ -9,9 +9,24 @@ export const getProducts = async () => {
   }
 };
 
-export const getProductsPromotions = async (ad: string): Promise<any> => {
+export const getProductsPromotions = async (
+  ad: string
+): Promise<any> => {
   try {
     const products = axios.get(`/product/ad/${ad}`);
+    return products;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const createProduct = async (data: any): Promise<any> => {
+  try {
+    const products = axios({
+      method: "POST",
+      url: "/product",
+      data: JSON.stringify(data),
+    });
     return products;
   } catch (error) {
     throw new Error(error as string);
