@@ -58,7 +58,7 @@ export default function Details() {
       transition={transitionLayoutPage}
       className="p-5"
     >
-      <div className="grid gap-x-4 grid-cols-[max-content_1fr] items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-screen fixed bottom-0 left-0 bg-white h-[94px]">
+      <div className="grid gap-x-4 grid-cols-[max-content_1fr] items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-screen fixed bottom-0 left-0 bg-white h-[90px]">
         <Button className="h-12 w-[146px]">Comprar</Button>
         <div className="flex flex-col items-end">
           <div className="relative w-full">
@@ -237,7 +237,7 @@ export default function Details() {
           avatar={product?.owner.avatar}
         />
 
-        <div className="bg-transparent h-[94px]" aria-hidden="true" />
+        <div className="bg-transparent h-[90px]" aria-hidden="true" />
       </div>
     </m.div>
   );

@@ -18,6 +18,7 @@ import { SURA_AUTH_TOKEN } from "../../utils/constants/auth";
 import { getDataFromToken } from "../../helpers";
 
 import CreatePostHeader from "../../assets/images/create-post-price.png";
+import { createProduct } from "../../services";
 
 const validationSchemaPrice = yup.object().shape({
   price: yup.string().required("El campo es obligatorio"),
@@ -44,6 +45,8 @@ export default function Hashtag() {
   const queryCurrency = useCurrency("guaranies");
   const queryTypeProduct = useTypeProduct("product");
   const user: any = getDataFromToken(token);
+
+  console.log(queryCurrency);
 
   // @ts-ignore
   const [errorMessage, setErrorMessage] = useState<null | string>(
@@ -83,16 +86,21 @@ export default function Hashtag() {
       description: value.details,
       price: priceValue,
       category: value.category,
+      subCategory: value.subCategory,
       images: value.images,
       tags: value.tags,
       type: queryTypeProduct.data._id,
-      status: value.status,
+      statusProduct: value.status,
       saleStatus: querySaleStatus.data._id,
-      typeAd: [],
+      ad: [],
       owner: user.id,
-      quantityType: 1,
+      measureType: "unit",
+      // quantityType: 1,
       currency: queryCurrency.data._id,
     };
+
+    const response = await createProduct(productData);
+    console.log(response);
 
     console.log(productData);
     return;
