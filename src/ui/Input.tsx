@@ -27,6 +27,7 @@ export const inputVariants = cva(
       variant: {
         default: "h-16",
         md: "h-14",
+        gray: "bg-red-500",
       },
     },
     defaultVariants: {

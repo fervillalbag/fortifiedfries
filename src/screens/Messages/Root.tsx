@@ -29,7 +29,7 @@ export default function Root() {
           <input
             ref={inputRef}
             placeholder="Buscar mensajes"
-            className="pl-10 border-2 text-@sura-primary-900 placeholder:text-@sura-primary-800 bg-@sura-primary-100/60 rounded-md bg-white h-[54px] w-full focus-visible:outline-@sura-primary-200"
+            className="pl-10 h-[54px] w-full bg-@sura-primary-100/60 rounded-md text-@sura-primary-500 placeholder:text-@sura-primary-500 focus-visible:outline-@sura-primary-100/50"
           />
         </div>
       </div>
