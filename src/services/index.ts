@@ -11,5 +11,5 @@ export {
 } from "./product";
 
 export { getCategories, getSubCategories } from "./categories";
-export { getCurrency } from "./currency";
+export { getCurrency, getCurrencies } from "./currency";
 export { getTypeProduct } from "./type-product";

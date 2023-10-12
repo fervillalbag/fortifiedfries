@@ -143,3 +143,7 @@
     transform: rotate(360deg);
   }
 }
+
+.price-container-input > div {
+  width: 100% !important;
+}

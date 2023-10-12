@@ -34,7 +34,7 @@ export default function Details() {
     if (data && data.data.images.length > 0) {
       setPrincipalImageSelected(data.data.images[0]);
     }
-  }, [queryProductDetail]);
+  }, [queryProductDetail.isSuccess]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -65,7 +65,7 @@ export default function Details() {
             <div className="flex justify-end absolute top-0 right-0 bg-transparent z-10 w-full h-full" />
             <NumericFormat
               className="text-right text-xl w-full font-bold text-@sura-primary-800"
-              prefix={`${product.currency.value}. `}
+              prefix={`${product.currency.value} `}
               value={product.price}
               thousandSeparator={true}
             />

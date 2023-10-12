@@ -1,1 +1,1 @@
-export { useCurrency } from "./useCurrency";
+export { useCurrency, useCurrencies } from "./useCurrency";
