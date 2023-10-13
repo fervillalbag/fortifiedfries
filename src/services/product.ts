@@ -50,3 +50,12 @@ export const getProductSearch = async (value: string) => {
     throw new Error(error as string);
   }
 };
+
+export const getProductsByUser = async (user: string) => {
+  try {
+    const product = await axios.get(`product/user/${user}`);
+    return product;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};

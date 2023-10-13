@@ -1,25 +1,35 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { LineLoader } from "../../components/Loader";
 import { Layout } from "../../components";
-
-import VerifiedIcon from "../../assets/icons/verified-icon.svg";
 import { useGetUser } from "../../hooks/user";
 import { getDataFromToken } from "../../helpers";
 import { useLocalStorageState } from "../../hooks";
 import { SURA_AUTH_TOKEN } from "../../utils/constants/auth";
+import { Button } from "../../ui";
+
+import VerifiedIcon from "../../assets/icons/verified-icon.svg";
+import { useProductsByUser } from "../../hooks/products";
+import { CardProduct, LoaderHome } from "../../components/Home";
+import { ProductProps } from "../../interface";
 
 export default function Root() {
   const navigate = useNavigate();
+
   const [{ token }] = useLocalStorageState({
     key: SURA_AUTH_TOKEN,
   });
+  const [viewSelected, setViewSelected] = useState<string>("posts");
 
   const userCredential: any = getDataFromToken(token);
   const { data, isError, isLoading } = useGetUser(
     "_id",
     userCredential.id as string
   );
+
+  const queryProduct = useProductsByUser(userCredential.id);
+  console.log(queryProduct.data);
 
   if (isLoading) return <div>cargando..</div>;
   if (isError) return <div>error..</div>;
@@ -47,7 +57,7 @@ export default function Root() {
       </div>
 
       <div className="relative">
-        <div className="px-5 pb-5 -translate-y-[45px]">
+        <div className="px-5 pb-5 -mt-[45px]">
           <button className="mb-2 w-[90px] h-[90px] border border-@sura-primary-100 shadow-@sura-primary-500/10 bg-white rounded-md grid place-items-center">
             <svg
               width="23"
@@ -83,6 +93,63 @@ export default function Root() {
             </div>
           ) : (
             <p className="text-@sura-primary-400">@{data.username}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="px-5">
+        <div className="flex w-full gap-x-3 mb-4">
+          <Button
+            className={`focus:ring-transparent font-medium p-0 bg-white border-0 w-max h-auto ${
+              viewSelected === "posts"
+                ? "text-@sura-primary-900"
+                : "text-@sura-primary-200"
+            }`}
+            onClick={() => setViewSelected("posts")}
+          >
+            Productos publicados
+          </Button>
+          <Button
+            className={`focus:ring-transparent font-medium p-0 bg-white border-0 w-max h-auto ${
+              viewSelected === "saves"
+                ? "text-@sura-primary-900"
+                : "text-@sura-primary-200"
+            }`}
+            onClick={() => setViewSelected("saves")}
+          >
+            Guardados
+          </Button>
+        </div>
+
+        <div className="pb-6">
+          {viewSelected === "posts" ? (
+            <div className="mt-3">
+              {queryProduct.isLoading ? (
+                <LoaderHome />
+              ) : queryProduct.data ? (
+                <div className="grid grid-cols-2 gap-x-3 gap-y-4 overflow-x-auto hide-scrollbar">
+                  {queryProduct.data.data.map(
+                    (product: ProductProps, index: number) => (
+                      <CardProduct
+                        index={index}
+                        key={product._id}
+                        width="full"
+                        typeAd={0}
+                        title={product.title}
+                        currency={product.currency.value}
+                        id={product._id}
+                        images={product.images}
+                        price={product.price}
+                      />
+                    )
+                  )}
+                </div>
+              ) : (
+                <div>error</div>
+              )}
+            </div>
+          ) : (
+            <div>guardados</div>
           )}
         </div>
       </div>
