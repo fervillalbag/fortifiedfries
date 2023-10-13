@@ -1,52 +1,54 @@
 import { useNavigate } from "react-router-dom";
 
-// import { LineLoader } from "../../components/Loader";
+import { LineLoader } from "../../components/Loader";
 import { Layout } from "../../components";
-// import { useUser } from "../../hooks/user";
 
-import SettingIcon from "../../assets/icons/settings-icon.svg";
-// import VerifiedIcon from "../../assets/icons/verified-icon.svg";
-import { Text } from "../../ui";
+import VerifiedIcon from "../../assets/icons/verified-icon.svg";
+import { useGetUser } from "../../hooks/user";
+import { getDataFromToken } from "../../helpers";
+import { useLocalStorageState } from "../../hooks";
+import { SURA_AUTH_TOKEN } from "../../utils/constants/auth";
 
 export default function Root() {
   const navigate = useNavigate();
-  // const { queryUser } = useUser();
+  const [{ token }] = useLocalStorageState({
+    key: SURA_AUTH_TOKEN,
+  });
+
+  const userCredential: any = getDataFromToken(token);
+  const { data, isError, isLoading } = useGetUser(
+    "_id",
+    userCredential.id as string
+  );
+
+  if (isLoading) return <div>cargando..</div>;
+  if (isError) return <div>error..</div>;
 
   return (
     <Layout>
-      <div className="p-5">
-        <div className="flex py-5 items-center justify-between">
-          <div>
-            <Text className="text-4xl text-@sura-primary-900">
-              {/* {queryUser.data?.fullname ? (
-                <>
-                  <span className="block mb-2">
-                    {queryUser.data.fullname.split(" ")[0]}
-                  </span>
-                  <span className="block">
-                    {queryUser.data.fullname.split(" ")[1]}
-                  </span>
-                </>
-              ) : (
-                <div></div>
-              )} */}
-            </Text>
-          </div>
-
-          <button
-            onClick={() => navigate("/settings")}
-            className="self-start z-20 top-5 focus:ring-1 focus:ring-offset-2 right-5 w-12 h-12 bg-transparent border-@sura-primary-900 border rounded-md grid place-items-center"
+      <div className="relative h-[120px] bg-[url('https://shorturl.at/xzJU2')]">
+        <button
+          className="absolute top-5 right-5 grid place-items-center w-12 h-12 rounded-md bg-@sura-primary-900"
+          onClick={() => navigate("/settings")}
+        >
+          <svg
+            width="19"
+            height="18"
+            viewBox="0 0 19 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <img src={SettingIcon} alt="" />
-          </button>
-        </div>
+            <path
+              d="M6.57 18L6.21 15.12C6.015 15.045 5.8311 14.955 5.6583 14.85C5.4855 14.745 5.3169 14.6325 5.1525 14.5125L2.475 15.6375L0 11.3625L2.3175 9.6075C2.3025 9.5025 2.295 9.4011 2.295 9.3033V8.6967C2.295 8.5989 2.3025 8.4975 2.3175 8.3925L0 6.6375L2.475 2.3625L5.1525 3.4875C5.3175 3.3675 5.49 3.255 5.67 3.15C5.85 3.045 6.03 2.955 6.21 2.88L6.57 0H11.52L11.88 2.88C12.075 2.955 12.2589 3.045 12.4317 3.15C12.6045 3.255 12.7731 3.3675 12.9375 3.4875L15.615 2.3625L18.09 6.6375L15.7725 8.3925C15.7875 8.4975 15.795 8.5989 15.795 8.6967V9.3033C15.795 9.4011 15.78 9.5025 15.75 9.6075L18.0675 11.3625L15.5925 15.6375L12.9375 14.5125C12.7725 14.6325 12.6 14.745 12.42 14.85C12.24 14.955 12.06 15.045 11.88 15.12L11.52 18H6.57ZM9.09 12.15C9.96 12.15 10.7025 11.8425 11.3175 11.2275C11.9325 10.6125 12.24 9.87 12.24 9C12.24 8.13 11.9325 7.3875 11.3175 6.7725C10.7025 6.1575 9.96 5.85 9.09 5.85C8.205 5.85 7.4586 6.1575 6.8508 6.7725C6.243 7.3875 5.9394 8.13 5.94 9C5.94 9.87 6.2436 10.6125 6.8508 11.2275C7.458 11.8425 8.2044 12.15 9.09 12.15Z"
+              fill="white"
+            />
+          </svg>
+        </button>
       </div>
-
-      {/* <div className="relative h-[120px] bg-[url('https://shorturl.at/xzJU2')]"></div>
 
       <div className="relative">
         <div className="px-5 pb-5 -translate-y-[45px]">
-          <button className="mb-2 w-[90px] h-[90px] shadow-md shadow-@sura-primary-500/10 bg-white rounded-md grid place-items-center">
+          <button className="mb-2 w-[90px] h-[90px] border border-@sura-primary-100 shadow-@sura-primary-500/10 bg-white rounded-md grid place-items-center">
             <svg
               width="23"
               height="32"
@@ -61,35 +63,29 @@ export default function Root() {
             </svg>
           </button>
 
-          {queryUser.isLoading ? (
+          {isLoading ? (
             <div className="h-7 flex items-center">
               <LineLoader width={120} height={16} />
             </div>
           ) : (
             <div className="flex items-center gap-1 ">
               <p className="text-xl font-medium text-@sura-primary-900">
-                {queryUser.data.fullname ? (
-                  queryUser.data.fullname
-                ) : (
-                  <div></div>
-                )}
+                {data.fullname ? data.fullname : <div></div>}
               </p>
               <div>
                 <img src={VerifiedIcon} alt="" />
               </div>
             </div>
           )}
-          {queryUser.isLoading ? (
+          {isLoading ? (
             <div className="h-6 flex items-center">
               <LineLoader width={90} height={14} />
             </div>
           ) : (
-            <p className="text-@sura-primary-400">
-              @{queryUser.data.username}
-            </p>
+            <p className="text-@sura-primary-400">@{data.username}</p>
           )}
         </div>
-      </div> */}
+      </div>
     </Layout>
   );
 }

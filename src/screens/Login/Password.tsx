@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
@@ -17,6 +17,7 @@ import { authStepAnimation } from "../../utils/animation";
 import { SURA_AUTH_REGISTER_INFO } from "../../utils/constants";
 import { login } from "../../services/user";
 import { SURA_AUTH_TOKEN } from "../../utils/constants/auth";
+import { AuthenticatedContext } from "../../context";
 
 const registerValidationSchema = yup.object().shape({
   password: yup.string().required("La contrasena es obligatorio"),
@@ -24,6 +25,7 @@ const registerValidationSchema = yup.object().shape({
 
 const Password: React.FC = () => {
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useContext(AuthenticatedContext);
 
   const [value] = useLocalStorageState({
     key: SURA_AUTH_REGISTER_INFO,
@@ -51,8 +53,10 @@ const Password: React.FC = () => {
       if (response.token) {
         const token = JSON.stringify({ token: response.token });
         localStorage.setItem(SURA_AUTH_TOKEN, token);
-        navigate("/home");
+        localStorage.removeItem(SURA_AUTH_REGISTER_INFO);
+        setIsAuthenticated(true);
         toast.success("Cuenta creada correctamente");
+        navigate("/home");
         return;
       }
     } catch (error) {

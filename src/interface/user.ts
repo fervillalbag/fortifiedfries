@@ -33,3 +33,10 @@ export interface LoginProps {
   email: string;
   password: string;
 }
+
+export interface LocalUserProps {
+  id: string;
+  exp: number;
+  email: string;
+  iat: number;
+}

@@ -1,30 +1,38 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useContext } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  // redirect,
+} from "react-router-dom";
 
-import { NotFound } from "../screens";
+// import { NotFound } from "../screens";
 import {
   LIST_ROUTES_AUTHENTICATED,
   LIST_ROUTES_UNAUTHENTICATED,
 } from "./list";
-import { useLocalStorageState } from "../hooks";
-import { SURA_AUTH_TOKEN } from "../utils/constants/auth";
+import { AuthenticatedContext } from "../context";
 
 export default function AppRoute() {
-  const [value] = useLocalStorageState({
-    key: SURA_AUTH_TOKEN,
-  });
+  const { isAuthenticated } = useContext(AuthenticatedContext);
+
+  // useEffect(() => {
+  //   const path = isAuthenticated ? "/home" : "/";
+  //   redirect(path);
+  // }, [isAuthenticated]);
 
   return (
     <BrowserRouter>
       <Routes>
-        {!value.token
-          ? LIST_ROUTES_UNAUTHENTICATED.map((route) => (
+        {isAuthenticated
+          ? LIST_ROUTES_AUTHENTICATED.map((route) => (
               <Route
                 key={route.id}
                 path={route.path}
                 element={<route.component />}
               />
             ))
-          : LIST_ROUTES_AUTHENTICATED.map((route) => (
+          : LIST_ROUTES_UNAUTHENTICATED.map((route) => (
               <Route
                 key={route.id}
                 path={route.path}
@@ -32,7 +40,7 @@ export default function AppRoute() {
               />
             ))}
 
-        <Route path="*" element={<NotFound />} />
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </BrowserRouter>
   );
