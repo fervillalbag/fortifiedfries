@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate, redirect } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 import { Text } from "../ui";
 import { useHeight, useLocalStorageState } from "../hooks";
@@ -10,7 +10,7 @@ const NotFound: React.FC = () => {
     key: SURA_AUTH_TOKEN,
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const stylesHeight = useHeight();
 
   useEffect(() => {
