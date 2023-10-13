@@ -3,10 +3,9 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  // redirect,
 } from "react-router-dom";
 
-// import { NotFound } from "../screens";
+import { NotFound } from "../screens";
 import {
   LIST_ROUTES_AUTHENTICATED,
   LIST_ROUTES_UNAUTHENTICATED,
@@ -15,11 +14,6 @@ import { AuthenticatedContext } from "../context";
 
 export default function AppRoute() {
   const { isAuthenticated } = useContext(AuthenticatedContext);
-
-  // useEffect(() => {
-  //   const path = isAuthenticated ? "/home" : "/";
-  //   redirect(path);
-  // }, [isAuthenticated]);
 
   return (
     <BrowserRouter>
@@ -40,7 +34,7 @@ export default function AppRoute() {
               />
             ))}
 
-        {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
