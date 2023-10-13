@@ -7,7 +7,7 @@ import { useGetUser } from "../../hooks/user";
 import { getDataFromToken } from "../../helpers";
 import { useLocalStorageState } from "../../hooks";
 import { SURA_AUTH_TOKEN } from "../../utils/constants/auth";
-import { Button } from "../../ui";
+import { Button, Text } from "../../ui";
 
 import VerifiedIcon from "../../assets/icons/verified-icon.svg";
 import { useProductsByUser } from "../../hooks/products";
@@ -125,27 +125,31 @@ export default function Root() {
           {viewSelected === "posts" ? (
             <div className="mt-3">
               {queryProduct.isLoading ? (
-                <LoaderHome />
-              ) : queryProduct.data ? (
-                <div className="grid grid-cols-2 gap-x-3 gap-y-4 overflow-x-auto hide-scrollbar">
-                  {queryProduct.data.data.map(
-                    (product: ProductProps, index: number) => (
-                      <CardProduct
-                        index={index}
-                        key={product._id}
-                        width="full"
-                        typeAd={0}
-                        title={product.title}
-                        currency={product.currency.value}
-                        id={product._id}
-                        images={product.images}
-                        price={product.price}
-                      />
-                    )
-                  )}
-                </div>
-              ) : (
+                <LoaderHome padding={false} />
+              ) : queryProduct.isError ? (
                 <div>error</div>
+              ) : queryProduct.data.data.length === 0 ? (
+                <Text>No existen productos publicados</Text>
+              ) : (
+                queryProduct.data && (
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-4 overflow-x-auto hide-scrollbar">
+                    {queryProduct.data.data.map(
+                      (product: ProductProps, index: number) => (
+                        <CardProduct
+                          index={index}
+                          key={product._id}
+                          width="full"
+                          typeAd={0}
+                          title={product.title}
+                          currency={product.currency.value}
+                          id={product._id}
+                          images={product.images}
+                          price={product.price}
+                        />
+                      )
+                    )}
+                  </div>
+                )
               )}
             </div>
           ) : (
