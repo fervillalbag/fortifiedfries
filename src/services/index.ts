@@ -8,6 +8,7 @@ export {
   getProducts,
   getProductsPromotions,
   createProduct,
+  getProductsByUser,
 } from "./product";
 
 export { getCategories, getSubCategories } from "./categories";

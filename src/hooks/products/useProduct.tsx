@@ -5,6 +5,7 @@ import {
   getProductDetail,
   getProductSearch,
   getProducts,
+  getProductsByUser,
   getProductsPromotions,
 } from "../../services";
 
@@ -56,4 +57,12 @@ export const useProductsPromotions = (ad: string) => {
     getProductsPromotions(ad)
   );
   return { queryProduct };
+};
+
+export const useProductsByUser = (user: string) => {
+  const queryProductByUser = useQuery(
+    ["productsPromotions", user],
+    () => getProductsByUser(user)
+  );
+  return queryProductByUser;
 };

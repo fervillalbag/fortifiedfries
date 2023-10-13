@@ -9,7 +9,14 @@ export default function Recents() {
   const { queryProduct: query } = useProducts();
   const products = query?.data;
 
-  const productLimit = products ? products.data.slice(0, 6) : [];
+  const productsSorted = products?.data.sort(
+    (a: ProductProps, b: ProductProps) =>
+      new Date(b.createdAt).getTime() -
+      new Date(a.createdAt).getTime()
+  );
+  const productLimit = productsSorted
+    ? productsSorted.slice(0, 6)
+    : [];
 
   return (
     <div>

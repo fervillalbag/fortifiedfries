@@ -16,4 +16,5 @@ export type ProductProps = {
     value: string;
   };
   price: number;
+  createdAt: Date;
 };
