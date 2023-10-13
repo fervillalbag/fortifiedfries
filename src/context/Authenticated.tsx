@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { useLocalStorageState } from "../hooks";
 import { SURA_AUTH_TOKEN } from "../utils/constants/auth";
 
@@ -17,13 +17,23 @@ export default function AuthenticatedProvider({
 
   const [isAuthenticated, setIsAuthenticated] = useState<
     boolean | null
-  >(value.token ? true : false);
+  >(value?.token ? true : false);
+
+  useEffect(() => {
+    setIsAuthenticated(value?.token ? true : false);
+  }, [value]);
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem(SURA_AUTH_TOKEN);
+  };
 
   return (
     <AuthenticatedContext.Provider
       value={{
         isAuthenticated,
         setIsAuthenticated,
+        logout,
       }}
     >
       {children}
