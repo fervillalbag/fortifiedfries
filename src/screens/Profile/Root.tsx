@@ -29,7 +29,6 @@ export default function Root() {
   );
 
   const queryProduct = useProductsByUser(userCredential.id);
-  console.log(queryProduct.data);
 
   if (isLoading) return <div>cargando..</div>;
   if (isError) return <div>error..</div>;
