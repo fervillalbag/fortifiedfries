@@ -6,7 +6,7 @@ import { NumericFormat } from "react-number-format";
 
 import BtnBack from "../../components/BtnBack";
 import Loader from "../../components/Product/Details/Loader";
-import { DetailsSeller } from "../../components/Product";
+import { DetailsSeller, ModalBuy } from "../../components/Product";
 import { transitionLayoutPage } from "../../utils/animation";
 import { useProductDetail } from "../../hooks/products";
 import { Button, Text, textVariants } from "../../ui";
@@ -14,6 +14,8 @@ import { Button, Text, textVariants } from "../../ui";
 export default function Details() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [showModalBuy, setShowModalBuy] = useState<boolean>(false);
 
   const { queryProduct: queryProductDetail } = useProductDetail(id!);
 
@@ -58,8 +60,17 @@ export default function Details() {
       transition={transitionLayoutPage}
       className="p-5"
     >
+      {showModalBuy && (
+        <ModalBuy show={showModalBuy} setShow={setShowModalBuy} />
+      )}
+
       <div className="grid gap-x-4 grid-cols-[max-content_1fr] items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-screen fixed bottom-0 left-0 bg-white h-[90px]">
-        <Button className="h-12 w-[146px]">Comprar</Button>
+        <Button
+          className="h-12 w-[146px]"
+          onClick={() => setShowModalBuy(true)}
+        >
+          Comprar
+        </Button>
         <div className="flex flex-col items-end">
           <div className="relative w-full">
             <div className="flex justify-end absolute top-0 right-0 bg-transparent z-10 w-full h-full" />
