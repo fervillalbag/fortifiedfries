@@ -8,7 +8,7 @@ export default function Header() {
       >
         <div className="w-full flex items-center justify-between">
           <button className="flex items-center">
-            <Text className="font-[Cantarell] text-2xl uppercase font-bold text-@sura-primary-900">
+            <Text className="font-[Poppins] text-2xl uppercase font-semibold text-@sura-primary-900">
               Sura<span className="font-normal lowercase">.sh</span>
             </Text>
           </button>

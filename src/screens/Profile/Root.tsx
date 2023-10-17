@@ -99,23 +99,33 @@ export default function Root() {
       <div className="px-5">
         <div className="flex w-full gap-x-3 mb-4">
           <Button
-            className={`focus:ring-transparent font-medium border-0 rounded-none border-b-2 p-0 bg-white w-max h-auto ${
+            className={`focus:ring-transparent relative font-medium border-0 rounded-none p-0 bg-white w-max h-auto ${
               viewSelected === "posts"
-                ? "text-@sura-primary-900 border-@sura-primary-900"
-                : "text-@sura-primary-200 border-transparent"
+                ? "text-@sura-primary-900"
+                : "text-@sura-primary-200"
             }`}
             onClick={() => setViewSelected("posts")}
           >
+            <div
+              className={`absolute bottom-0 left-0 h-[2px] w-10 bg-@sura-primary-900 ${
+                viewSelected === "posts" ? "block" : "hidden"
+              }`}
+            />
             Productos publicados
           </Button>
           <Button
-            className={`focus:ring-transparent font-medium border-0 rounded-none border-b-2 p-0 bg-white w-max h-auto ${
+            className={`focus:ring-transparent relative font-medium border-0 rounded-none p-0 bg-white w-max h-auto ${
               viewSelected === "saves"
-                ? "text-@sura-primary-900 border-@sura-primary-900"
-                : "text-@sura-primary-200 border-transparent"
+                ? "text-@sura-primary-900"
+                : "text-@sura-primary-200"
             }`}
             onClick={() => setViewSelected("saves")}
           >
+            <div
+              className={`absolute bottom-0 left-0 h-[2px] w-10 bg-@sura-primary-900 ${
+                viewSelected === "saves" ? "block" : "hidden"
+              }`}
+            />
             Guardados
           </Button>
         </div>
