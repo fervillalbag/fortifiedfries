@@ -55,7 +55,6 @@ export default function ModalBuy({
         <div
           className={`fixed w-screen h-screen bg-neutral-950/50 left-0 top-0 z-40`}
           onClick={() => {
-            console.log("hello");
             setShow(false);
           }}
         ></div>
