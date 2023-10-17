@@ -99,20 +99,20 @@ export default function Root() {
       <div className="px-5">
         <div className="flex w-full gap-x-3 mb-4">
           <Button
-            className={`focus:ring-transparent font-medium p-0 bg-white border-0 w-max h-auto ${
+            className={`focus:ring-transparent font-medium border-0 rounded-none border-b-2 p-0 bg-white w-max h-auto ${
               viewSelected === "posts"
-                ? "text-@sura-primary-900"
-                : "text-@sura-primary-200"
+                ? "text-@sura-primary-900 border-@sura-primary-900"
+                : "text-@sura-primary-200 border-transparent"
             }`}
             onClick={() => setViewSelected("posts")}
           >
             Productos publicados
           </Button>
           <Button
-            className={`focus:ring-transparent font-medium p-0 bg-white border-0 w-max h-auto ${
+            className={`focus:ring-transparent font-medium border-0 rounded-none border-b-2 p-0 bg-white w-max h-auto ${
               viewSelected === "saves"
-                ? "text-@sura-primary-900"
-                : "text-@sura-primary-200"
+                ? "text-@sura-primary-900 border-@sura-primary-900"
+                : "text-@sura-primary-200 border-transparent"
             }`}
             onClick={() => setViewSelected("saves")}
           >

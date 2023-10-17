@@ -1,6 +1,10 @@
 import { useState, createContext, useEffect } from "react";
 import { useLocalStorageState } from "../hooks";
-import { SURA_AUTH_TOKEN } from "../utils/constants/auth";
+import {
+  SURA_AUTH_TOKEN,
+  SURA_CREDENTIALS,
+} from "../utils/constants/auth";
+import { useGetUser } from "../hooks/user";
 
 export const AuthenticatedContext = createContext<any>(null);
 
@@ -15,12 +19,19 @@ export default function AuthenticatedProvider({
     key: SURA_AUTH_TOKEN,
   });
 
+  const [localUser] = useLocalStorageState({
+    key: SURA_CREDENTIALS,
+  });
+
+  const user = useGetUser("_id", localUser.id);
+
   const [isAuthenticated, setIsAuthenticated] = useState<
     boolean | null
   >(value?.token ? true : false);
 
   useEffect(() => {
     setIsAuthenticated(value?.token ? true : false);
+    if (!value?.token) return;
   }, [value]);
 
   const logout = () => {
@@ -31,6 +42,7 @@ export default function AuthenticatedProvider({
   return (
     <AuthenticatedContext.Provider
       value={{
+        user,
         isAuthenticated,
         setIsAuthenticated,
         logout,

@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { Community, Home, Services } from "../screens";
+import { Community, Home, Services, Tickets } from "../screens";
 import {
   Principal,
   Email,
@@ -161,5 +161,10 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: Community,
     path: "/community",
+  },
+  {
+    id: nanoid(3),
+    component: Tickets,
+    path: "/tickets",
   },
 ];
