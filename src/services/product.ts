@@ -33,6 +33,18 @@ export const createProduct = async (data: any): Promise<any> => {
   }
 };
 
+export const updateProduct = async (
+  id: string,
+  data: any
+): Promise<any> => {
+  const products = axios({
+    method: "PATCH",
+    url: `/product/${id}`,
+    data: JSON.stringify(data),
+  });
+  return products;
+};
+
 export const getProductDetail = async (id: string) => {
   try {
     const product = await axios.get(`product/single?_id=${id}`);

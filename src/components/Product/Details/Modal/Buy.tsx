@@ -1,12 +1,54 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { m } from "framer-motion";
+
 import { Button } from "../../../../ui";
+import { createTicket, updateProduct } from "../../../../services";
+import { useNavigate } from "react-router-dom";
+import { useSaleStatus } from "../../../../hooks/sale-status";
+
+interface InfoToCreateTicket {
+  vendor: string;
+  buyer: string;
+  product: string;
+  status: string;
+}
 
 interface ModalBuyProps {
   show: boolean;
   setShow: (value: boolean) => void;
+  infoToCreateTicket: InfoToCreateTicket;
 }
 
-export default function ModalBuy({ show, setShow }: ModalBuyProps) {
+export default function ModalBuy({
+  show,
+  setShow,
+  infoToCreateTicket,
+}: ModalBuyProps) {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { data: saleStatus } = useSaleStatus("sold out");
+
+  const createTicketFn = async () => {
+    try {
+      setLoading(true);
+
+      await createTicket(infoToCreateTicket);
+      await updateProduct(infoToCreateTicket.product, {
+        saleStatus: saleStatus._id,
+      });
+
+      toast.success("Compra realizada!");
+      navigate("/tickets");
+    } catch (error: any) {
+      toast.error("Ha ocurrido un problema. Intentalo de nuevo");
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {show && (
@@ -35,7 +77,13 @@ export default function ModalBuy({ show, setShow }: ModalBuyProps) {
           </p>
 
           <div className="flex mt-3 items-center gap-x-3">
-            <Button className="h-14">Si, comprar</Button>
+            <Button
+              isLoading={loading}
+              className="h-14"
+              onClick={createTicketFn}
+            >
+              Si, comprar
+            </Button>
             <Button
               className="h-14"
               variant="outline"

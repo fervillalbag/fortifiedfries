@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useNavigate, useParams } from "react-router-dom";
 import { m } from "framer-motion";
@@ -10,17 +10,21 @@ import { DetailsSeller, ModalBuy } from "../../components/Product";
 import { transitionLayoutPage } from "../../utils/animation";
 import { useProductDetail } from "../../hooks/products";
 import { Button, Text, textVariants } from "../../ui";
+import { AuthenticatedContext } from "../../context";
 
 export default function Details() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const {
+    user: { data: user },
+  } = useContext(AuthenticatedContext);
+
   const [showModalBuy, setShowModalBuy] = useState<boolean>(false);
-
-  const { queryProduct: queryProductDetail } = useProductDetail(id!);
-
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
+
+  const { queryProduct: queryProductDetail } = useProductDetail(id!);
 
   useEffect(() => {
     if (
@@ -52,6 +56,13 @@ export default function Details() {
 
   const product = queryProductDetail?.data.data;
 
+  const infoToCreateTicket = {
+    vendor: product?.owner._id,
+    buyer: user._id,
+    product: product?._id,
+    status: "pending",
+  };
+
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -61,7 +72,11 @@ export default function Details() {
       className="p-5"
     >
       {showModalBuy && (
-        <ModalBuy show={showModalBuy} setShow={setShowModalBuy} />
+        <ModalBuy
+          infoToCreateTicket={infoToCreateTicket}
+          show={showModalBuy}
+          setShow={setShowModalBuy}
+        />
       )}
 
       <div className="grid gap-x-4 grid-cols-[max-content_1fr] items-center justify-between px-5 shadow-[0px_-4px_6px_0px_rgba(0,_0,_0,_0.10)] w-screen fixed bottom-0 left-0 bg-white h-[90px]">
