@@ -16,4 +16,9 @@ export { getCategories, getSubCategories } from "./categories";
 export { getCurrency, getCurrencies } from "./currency";
 export { getTypeProduct } from "./type-product";
 
-export { createTicket } from "./ticket";
+export {
+  createTicket,
+  updateTicket,
+  getTicketByUser,
+  getTicket,
+} from "./ticket";
