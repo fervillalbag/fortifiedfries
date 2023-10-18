@@ -8,3 +8,11 @@ export const createTicket = async (data: any) => {
   });
   return response;
 };
+
+export const getTicketByUser = async (userId: string) => {
+  const response = await axios({
+    method: "GET",
+    url: `/ticket/user/${userId}`,
+  });
+  return response;
+};

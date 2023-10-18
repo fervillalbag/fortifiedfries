@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
-import { AuthenticatedContext } from "../../context";
 import BackBtn from "../../components/BackBtn";
+import { AuthenticatedContext } from "../../context";
 import { Text } from "../../ui";
 import { useHeight } from "../../hooks";
 
@@ -15,8 +15,14 @@ const postsOptions = [
   },
   {
     id: 2,
-    name: "Post guardados",
+    name: "Post favoritos",
     icon: "/icons/settings-saves.svg",
+  },
+  {
+    id: 3,
+    name: "Tickets",
+    icon: "/icons/settings-ticket.svg",
+    link: "/tickets",
   },
 ];
 
@@ -52,8 +58,13 @@ const legalOptions = [
 ];
 
 const ButtonOption: React.FC<any> = ({ option }) => {
+  const navigate = useNavigate();
+
   return (
-    <button className="flex items-center gap-2">
+    <button
+      className="flex items-center gap-2"
+      onClick={() => navigate(option.link)}
+    >
       <div>
         <img src={option.icon} alt="" />
       </div>

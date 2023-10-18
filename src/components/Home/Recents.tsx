@@ -18,6 +18,12 @@ export default function Recents() {
     ? productsSorted.slice(0, 6)
     : [];
 
+  const productsFiltered = productLimit?.filter(
+    (product: any) =>
+      product.saleStatus.name !== "sold out" &&
+      product.saleStatus.name !== "invisible"
+  );
+
   return (
     <div>
       <div className="px-5 flex mb-2 items-center justify-between">
@@ -35,9 +41,9 @@ export default function Recents() {
       <div className="mt-3">
         {query.isLoading ? (
           <LoaderHome />
-        ) : productLimit ? (
+        ) : productsFiltered ? (
           <div className="px-5 grid grid-cols-2 gap-x-3 gap-y-4 overflow-x-auto hide-scrollbar">
-            {productLimit.map(
+            {productsFiltered.map(
               (product: ProductProps, index: number) => (
                 <CardProduct
                   index={index}

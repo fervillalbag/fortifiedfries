@@ -126,7 +126,7 @@ export default function Root() {
                 viewSelected === "saves" ? "block" : "hidden"
               }`}
             />
-            Guardados
+            Favoritos
           </Button>
         </div>
 
@@ -162,7 +162,7 @@ export default function Root() {
               )}
             </div>
           ) : (
-            <div>guardados</div>
+            <div>favoritos</div>
           )}
         </div>
       </div>
