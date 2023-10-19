@@ -147,3 +147,10 @@
 .price-container-input > div {
   width: 100% !important;
 }
+
+.select-options-container button {
+  text-align: left;
+  padding: 4px 0;
+  margin-bottom: 4px;
+  width: 100%;
+}

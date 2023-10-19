@@ -1,5 +1,6 @@
 import React, { InputHTMLAttributes } from "react";
 import { VariantProps, cva } from "class-variance-authority";
+import { Text } from "../ui";
 
 import { cn } from "../utils";
 
@@ -7,6 +8,7 @@ interface InputProps
   extends InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
   isLoading?: boolean;
+  label?: string;
 }
 
 function Spinner() {
@@ -28,6 +30,7 @@ export const inputVariants = cva(
         default: "h-16",
         md: "h-14",
         gray: "bg-red-500",
+        ui: "bg-transparent border-0 ring-0 outline-none mt-[2px] px-0 pl-[14px] text-@sura-primary-600",
       },
     },
     defaultVariants: {
@@ -39,10 +42,23 @@ export const inputVariants = cva(
 const Input: React.FC<InputProps> = ({
   variant,
   isLoading,
+  label,
   ...props
 }) => {
   return (
-    <div className="relative">
+    <div
+      className={`relative ${
+        variant === "ui"
+          ? "bg-[#eaebeb] h-[60px] rounded-md"
+          : "bg-transparent"
+      }`}
+    >
+      {variant === "ui" && (
+        <Text className="text-xs font-medium text-@sura-primary-900 pt-[10px] pl-[14px]">
+          {label}
+        </Text>
+      )}
+
       <input
         type="text"
         className={cn(inputVariants({ variant }))}
