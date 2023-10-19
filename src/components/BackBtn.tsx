@@ -8,7 +8,7 @@ export default function BackBtn({ title }: BackBtnProps) {
   const navigate = useNavigate();
 
   return (
-    <div className="p-5 flex items-center gap-4">
+    <div className="p-5 flex items-center gap-x-3">
       <button
         className="w-[45px] h-[45px] bg-@sura-primary-900 rounded-md text-white grid place-items-center"
         onClick={() => navigate(-1)}
