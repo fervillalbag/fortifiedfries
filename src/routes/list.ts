@@ -26,7 +26,12 @@ import {
   CreatePostPrice,
   CreatePostStatus,
 } from "../screens/CreatePost";
-import { DetailsProduct, ProductEdit } from "../screens/Product";
+import { DetailsProduct } from "../screens/Product";
+import {
+  FormEditCategory,
+  FormEditStatus,
+  FormEditTitle,
+} from "../screens/Product/Edit";
 
 export const LIST_ROUTES_UNAUTHENTICATED = [
   {
@@ -169,7 +174,17 @@ export const LIST_ROUTES_AUTHENTICATED = [
   },
   {
     id: nanoid(3),
-    component: ProductEdit,
-    path: "/product/edit/:id",
+    component: FormEditTitle,
+    path: "/product/edit/title/:id",
+  },
+  {
+    id: nanoid(3),
+    component: FormEditStatus,
+    path: "/product/edit/status/:id",
+  },
+  {
+    id: nanoid(3),
+    component: FormEditCategory,
+    path: "/product/edit/category/:id",
   },
 ];
