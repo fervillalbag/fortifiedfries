@@ -24,7 +24,7 @@ export default function Details() {
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
 
-  const { queryProduct: queryProductDetail } = useProductDetail(id!);
+  const queryProductDetail = useProductDetail(id as string);
 
   useEffect(() => {
     if (

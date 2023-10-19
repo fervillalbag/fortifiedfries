@@ -35,7 +35,7 @@ export const useProductDetail = (id: string) => {
   const queryProduct = useQuery(["productDetail", id], () =>
     getProductDetail(id)
   );
-  return { queryProduct };
+  return queryProduct;
 };
 
 export const useProductSearch = (value: string) => {

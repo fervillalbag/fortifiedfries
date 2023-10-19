@@ -6,7 +6,7 @@ import { updateTicket } from "../../services";
 import { useTicketByUser } from "../../hooks/ticket";
 import { useLocalStorageState } from "../../hooks";
 import { SURA_CREDENTIALS } from "../../utils/constants";
-import { Button, Text } from "../../ui";
+import { Button, Text, textVariants } from "../../ui";
 
 export default function Card({ ticket }: any) {
   const [user] = useLocalStorageState({
@@ -59,21 +59,30 @@ export default function Card({ ticket }: any) {
             className="z-[1500] bg-black data-[state=open]:animate-overlayShow fixed inset-0 opacity-50"
           />
           <Dialog.Content className="z-[2000] data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-4 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+            <Text
+              className={textVariants({
+                className:
+                  "text-2xl font-bold text-@sura-primary-900 mb-2",
+              })}
+            >
+              Cancelar ticket
+            </Text>
+
             <Text className="leading-7">
               ¿Esta seguro que desea cancelar la transaccion?
             </Text>
 
-            <div className="flex justify-end gap-x-3 mt-4">
+            <div className="flex justify-end gap-x-4 mt-4">
               <Button
                 variant="outline"
-                className="w-max font-normal text-base px-8 h-[46px]"
+                className="w-max border-@sura-primary-100 font-normal text-base px-8 h-[46px]"
                 onClick={() => setShowModalConfirm(false)}
               >
                 No
               </Button>
               <Button
                 isLoading={loading}
-                className="ring-2 ring-offset-2 ring-@sura-primary-900 w-max font-normal text-base px-8 h-[46px]"
+                className="w-[150px] ring-2 ring-offset-2 ring-@sura-primary-900 font-normal text-base h-[46px]"
                 onClick={handleCancelTicket}
               >
                 Si, cancelar
@@ -90,27 +99,29 @@ export default function Card({ ticket }: any) {
             onClick={() => setShowOptions(false)}
           ></div>
 
-          <div className="border border-@sura-primary-200 shadow-md shadow-neutral-700/20 z-[70] absolute top-[50px] right-2 w-36 py-2 px-3 bg-white rounded-md">
-            <button className="text-@sura-primary-900 w-full text-left text-sm py-1 mb-1 px-1">
+          <div className="border border-@sura-primary-200 shadow-md shadow-neutral-700/20 z-[70] absolute top-[50px] right-2 w-36 py-2 bg-white rounded-md">
+            <button className="text-@sura-primary-900 w-full text-left text-sm py-2 px-4">
               Enviar mensaje
             </button>
-            <button
-              className="text-@sura-primary-900 w-full text-left text-sm py-1 mb-1 px-1"
-              onClick={() => {
-                setShowOptions(false);
-                setShowModalConfirm(true);
-              }}
-            >
-              Cancelar
-            </button>
-            <button className="text-@sura-primary-900 w-full text-left text-sm py-1 mb-1 px-1">
+            {ticket.status !== "cancelled" && (
+              <button
+                className="text-@sura-primary-900 w-full text-left text-sm py-2 px-4"
+                onClick={() => {
+                  setShowOptions(false);
+                  setShowModalConfirm(true);
+                }}
+              >
+                Cancelar
+              </button>
+            )}
+            <button className="text-@sura-primary-900 w-full text-left text-sm py-2 mb-1 px-4">
               Ayuda
             </button>
 
-            <div className="w-full bg-white h-[1px] opacity-30" />
+            <div className="w-full bg-@sura-primary-900 h-[1px] opacity-10" />
 
             <button
-              className="text-@sura-primary-900 w-full text-left text-sm py-1 my-1 px-1"
+              className="text-@sura-primary-900 w-full text-left text-sm py-2 mt-1 px-4"
               onClick={() => setShowOptions(false)}
             >
               Cerrar
@@ -120,25 +131,23 @@ export default function Card({ ticket }: any) {
       )}
 
       <div className="w-full relative text-left rounded-md gap-x-[10px] p-[5px] grid grid-cols-[60px_1fr] border border-@sura-primary-300">
-        {ticket.status !== "cancelled" && (
-          <button
-            className="grid place-items-center absolute w-9 h-9 bg-white border border-@sura-primary-900 rounded-md top-[5px] right-2"
-            onClick={() => setShowOptions(true)}
+        <button
+          className="grid place-items-center absolute w-9 h-9 bg-white border border-@sura-primary-900 rounded-md top-[5px] right-2"
+          onClick={() => setShowOptions(true)}
+        >
+          <svg
+            width="18"
+            height="4"
+            viewBox="0 0 23 5"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <svg
-              width="18"
-              height="4"
-              viewBox="0 0 23 5"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 2.5C5 3.16304 4.73661 3.79893 4.26777 4.26777C3.79893 4.73661 3.16304 5 2.5 5C1.83696 5 1.20107 4.73661 0.732233 4.26777C0.263392 3.79893 0 3.16304 0 2.5C0 1.83696 0.263392 1.20107 0.732233 0.732234C1.20107 0.263393 1.83696 0 2.5 0C3.16304 0 3.79893 0.263393 4.26777 0.732234C4.73661 1.20107 5 1.83696 5 2.5ZM13.75 2.5C13.75 3.16304 13.4866 3.79893 13.0178 4.26777C12.5489 4.73661 11.913 5 11.25 5C10.587 5 9.95107 4.73661 9.48223 4.26777C9.01339 3.79893 8.75 3.16304 8.75 2.5C8.75 1.83696 9.01339 1.20107 9.48223 0.732234C9.95107 0.263393 10.587 0 11.25 0C11.913 0 12.5489 0.263393 13.0178 0.732234C13.4866 1.20107 13.75 1.83696 13.75 2.5ZM22.5 2.5C22.5 3.16304 22.2366 3.79893 21.7678 4.26777C21.2989 4.73661 20.663 5 20 5C19.337 5 18.7011 4.73661 18.2322 4.26777C17.7634 3.79893 17.5 3.16304 17.5 2.5C17.5 1.83696 17.7634 1.20107 18.2322 0.732234C18.7011 0.263393 19.337 0 20 0C20.663 0 21.2989 0.263393 21.7678 0.732234C22.2366 1.20107 22.5 1.83696 22.5 2.5Z"
-                fill="#1C2331"
-              />
-            </svg>
-          </button>
-        )}
+            <path
+              d="M5 2.5C5 3.16304 4.73661 3.79893 4.26777 4.26777C3.79893 4.73661 3.16304 5 2.5 5C1.83696 5 1.20107 4.73661 0.732233 4.26777C0.263392 3.79893 0 3.16304 0 2.5C0 1.83696 0.263392 1.20107 0.732233 0.732234C1.20107 0.263393 1.83696 0 2.5 0C3.16304 0 3.79893 0.263393 4.26777 0.732234C4.73661 1.20107 5 1.83696 5 2.5ZM13.75 2.5C13.75 3.16304 13.4866 3.79893 13.0178 4.26777C12.5489 4.73661 11.913 5 11.25 5C10.587 5 9.95107 4.73661 9.48223 4.26777C9.01339 3.79893 8.75 3.16304 8.75 2.5C8.75 1.83696 9.01339 1.20107 9.48223 0.732234C9.95107 0.263393 10.587 0 11.25 0C11.913 0 12.5489 0.263393 13.0178 0.732234C13.4866 1.20107 13.75 1.83696 13.75 2.5ZM22.5 2.5C22.5 3.16304 22.2366 3.79893 21.7678 4.26777C21.2989 4.73661 20.663 5 20 5C19.337 5 18.7011 4.73661 18.2322 4.26777C17.7634 3.79893 17.5 3.16304 17.5 2.5C17.5 1.83696 17.7634 1.20107 18.2322 0.732234C18.7011 0.263393 19.337 0 20 0C20.663 0 21.2989 0.263393 21.7678 0.732234C22.2366 1.20107 22.5 1.83696 22.5 2.5Z"
+              fill="#1C2331"
+            />
+          </svg>
+        </button>
 
         <div>
           <img
