@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 interface ConversationProps {
   fullname: string;
+  id: string;
   lastMessage: string;
   time: string;
   countMessages: number;
@@ -10,11 +12,17 @@ interface ConversationProps {
 export function Conversation({
   fullname,
   lastMessage,
+  id,
   time,
   countMessages,
 }: ConversationProps) {
+  const navigate = useNavigate();
+
   return (
-    <button className="mb-3 w-full grid grid-cols-[60px_1fr] items-center gap-x-3">
+    <button
+      className="mb-3 w-full grid grid-cols-[60px_1fr] items-center gap-x-3"
+      onClick={() => navigate(`/messages/${id}`)}
+    >
       <div>
         <svg
           width="60"
@@ -44,9 +52,11 @@ export function Conversation({
             {lastMessage}
           </p>
 
-          <span className="block w-max py-[3px] px-[6px] text-[10px] font-semibold text-white bg-@sura-primary-900 rounded-sm">
-            {countMessages}
-          </span>
+          {!countMessages ? null : (
+            <span className="block w-max py-[3px] px-[6px] text-[10px] font-semibold text-white bg-@sura-primary-900 rounded-sm">
+              {countMessages}
+            </span>
+          )}
         </div>
       </div>
     </button>
