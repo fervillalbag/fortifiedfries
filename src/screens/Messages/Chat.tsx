@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import BackBtn from "../../components/BackBtn";
 import {
   useAllMessages,
+  useContactsMessages,
   useMarkMessagesAsSeen,
 } from "../../hooks/message/useMessage";
 import { useLocalStorageState } from "../../hooks";
@@ -23,8 +24,10 @@ export default function Chat() {
     value.id,
     id!
   );
+
   const queryAllMessages = useAllMessages(value.id, id!);
   const queryUser = useGetUser("_id", id!);
+  const queryContacts = useContactsMessages(value.id);
 
   useEffect(() => {
     if (queryAllMessages.isSuccess) {
@@ -37,6 +40,7 @@ export default function Chat() {
 
   useEffect(() => {
     queryMarkMessagesAsSeen.refetch();
+    queryContacts.refetch();
   }, []);
 
   return (
