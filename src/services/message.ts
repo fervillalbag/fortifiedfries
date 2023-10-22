@@ -8,6 +8,15 @@ export const getContactsMessages = async (userId: string) => {
   return response;
 };
 
+export const createMessage = async (data: any) => {
+  const response = await axios({
+    method: "POST",
+    url: "/message",
+    data: JSON.stringify(data),
+  });
+  return response;
+};
+
 export const getAllMessages = async (
   sender: string,
   receiver: string
