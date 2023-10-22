@@ -1,8 +1,17 @@
 import { useRef } from "react";
 import { Layout } from "../../components";
+import { Conversation } from "../../components/Messages";
+import { useContactsMessages } from "../../hooks/message";
+import { useLocalStorageState } from "../../hooks";
+import { SURA_CREDENTIALS } from "../../utils/constants";
 
 export default function Root() {
   const inputRef = useRef<any>(null);
+  const [value] = useLocalStorageState({
+    key: SURA_CREDENTIALS,
+  });
+
+  const queryContacts = useContactsMessages(value.id);
 
   return (
     <Layout>
@@ -34,7 +43,25 @@ export default function Root() {
         </div>
       </div>
 
-      <div className="px-5"></div>
+      <div className="px-5">
+        {queryContacts.isLoading ? (
+          <div>cargando..</div>
+        ) : queryContacts.isError ? (
+          <div>error</div>
+        ) : (
+          queryContacts.data.data.map(
+            (contact: any, index: number) => (
+              <Conversation
+                key={index}
+                time={contact.lastMessage.createdAt}
+                fullname={contact.user.fullname}
+                lastMessage={contact.lastMessage.content}
+                countMessages={contact.unreadMessages}
+              />
+            )
+          )
+        )}
+      </div>
     </Layout>
   );
 }
