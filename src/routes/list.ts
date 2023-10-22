@@ -16,7 +16,7 @@ import { RootSettings } from "../screens/Settings";
 import { LoginEmail, PasswordEmail } from "../screens/Login";
 import { LoginPrincipal } from "../screens/Login";
 import { ActionsRoot } from "../screens/Actions";
-import { MessageRoot } from "../screens/Messages";
+import { Chat, MessageRoot } from "../screens/Messages";
 import {
   CreatePostCategory,
   CreatePostDetails,
@@ -186,5 +186,10 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: FormEditCategory,
     path: "/product/edit/category/:id",
+  },
+  {
+    id: nanoid(3),
+    component: Chat,
+    path: "/messages/:id",
   },
 ];

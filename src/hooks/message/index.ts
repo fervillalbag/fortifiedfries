@@ -1,1 +1,1 @@
-export { useContactsMessages } from "./useContacts";
+export { useContactsMessages } from "./useMessage";

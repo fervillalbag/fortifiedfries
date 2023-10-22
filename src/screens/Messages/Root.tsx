@@ -53,6 +53,7 @@ export default function Root() {
             (contact: any, index: number) => (
               <Conversation
                 key={index}
+                id={contact.user._id}
                 time={contact.lastMessage.createdAt}
                 fullname={contact.user.fullname}
                 lastMessage={contact.lastMessage.content}
