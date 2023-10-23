@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useNavigate } from "react-router-dom";
 
 import { updateTicket } from "../../services";
 import { useTicketByUser } from "../../hooks/ticket";
@@ -9,6 +10,7 @@ import { SURA_CREDENTIALS } from "../../utils/constants";
 import { Button, Text, textVariants } from "../../ui";
 
 export default function Card({ ticket }: any) {
+  const navigate = useNavigate();
   const [user] = useLocalStorageState({
     key: SURA_CREDENTIALS,
   });
@@ -100,7 +102,18 @@ export default function Card({ ticket }: any) {
           ></div>
 
           <div className="border border-@sura-primary-200 shadow-md shadow-neutral-700/20 z-[70] absolute top-[50px] right-2 w-36 py-2 bg-white rounded-md">
-            <button className="text-@sura-primary-900 w-full text-left text-sm py-2 px-4">
+            <button
+              onClick={() =>
+                navigate(
+                  `/messages/${
+                    ticket.buyer._id !== user.id
+                      ? ticket.buyer._id
+                      : ticket.vendor._id
+                  }`
+                )
+              }
+              className="text-@sura-primary-900 w-full text-left text-sm py-2 px-4"
+            >
               Enviar mensaje
             </button>
             {ticket.status !== "cancelled" && (
@@ -130,7 +143,7 @@ export default function Card({ ticket }: any) {
         </>
       )}
 
-      <div className="w-full relative text-left rounded-md gap-x-[10px] p-[5px] grid grid-cols-[60px_1fr] border border-@sura-primary-300">
+      <div className="w-full relative text-left rounded-md gap-x-[10px] p-[5px] grid grid-cols-[60px_1fr] border border-@sura-primary-200">
         <button
           className="grid place-items-center absolute w-9 h-9 bg-white border border-@sura-primary-900 rounded-md top-[5px] right-2"
           onClick={() => setShowOptions(true)}
@@ -165,7 +178,6 @@ export default function Card({ ticket }: any) {
               </h3>
               <span
                 className={`uppercase text-xs font-semibold block ${colorStatus}`}
-                // style={{ color: colorStatus }}
               >
                 {ticket.status}
               </span>
