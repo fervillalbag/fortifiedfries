@@ -10,26 +10,26 @@ export const NAVBAR_ROUTES = [
   {
     id: 1,
     icon: HomeIcon,
-    route: "/home",
+    route: ["/home", "/services", "/community"],
   },
   {
     id: 2,
     icon: ShoppingBagIcon,
-    route: "/search",
+    route: ["/search"],
   },
   {
     id: 3,
     icon: PlusCircleIcon,
-    route: "/actions",
+    route: ["/actions"],
   },
   {
     id: 4,
     icon: ChatBubbleLeftIcon,
-    route: "/messages",
+    route: ["/messages"],
   },
   {
     id: 5,
     icon: UserCircleIcon,
-    route: "/profile",
+    route: ["/profile"],
   },
 ];

@@ -16,12 +16,14 @@ export default function Navbar() {
           <Button
             key={link.id}
             variant="link"
-            onClick={() => navigate(link.route)}
+            onClick={() => {
+              navigate(link.route[0]);
+            }}
             className="w-6 text-center bg-transparent grid place-items-center"
           >
             <link.icon
               className={
-                pathname === link.route
+                link.route.includes(pathname)
                   ? "link-active"
                   : "link-inactive"
               }
