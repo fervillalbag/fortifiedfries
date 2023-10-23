@@ -12,36 +12,36 @@ export default function TabsHeader() {
 
   return (
     <div
-      className={`sticky top-0 left-0 flex items-center gap-x-[22px] px-5 py-4 bg-white z-50 ${
+      className={`sticky top-0 left-0 flex items-center gap-x-[15px] px-5 py-4 bg-white z-50 ${
         scrollPosition < 60 ? "" : "shadow-md shadow-neutral-500/10"
       }`}
     >
       <Link
         to="/home"
-        className={`${
+        className={`bg-@sura-primary-900 rounded-md px-3 py-2 text-sm ${
           location.pathname === "/home"
-            ? "font-medium text-lg text-@sura-primary-900"
-            : "font-normal text-@sura-primary-300"
+            ? "bg-@sura-primary-900 text-white"
+            : "bg-@sura-primary-50 text-@sura-primary-900"
         }`}
       >
         Productos
       </Link>
       <Link
         to="/services"
-        className={`${
+        className={`bg-@sura-primary-900 rounded-md px-3 py-2 text-sm ${
           location.pathname === "/services"
-            ? "font-medium text-lg text-@sura-primary-900"
-            : "font-normal text-@sura-primary-300"
+            ? "bg-@sura-primary-900 text-white"
+            : "bg-@sura-primary-50 text-@sura-primary-900"
         }`}
       >
         Servicios
       </Link>
       <Link
         to="/community"
-        className={`${
+        className={`bg-@sura-primary-900 rounded-md px-3 py-2 text-sm ${
           location.pathname === "/community"
-            ? "font-medium text-lg text-@sura-primary-900"
-            : "font-normal text-@sura-primary-300"
+            ? "bg-@sura-primary-900 text-white"
+            : "bg-@sura-primary-50 text-@sura-primary-900"
         }`}
       >
         Comunidad
