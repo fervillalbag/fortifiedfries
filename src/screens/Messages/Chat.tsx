@@ -12,6 +12,7 @@ import { SURA_CREDENTIALS } from "../../utils/constants";
 import { useGetUser } from "../../hooks/user";
 import toast from "react-hot-toast";
 import { createMessage } from "../../services/message";
+import dayjs from "dayjs";
 
 export default function Chat() {
   const { id } = useParams();
@@ -70,23 +71,32 @@ export default function Chat() {
   };
 
   return (
-    <div>
-      <BackBtn title={userReceiver?.fullname} />
+    <div className="overflow-hidden h-screen">
+      <div className="shadow-md shadow-neutral-200/30">
+        <BackBtn title={userReceiver?.fullname} />
+      </div>
 
-      <div className="px-5">
+      <div className="px-5 pt-5 overflow-y-auto h-[calc(100vh_-_85px)]">
         {messages.map((message) => (
           <div
             key={message._id}
-            className={`h-12 mb-2 bg-@sura-primary-100/70 rounded-md flex items-center px-3 text-@sura-primary-900 w-max ${
+            className={`relative h-12 pb-3 mb-2 bg-@sura-primary-100/70 rounded-md flex items-center px-3 text-@sura-primary-900 w-max ${
               value.id === message.sender
                 ? "ml-auto bg-[#34C659] text-white"
                 : ""
             }`}
           >
             {message.content}
+
+            <span className="absolute text-[10px] font-semibold opacity-70 bottom-1 right-2">
+              {dayjs(message.createdAt).format("HH:mm")}
+            </span>
           </div>
         ))}
+        <div className="h-[95px]" />
       </div>
+
+      <div className="fixed h-20 bg-white/60 w-full bottom-0 left-0"></div>
 
       <div className="w-[calc(100%_-_40px)] fixed bottom-[25px] left-[20px]">
         <input
