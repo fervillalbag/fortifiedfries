@@ -18,7 +18,7 @@ export default function TabsHeader() {
     >
       <Link
         to="/home"
-        className={`bg-@sura-primary-900 rounded-md px-3 py-2 text-sm ${
+        className={`rounded-md px-3 py-2 text-sm ${
           location.pathname === "/home"
             ? "bg-@sura-primary-900 text-white"
             : "bg-@sura-primary-50 text-@sura-primary-900"
@@ -28,7 +28,7 @@ export default function TabsHeader() {
       </Link>
       <Link
         to="/services"
-        className={`bg-@sura-primary-900 rounded-md px-3 py-2 text-sm ${
+        className={`rounded-md px-3 py-2 text-sm ${
           location.pathname === "/services"
             ? "bg-@sura-primary-900 text-white"
             : "bg-@sura-primary-50 text-@sura-primary-900"
@@ -38,7 +38,7 @@ export default function TabsHeader() {
       </Link>
       <Link
         to="/community"
-        className={`bg-@sura-primary-900 rounded-md px-3 py-2 text-sm ${
+        className={`rounded-md px-3 py-2 text-sm ${
           location.pathname === "/community"
             ? "bg-@sura-primary-900 text-white"
             : "bg-@sura-primary-50 text-@sura-primary-900"

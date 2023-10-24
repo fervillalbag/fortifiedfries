@@ -21,6 +21,7 @@ export default function AuthenticatedProvider({
 
   const [localUser] = useLocalStorageState({
     key: SURA_CREDENTIALS,
+    value: {},
   });
 
   const user = useGetUser("_id", localUser.id);

@@ -7,3 +7,7 @@ export {
   AuthenticatedContext,
 } from "./Authenticated";
 export { default as NavbarProvider, NavbarContext } from "./Navbar";
+export {
+  default as MessageProvider,
+  MessageContext,
+} from "./Message";
