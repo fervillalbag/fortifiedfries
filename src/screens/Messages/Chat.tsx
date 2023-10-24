@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+// import toast from "react-hot-toast";
+import dayjs from "dayjs";
 
 import BackBtn from "../../components/BackBtn";
-import {
-  useAllMessages,
-  useContactsMessages,
-  useMarkMessagesAsSeen,
-} from "../../hooks/message/useMessage";
+// import {
+//   useAllMessages,
+//   useContactsMessages,
+//   useMarkMessagesAsSeen,
+// } from "../../hooks/message/useMessage";
 import { useLocalStorageState } from "../../hooks";
 import { SURA_CREDENTIALS } from "../../utils/constants";
 import { useGetUser } from "../../hooks/user";
-import toast from "react-hot-toast";
-import { createMessage } from "../../services/message";
-import dayjs from "dayjs";
+// import { createMessage } from "../../services/message";
+import { SURA_USER_DM } from "../../utils/constants/auth";
+import { MessageContext } from "../../context";
 
 export default function Chat() {
   const { id } = useParams();
@@ -20,54 +22,44 @@ export default function Chat() {
     key: SURA_CREDENTIALS,
   });
 
-  const [messages, setMessages] = useState<any[]>([]);
+  const { messages, sendMessage } = useContext(MessageContext);
+
+  const [_, handleChange] = useLocalStorageState({
+    key: SURA_USER_DM,
+  });
+
+  // const [messages, setMessages] = useState<any[]>([]);
   const [userReceiver, setUserReceiver] = useState<any>(null);
   const [content, setContent] = useState<string>("");
 
-  const queryMarkMessagesAsSeen = useMarkMessagesAsSeen(
-    value.id,
-    id!
-  );
+  // const queryMarkMessagesAsSeen = useMarkMessagesAsSeen(
+  //   value.id,
+  //   id!
+  // );
 
-  const queryAllMessages = useAllMessages(value.id, id!);
+  // const queryAllMessages = useAllMessages(value.id, id!);
   const queryUser = useGetUser("_id", id!);
-  const queryContacts = useContactsMessages(value.id);
+  // const queryContacts = useContactsMessages(value.id);
 
   useEffect(() => {
-    if (queryAllMessages.isSuccess) {
-      setMessages(queryAllMessages.data.data);
-    }
     if (queryUser.isSuccess) {
       setUserReceiver(queryUser.data);
     }
-  }, [queryAllMessages.isSuccess, queryUser.isSuccess]);
+  }, [queryUser.isSuccess]);
 
   useEffect(() => {
-    queryMarkMessagesAsSeen.refetch();
-    queryContacts.refetch();
+    // queryMarkMessagesAsSeen.refetch();
+    // queryContacts.refetch();
   }, []);
 
+  useEffect(() => {
+    handleChange({ id });
+  }, [id]);
+
+  console.log({ messages });
+
   const handleCreateMessage = async () => {
-    if (!content) return;
-
-    const messageInfo = {
-      content,
-      receiver: id,
-      sender: value.id,
-    };
-
-    try {
-      const response = await createMessage(messageInfo);
-
-      if (response.status === 201) {
-        queryContacts.refetch();
-        queryAllMessages.refetch();
-        setContent("");
-      }
-    } catch (error: any) {
-      toast.error("Ha ocurrido un error");
-      throw new Error(error);
-    }
+    sendMessage(content);
   };
 
   return (
@@ -77,7 +69,7 @@ export default function Chat() {
       </div>
 
       <div className="px-5 pt-5 overflow-y-auto h-[calc(100vh_-_85px)]">
-        {messages.map((message) => (
+        {messages.map((message: any) => (
           <div
             key={message._id}
             className={`relative h-12 pb-3 mb-2 bg-@sura-primary-100/70 rounded-md flex items-center px-3 text-@sura-primary-900 w-max ${
