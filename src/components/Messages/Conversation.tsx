@@ -1,22 +1,40 @@
+import { useContext } from "react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
+import { useLocalStorageState } from "../../hooks";
+import { SURA_CREDENTIALS } from "../../utils/constants";
+import { MessageContext } from "../../context";
+import { useGetUser } from "../../hooks/user";
+
 interface ConversationProps {
-  fullname: string;
   id: string;
-  lastMessage: string;
-  time: string;
-  countMessages: number;
 }
 
-export function Conversation({
-  fullname,
-  lastMessage,
-  id,
-  time,
-  countMessages,
-}: ConversationProps) {
+export function Conversation({ id }: ConversationProps) {
   const navigate = useNavigate();
+
+  const [value] = useLocalStorageState({ key: SURA_CREDENTIALS });
+  const { messages } = useContext(MessageContext);
+
+  const lastMessageArray = messages?.filter(
+    (message: any) =>
+      message.receiver === value.id ||
+      message.sender === value.id ||
+      message.receiver === id ||
+      message.sender === id
+  );
+
+  const lastMessage =
+    lastMessageArray &&
+    lastMessageArray[lastMessageArray?.length - 1];
+
+  const authorMessage =
+    value.id !== lastMessage?.receiver
+      ? lastMessage?.receiver
+      : lastMessage?.sender;
+
+  const user = useGetUser("_id", authorMessage);
 
   return (
     <button
@@ -41,22 +59,22 @@ export function Conversation({
       <div>
         <div className="flex items-center justify-between">
           <p className="font-semibold text-@sura-primary-900">
-            {fullname}
+            {user?.data.fullname}
           </p>
           <p className="text-xs font-medium text-@sura-primary-500">
-            {dayjs(time).format("HH:mm")}
+            {dayjs(lastMessage.createdAt).format("HH:mm")}
           </p>
         </div>
         <div className="flex items-center justify-between">
           <p className="text-sm text-@sura-primary-400">
-            {lastMessage}
+            {lastMessage?.content}
           </p>
 
-          {!countMessages ? null : (
+          {/* {!countMessages ? null : (
             <span className="block w-max py-[3px] px-[6px] text-[10px] font-semibold text-white bg-@sura-primary-900 rounded-sm">
               {countMessages}
             </span>
-          )}
+          )} */}
         </div>
       </div>
     </button>

@@ -20,6 +20,7 @@ export default function MessageProvider({
     key: SURA_CREDENTIALS,
     value: { id: "" },
   });
+
   const [{ id }] = useLocalStorageState({
     key: SURA_USER_DM,
     value: { id: "" },
@@ -49,6 +50,16 @@ export default function MessageProvider({
         setMessages(response);
       }
     );
+  }, [id]);
+
+  useEffect(() => {
+    socket.emit(
+      "findAllMessages",
+      { sender: value.id, receiver: id },
+      (response: any) => {
+        setMessages(response);
+      }
+    );
 
     socket.on("message", (message: any) => {
       setMessages((messages) => [...messages, message]);
@@ -57,7 +68,11 @@ export default function MessageProvider({
 
   return (
     <MessageContext.Provider
-      value={{ messages, setMessages, sendMessage }}
+      value={{
+        messages,
+        setMessages,
+        sendMessage,
+      }}
     >
       {children}
     </MessageContext.Provider>

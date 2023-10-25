@@ -56,8 +56,6 @@ export default function Chat() {
     handleChange({ id });
   }, [id]);
 
-  console.log({ messages });
-
   const handleCreateMessage = async () => {
     sendMessage(content);
   };
