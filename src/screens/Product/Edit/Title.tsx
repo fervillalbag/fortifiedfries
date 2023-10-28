@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  FieldValues,
+} from "react-hook-form";
 
 import BackBtn from "../../../components/BackBtn";
 import { useProductDetail } from "../../../hooks/products";
 import { useHeight } from "../../../hooks";
 import { Button, Input } from "../../../ui";
 import { updateProduct } from "../../../services";
+
+type FormData = {
+  title: string;
+};
 
 export function FormEditTitle() {
   const { id } = useParams();
@@ -17,7 +26,7 @@ export function FormEditTitle() {
   const queryProduct = useProductDetail(id as string);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const { handleSubmit, control, reset } = useForm();
+  const { handleSubmit, control, reset } = useForm<FormData>();
 
   useEffect(() => {
     if (queryProduct.isSuccess) {
@@ -25,20 +34,24 @@ export function FormEditTitle() {
     }
   }, [queryProduct.isSuccess]);
 
-  const onSubmit = async (data: any) => {
-    try {
-      setLoading(true);
-      const response = await updateProduct(id as string, data);
+  const handleUpdateTitle: SubmitHandler<FieldValues> = async (
+    data
+  ) => {
+    if ("title" in data) {
+      try {
+        setLoading(true);
+        const response = await updateProduct(id as string, data);
 
-      if (response.status === 200) {
-        toast.success("Titulo actualizado");
-        navigate(-1);
+        if (response.status === 200) {
+          toast.success("Titulo actualizado");
+          navigate(-1);
+        }
+      } catch (error) {
+        toast.error("Hubo un problema al actualizar");
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      toast.error("Hubo un problema al actualizar");
-      console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -47,7 +60,7 @@ export function FormEditTitle() {
       <BackBtn title="Editar titulo" />
 
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleUpdateTitle)}
         className="px-5 flex flex-col justify-between h-[calc(100%_-_85px)] pb-5"
       >
         <Controller
