@@ -1,11 +1,11 @@
-import { useContext, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { Layout } from "../../components";
 import { Conversation } from "../../components/Messages";
-// import { Text } from "../../ui";
-import { MessageContext } from "../../context";
 import { useLocalStorageState } from "../../hooks";
 import { SURA_CREDENTIALS } from "../../utils/constants";
+import { useMessageStore } from "../../store/message";
+import socket from "../../store/socket";
 
 export default function Root() {
   const inputRef = useRef<any>(null);
@@ -13,7 +13,29 @@ export default function Root() {
     key: SURA_CREDENTIALS,
   });
 
-  const { messages } = useContext(MessageContext);
+  const updateMessage = useMessageStore(
+    (state: any) => state.updateMessage
+  );
+
+  useEffect(() => {
+    socket.on("message", (message) => {
+      updateMessage(message);
+    });
+
+    socket.emit(
+      "findAllMessages",
+      { sender: value.id, receiver: null },
+      (response: any) => {
+        updateMessage(response);
+      }
+    );
+
+    return () => {
+      socket.off("message");
+    };
+  }, [value.id]);
+
+  const messages = useMessageStore((state: any) => state.messages);
 
   const myMessages = messages?.filter(
     (message: any) =>

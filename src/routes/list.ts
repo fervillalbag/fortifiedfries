@@ -29,6 +29,9 @@ import {
 import { DetailsProduct } from "../screens/Product";
 import {
   FormEditCategory,
+  FormEditDescription,
+  FormEditImages,
+  FormEditProduct,
   FormEditStatus,
   FormEditTitle,
 } from "../screens/Product/Edit";
@@ -174,6 +177,11 @@ export const LIST_ROUTES_AUTHENTICATED = [
   },
   {
     id: nanoid(3),
+    component: FormEditProduct,
+    path: "/product/edit/:id",
+  },
+  {
+    id: nanoid(3),
     component: FormEditTitle,
     path: "/product/edit/title/:id",
   },
@@ -186,6 +194,21 @@ export const LIST_ROUTES_AUTHENTICATED = [
     id: nanoid(3),
     component: FormEditCategory,
     path: "/product/edit/category/:id",
+  },
+  {
+    id: nanoid(3),
+    component: FormEditCategory,
+    path: "/product/edit/category/:id",
+  },
+  {
+    id: nanoid(3),
+    component: FormEditImages,
+    path: "/product/edit/images/:id",
+  },
+  {
+    id: nanoid(3),
+    component: FormEditDescription,
+    path: "/product/edit/description/:id",
   },
   {
     id: nanoid(3),

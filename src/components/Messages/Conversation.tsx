@@ -19,22 +19,30 @@ export function Conversation({ id }: ConversationProps) {
 
   const lastMessageArray = messages?.filter(
     (message: any) =>
-      message.receiver === value.id ||
-      message.sender === value.id ||
-      message.receiver === id ||
-      message.sender === id
+      (message.receiver === value.id && message.sender === id) ||
+      (message.sender === value.id && message.receiver === id)
   );
 
   const lastMessage =
     lastMessageArray &&
     lastMessageArray[lastMessageArray?.length - 1];
 
-  const authorMessage =
-    value.id !== lastMessage?.receiver
-      ? lastMessage?.receiver
-      : lastMessage?.sender;
+  const authorMessageId =
+    value.id !== lastMessage.sender
+      ? lastMessage.sender
+      : lastMessage.receiver;
 
-  const user = useGetUser("_id", authorMessage);
+  const user = useGetUser("_id", lastMessage?.sender);
+
+  let contact;
+
+  if (authorMessageId) {
+    contact = useGetUser("_id", authorMessageId);
+  }
+
+  if (user?.isLoading || contact?.isLoading)
+    return <div>loading</div>;
+  if (user?.isError || contact?.isError) return <div>error</div>;
 
   return (
     <button
@@ -59,7 +67,7 @@ export function Conversation({ id }: ConversationProps) {
       <div>
         <div className="flex items-center justify-between">
           <p className="font-semibold text-@sura-primary-900">
-            {user?.data.fullname}
+            {contact?.data.fullname}
           </p>
           <p className="text-xs font-medium text-@sura-primary-500">
             {dayjs(lastMessage.createdAt).format("HH:mm")}

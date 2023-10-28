@@ -22,7 +22,7 @@ export const buttonVariants = cva(
         default:
           "text-white bg-@sura-primary-900 border-2 border-@sura-primary-900",
         outline:
-          "bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 focus:ring-@sura-primary-200 focus:border-@sura-primary-200",
+          "bg-white text-@sura-primary-900 border-2 border-@sura-primary-300 focus:ring-@sura-primary-200 focus:border-@sura-primary-200",
         icon: `bg-white text-@sura-primary-900 border-2 border-@sura-primary-200 flex items-center justify-center focus:ring-@sura-primary-200 focus:border-@sura-primary-200`,
         link: "appearance-none bg-white ring-0 font-normal inline text-base w-max h-max focus:ring-transparent focus:border-transparent",
       },
