@@ -28,20 +28,6 @@ export default function MessageProvider({
 
   const [messages, setMessages] = useState<any[]>([]);
 
-  const sendMessage = async (message: string) => {
-    socket.emit(
-      "createMessage",
-      {
-        content: message,
-        receiver: id,
-        sender: value.id,
-      },
-      (response: any) => {
-        setMessages([...messages, response]);
-      }
-    );
-  };
-
   useEffect(() => {
     socket.emit(
       "findAllMessages",
@@ -55,7 +41,7 @@ export default function MessageProvider({
   useEffect(() => {
     socket.emit(
       "findAllMessages",
-      { sender: value.id, receiver: id },
+      { sender: value.id, receiver: null },
       (response: any) => {
         setMessages(response);
       }
@@ -71,7 +57,6 @@ export default function MessageProvider({
       value={{
         messages,
         setMessages,
-        sendMessage,
       }}
     >
       {children}

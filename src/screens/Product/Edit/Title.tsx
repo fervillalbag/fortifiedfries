@@ -1,34 +1,74 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
 
-import { Input } from "../../../ui";
-import { useProductDetail } from "../../../hooks/products";
 import BackBtn from "../../../components/BackBtn";
+import { useProductDetail } from "../../../hooks/products";
+import { useHeight } from "../../../hooks";
+import { Button, Input } from "../../../ui";
+import { updateProduct } from "../../../services";
 
 export function FormEditTitle() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
+  const styleHeight = useHeight();
   const queryProduct = useProductDetail(id as string);
-  const [title, setTitle] = useState<string>("");
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const { handleSubmit, control, reset } = useForm();
 
   useEffect(() => {
     if (queryProduct.isSuccess) {
-      setTitle(queryProduct.data.data.title);
+      reset({ title: queryProduct.data.data.title });
     }
   }, [queryProduct.isSuccess]);
 
-  return (
-    <div>
-      <BackBtn title="Editar nombre producto" />
+  const onSubmit = async (data: any) => {
+    try {
+      setLoading(true);
+      const response = await updateProduct(id as string, data);
 
-      <div className="px-5">
-        <Input
-          label="Nombre producto"
-          variant="ui"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+      if (response.status === 200) {
+        toast.success("Titulo actualizado");
+        navigate(-1);
+      }
+    } catch (error) {
+      toast.error("Hubo un problema al actualizar");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={styleHeight}>
+      <BackBtn title="Editar titulo" />
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="px-5 flex flex-col justify-between h-[calc(100%_-_85px)] pb-5"
+      >
+        <Controller
+          name="title"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Input
+              label="Titulo del producto"
+              variant="ui"
+              // ref={field.ref}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
         />
-      </div>
+
+        <Button isLoading={loading} type="submit">
+          Guardar cambios
+        </Button>
+      </form>
     </div>
   );
 }

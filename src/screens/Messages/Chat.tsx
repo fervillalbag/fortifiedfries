@@ -1,20 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-// import toast from "react-hot-toast";
+import { useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
 
 import BackBtn from "../../components/BackBtn";
-// import {
-//   useAllMessages,
-//   useContactsMessages,
-//   useMarkMessagesAsSeen,
-// } from "../../hooks/message/useMessage";
 import { useLocalStorageState } from "../../hooks";
 import { SURA_CREDENTIALS } from "../../utils/constants";
 import { useGetUser } from "../../hooks/user";
-// import { createMessage } from "../../services/message";
 import { SURA_USER_DM } from "../../utils/constants/auth";
-import { MessageContext } from "../../context";
+import { useMessageStore } from "../../store/message";
+import socket from "../../store/socket";
 
 export default function Chat() {
   const { id } = useParams();
@@ -22,24 +16,38 @@ export default function Chat() {
     key: SURA_CREDENTIALS,
   });
 
-  const { messages, sendMessage } = useContext(MessageContext);
+  const bottomElement = useRef<any>(null);
+
+  const messages = useMessageStore((state: any) => state.messages);
+  const updateMessage = useMessageStore(
+    (state: any) => state.updateMessage
+  );
+  const createMessage = useMessageStore(
+    (state: any) => state.createMessage
+  );
+
+  useEffect(() => {
+    socket.on("message", (message) => {
+      updateMessage(message);
+    });
+
+    socket.emit(
+      "findAllMessages",
+      { sender: value.id, receiver: id },
+      (response: any) => {
+        updateMessage(response);
+      }
+    );
+  }, [id]);
 
   const [_, handleChange] = useLocalStorageState({
     key: SURA_USER_DM,
   });
 
-  // const [messages, setMessages] = useState<any[]>([]);
   const [userReceiver, setUserReceiver] = useState<any>(null);
   const [content, setContent] = useState<string>("");
 
-  // const queryMarkMessagesAsSeen = useMarkMessagesAsSeen(
-  //   value.id,
-  //   id!
-  // );
-
-  // const queryAllMessages = useAllMessages(value.id, id!);
   const queryUser = useGetUser("_id", id!);
-  // const queryContacts = useContactsMessages(value.id);
 
   useEffect(() => {
     if (queryUser.isSuccess) {
@@ -48,17 +56,22 @@ export default function Chat() {
   }, [queryUser.isSuccess]);
 
   useEffect(() => {
-    // queryMarkMessagesAsSeen.refetch();
-    // queryContacts.refetch();
-  }, []);
-
-  useEffect(() => {
     handleChange({ id });
   }, [id]);
 
-  const handleCreateMessage = async () => {
-    sendMessage(content);
+  const handleCreateMessage = () => () => {
+    socket.emit(
+      "createMessage",
+      {
+        content,
+        receiver: id,
+        sender: value.id,
+      },
+      (response: any) => createMessage(messages, response)
+    );
   };
+
+  console.log({ chat: messages });
 
   return (
     <div className="overflow-hidden h-screen">
@@ -66,23 +79,28 @@ export default function Chat() {
         <BackBtn title={userReceiver?.fullname} />
       </div>
 
-      <div className="px-5 pt-5 overflow-y-auto h-[calc(100vh_-_85px)]">
-        {messages.map((message: any) => (
-          <div
-            key={message._id}
-            className={`relative h-12 pb-3 mb-2 bg-@sura-primary-100/70 rounded-md flex items-center px-3 text-@sura-primary-900 w-max ${
-              value.id === message.sender
-                ? "ml-auto bg-[#34C659] text-white"
-                : ""
-            }`}
-          >
-            {message.content}
+      <div
+        ref={bottomElement}
+        className="px-5 pt-5 overflow-y-auto h-[calc(100vh_-_85px)]"
+      >
+        {!Array.isArray(messages)
+          ? null
+          : messages?.map((message: any) => (
+              <div
+                key={message._id}
+                className={`relative h-12 pb-3 mb-2 bg-@sura-primary-100/70 rounded-md flex items-center px-3 text-@sura-primary-900 w-max ${
+                  value.id === message.sender
+                    ? "ml-auto bg-[#34C659] text-white"
+                    : ""
+                }`}
+              >
+                {message.content}
 
-            <span className="absolute text-[10px] font-semibold opacity-70 bottom-1 right-2">
-              {dayjs(message.createdAt).format("HH:mm")}
-            </span>
-          </div>
-        ))}
+                <span className="absolute text-[10px] font-semibold opacity-70 bottom-1 right-2">
+                  {dayjs(message.createdAt).format("HH:mm")}
+                </span>
+              </div>
+            ))}
         <div className="h-[95px]" />
       </div>
 
@@ -98,7 +116,7 @@ export default function Chat() {
 
         <button
           className="bg-white/60 outline-none absolute top-1/2 rounded-md -translate-y-1/2 right-[1px] py-0 h-[calc(100%_-_2px)] px-3 pl-4"
-          onClick={handleCreateMessage}
+          onClick={handleCreateMessage()}
         >
           <svg
             width="19"
