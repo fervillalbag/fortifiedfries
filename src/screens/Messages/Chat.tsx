@@ -27,10 +27,6 @@ export default function Chat() {
   );
 
   useEffect(() => {
-    socket.on("message", (message) => {
-      updateMessage(message);
-    });
-
     socket.emit(
       "findAllMessages",
       { sender: value.id, receiver: id },
@@ -38,7 +34,7 @@ export default function Chat() {
         updateMessage(response);
       }
     );
-  }, [id]);
+  }, []);
 
   const [_, handleChange] = useLocalStorageState({
     key: SURA_USER_DM,
@@ -67,11 +63,13 @@ export default function Chat() {
         receiver: id,
         sender: value.id,
       },
-      (response: any) => createMessage(messages, response)
+      (response: any) => {
+        createMessage(response);
+      }
     );
   };
 
-  console.log({ chat: messages });
+  console.log({ messages });
 
   return (
     <div className="overflow-hidden h-screen">
@@ -85,9 +83,9 @@ export default function Chat() {
       >
         {!Array.isArray(messages)
           ? null
-          : messages?.map((message: any) => (
+          : messages?.map((message: any, index: number) => (
               <div
-                key={message._id}
+                key={index}
                 className={`relative h-12 pb-3 mb-2 bg-@sura-primary-100/70 rounded-md flex items-center px-3 text-@sura-primary-900 w-max ${
                   value.id === message.sender
                     ? "ml-auto bg-[#34C659] text-white"
