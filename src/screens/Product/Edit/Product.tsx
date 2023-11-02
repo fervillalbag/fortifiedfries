@@ -58,7 +58,7 @@ export function FormEditProduct() {
         </button>
 
         <button
-          className="border border-dashed border-@sura-primary-300 py-1 p-2"
+          className="border border-dashed border-yellow-500 py-1 p-2"
           onClick={() =>
             navigate(`/product/edit/title/${product._id}`)
           }
@@ -74,42 +74,50 @@ export function FormEditProduct() {
           onClick={() =>
             navigate(`/product/edit/images/${product._id}`)
           }
-          className="w-full border border-@sura-primary-300 p-3 border-dashed"
+          className="w-full border border-yellow-500 p-3 border-dashed"
         >
           <div className="relative">
-            {principalImageSelected !== "" ? (
-              <img
-                src={principalImageSelected}
-                alt=""
-                className="h-[300px] w-full object-cover object-center rounded-sm"
-              />
-            ) : (
-              <div></div>
-            )}
+            <div className="relative">
+              {product.images.map(
+                (image: string) =>
+                  image === principalImageSelected && (
+                    <img
+                      src={principalImageSelected}
+                      alt=""
+                      className={`h-[360px] w-full object-cover object-center rounded-sm ${
+                        image === principalImageSelected
+                          ? "opacity-100 block"
+                          : "opacity-0 hidden"
+                      }`}
+                    />
+                  )
+              )}
+            </div>
           </div>
 
-          <div className="flex mt-2 gap-1">
+          <div className="grid grid-cols-3 gap-3 mt-3">
             {product.images.map((image: string) => (
-              <div
+              <button
                 key={image}
-                className={`rounded-sm overflow-hidden p-[3px] border-[3px] ${
+                onClick={() => setPrincipalImageSelected(image)}
+                className={`relative z-[50] ring-offset-2 w-full ring-[3px] rounded-sm overflow-hidden ${
                   principalImageSelected === image
-                    ? "border-@sura-primary-800"
-                    : "border-transparent"
+                    ? "ring-@sura-primary-800"
+                    : "ring-transparent"
                 }`}
               >
                 <img
                   src={image}
                   alt=""
-                  className="w-[100px] h-[100px] object-cover rounded-sm"
+                  className={`w-full h-[110px] object-cover rounded-sm `}
                 />
-              </div>
+              </button>
             ))}
           </div>
         </button>
 
         <button
-          className="text-left w-full p-2 border border-@sura-primary-300 border-dashed mt-5"
+          className="text-left w-full p-2 border border-yellow-500 border-dashed mt-5"
           onClick={() =>
             navigate(`/product/edit/description/${product._id}`)
           }
@@ -129,7 +137,7 @@ export function FormEditProduct() {
         </button>
 
         <button
-          className="text-left w-full p-2 border border-@sura-primary-300 border-dashed mt-5"
+          className="text-left w-full p-2 border border-yellow-500 border-dashed mt-5"
           onClick={() =>
             navigate(`/product/edit/description/${product._id}`)
           }
@@ -147,7 +155,7 @@ export function FormEditProduct() {
         </button>
 
         <button
-          className="text-left w-full p-2 border border-@sura-primary-300 border-dashed mt-5"
+          className="text-left w-full p-2 border border-yellow-500 border-dashed mt-5"
           onClick={() =>
             navigate(`/product/edit/description/${product._id}`)
           }
@@ -169,7 +177,7 @@ export function FormEditProduct() {
         </button>
 
         <button
-          className="text-left w-full p-2 border border-@sura-primary-300 border-dashed mt-5"
+          className="text-left w-full p-2 border border-yellow-500 border-dashed mt-5"
           onClick={() =>
             navigate(`/product/edit/description/${product._id}`)
           }
@@ -192,7 +200,7 @@ export function FormEditProduct() {
         </button>
 
         <button
-          className="text-left w-full p-2 border border-@sura-primary-300 border-dashed mt-5"
+          className="text-left w-full p-2 border border-yellow-500 border-dashed mt-5"
           onClick={() =>
             navigate(`/product/edit/description/${product._id}`)
           }
