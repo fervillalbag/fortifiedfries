@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { CameraIcon, TrashIcon } from "@heroicons/react/24/solid";
+import axiosToPost from "axios";
 
 import BackBtn from "../../../components/BackBtn";
-import { axios } from "../../../config";
 import { useHeight } from "../../../hooks";
 import { useProductDetail } from "../../../hooks/products";
 import { Button } from "../../../ui";
@@ -32,6 +32,7 @@ export function FormEditImages() {
   const queryProduct = useProductDetail(id as string);
 
   const [files, setFiles] = useState<any>(null);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [previewURLs, setPreviewURLs] = useState<any>(
@@ -62,38 +63,71 @@ export function FormEditImages() {
   };
 
   const handleUpload = async () => {
-    if (!files || files.length === 0) return;
     setLoading(true);
+    if (!Array.isArray(previewURLs)) {
+      console.error("previewURLs no es una matriz válida.");
+      return;
+    }
+
+    const imagesToUpdate = previewURLs.filter((image: any) =>
+      image.includes("blob")
+    );
+    const imagesOld = previewURLs.filter(
+      (image: any) => !image.includes("blob")
+    );
+
+    if (imagesToUpdate && imagesToUpdate.length <= 0) {
+      const response = await updateProduct(id!, {
+        images: previewURLs,
+      });
+
+      if (response.status === 200) {
+        toast.success("Imagenes actualizadas");
+        navigate(-1);
+      }
+
+      setLoading(false);
+      return;
+    }
 
     const formData = new FormData();
-    let arrayImages: any = [];
+    let arrayImages: any[] = [];
 
     for (let i = 0; i < files.length; i++) {
       formData.append(`file`, files[i]);
       formData.append("upload_preset", "posts_product");
 
-      await axios
+      await axiosToPost
         .post(
           "https://api.cloudinary.com/v1_1/dabmtejzr/image/upload",
           formData
         )
         .then(async (res) => {
           const imageUploaded = await res?.data.secure_url;
-          console.log({ imageUploaded });
-
           arrayImages.push(imageUploaded);
-          console.log({ arrayImages });
+          if (hasError) throw new Error("An error");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          toast.error("Ha ocurrido un problema");
+          setHasError(true);
+          console.log(error);
+        });
     }
 
-    const imagesToUpdate = [...previewURLs, ...arrayImages];
+    if (!hasError) {
+      const response = await updateProduct(id!, {
+        images: [...imagesOld, ...arrayImages],
+      });
 
-    if (previewURLs) {
-      console.log({ imagesToUpdate });
-      setLoading(false);
-      return;
+      if (response.status === 200) {
+        toast.success("Imagenes actualizadas");
+        queryProduct.refetch();
+        navigate(-1);
+        setLoading(false);
+      }
     }
+
+    setLoading(false);
   };
 
   return (
@@ -129,6 +163,7 @@ export function FormEditImages() {
               previewURLs.map((url: any, index: number) => (
                 <div key={index} className="relative h-24">
                   <button
+                    type="button"
                     className="absolute top-2 right-2 w-8 rounded-md text-white h-8 bg-red-500 grid place-items-center"
                     onClick={() => {
                       const urlsFiltered = previewURLs.filter(
