@@ -128,34 +128,39 @@ export default function Details() {
 
       <div className="mt-5">
         <div className="relative">
-          {principalImageSelected !== "" ? (
-            <img
-              src={principalImageSelected}
-              alt=""
-              className="h-[300px] w-full object-cover object-center rounded-sm"
-            />
-          ) : (
-            <div></div>
+          {product.images.map(
+            (image: string) =>
+              image === principalImageSelected && (
+                <img
+                  src={principalImageSelected}
+                  alt=""
+                  className={`h-[360px] w-full object-cover object-center rounded-sm ${
+                    image === principalImageSelected
+                      ? "opacity-100 block"
+                      : "opacity-0 hidden"
+                  }`}
+                />
+              )
           )}
         </div>
 
-        <div className="flex mt-2 gap-1">
+        <div className="grid grid-cols-3 gap-3 mt-3">
           {product.images.map((image: string) => (
-            <div
+            <button
               key={image}
               onClick={() => setPrincipalImageSelected(image)}
-              className={`rounded-sm overflow-hidden p-[3px] border-[3px] ${
+              className={`relative z-[50] ring-offset-2 w-full ring-[3px] rounded-sm overflow-hidden ${
                 principalImageSelected === image
-                  ? "border-@sura-primary-800"
-                  : "border-transparent"
+                  ? "ring-@sura-primary-800"
+                  : "ring-transparent"
               }`}
             >
               <img
                 src={image}
                 alt=""
-                className="w-[100px] h-[100px] object-cover rounded-sm"
+                className={`w-full h-[110px] object-cover rounded-sm `}
               />
-            </div>
+            </button>
           ))}
         </div>
 
