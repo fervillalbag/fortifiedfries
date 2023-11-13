@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes } from "react";
 import { VariantProps, cva } from "class-variance-authority";
-import { Text } from "../ui";
 
+import { Text } from "../ui";
 import { cn } from "../utils";
 
 interface InputProps

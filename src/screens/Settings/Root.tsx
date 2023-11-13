@@ -85,7 +85,10 @@ export default function Root() {
       style={styleHeight}
     >
       <div>
-        <BackBtn title="Ajustes" />
+        <BackBtn
+          title="Ajustes"
+          onClick={() => navigate("/profile")}
+        />
 
         <div className="px-5">
           <h3 className="text-xl font-medium text-@sura-primary-900">

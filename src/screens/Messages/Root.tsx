@@ -55,6 +55,14 @@ export default function Root() {
 
   return (
     <Layout>
+      <div className="h-screen grid place-items-center">
+        <h1>Working in this screens</h1>
+      </div>
+    </Layout>
+  );
+
+  return (
+    <Layout>
       <div className="items-center flex p-5">
         <div className="relative w-full">
           <button

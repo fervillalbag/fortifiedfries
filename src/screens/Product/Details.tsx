@@ -132,6 +132,7 @@ export default function Details() {
             (image: string) =>
               image === principalImageSelected && (
                 <img
+                  key={image}
                   src={principalImageSelected}
                   alt=""
                   className={`h-[360px] w-full object-cover object-center rounded-sm ${
