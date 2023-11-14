@@ -5,6 +5,7 @@ import {
   SURA_CREDENTIALS,
 } from "../utils/constants/auth";
 import { useGetUser } from "../hooks/user";
+import { getDataFromToken } from "../helpers";
 
 export const AuthenticatedContext = createContext<any>(null);
 
@@ -24,7 +25,7 @@ export default function AuthenticatedProvider({
     value: {},
   });
 
-  const user = useGetUser("_id", localUser.id);
+  const user = localUser.id ? useGetUser("_id", localUser.id) : null;
 
   const [isAuthenticated, setIsAuthenticated] = useState<
     boolean | null
@@ -33,6 +34,8 @@ export default function AuthenticatedProvider({
   useEffect(() => {
     setIsAuthenticated(value?.token ? true : false);
     if (!value?.token) return;
+    const response = getDataFromToken(value.token);
+    localStorage.setItem(SURA_CREDENTIALS, JSON.stringify(response));
   }, [value]);
 
   const logout = () => {

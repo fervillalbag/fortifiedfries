@@ -22,15 +22,16 @@ export default function Details() {
     key: SURA_CREDENTIALS,
   });
 
-  const {
-    user: { data: user },
-  } = useContext(AuthenticatedContext);
+  console.log(userId);
+
+  const { user } = useContext(AuthenticatedContext);
 
   const [showModalBuy, setShowModalBuy] = useState<boolean>(false);
   const [principalImageSelected, setPrincipalImageSelected] =
     useState<string>("");
 
-  const queryProductDetail = useProductDetail(id as string);
+  // const queryProductDetail = useProductDetail(id as string);
+  const queryProductDetail = id ? useProductDetail(id) : null;
 
   useEffect(() => {
     if (
@@ -43,20 +44,20 @@ export default function Details() {
 
     const { data } = queryProductDetail;
 
-    if (data && data.data.images.length > 0) {
+    if (data?.data && data.data.images.length > 0) {
       setPrincipalImageSelected(data.data.images[0]);
     }
-  }, [queryProductDetail.isSuccess]);
+  }, [queryProductDetail?.isSuccess]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (queryProductDetail.isLoading) {
+  if (queryProductDetail?.isLoading) {
     return <Loader />;
   }
 
-  if (queryProductDetail.isError) {
+  if (queryProductDetail?.isError) {
     return <div>error</div>;
   }
 
@@ -64,7 +65,7 @@ export default function Details() {
 
   const infoToCreateTicket = {
     vendor: product?.owner._id,
-    buyer: user._id,
+    buyer: user?._id,
     product: product?._id,
     status: "pending",
   };
